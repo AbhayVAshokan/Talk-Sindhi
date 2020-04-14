@@ -9,6 +9,7 @@ import './screens/login_screen.dart';
 import './screens/profile_screen.dart';
 import './screens/settings_screen.dart';
 import './screens/topics_screen.dart';
+import './screens/learn_vocabulary.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,6 +59,7 @@ class TalkSindhi extends StatelessWidget {
         '/topics': (context) => TopicsScreen(),
         '/profile': (context) => ProfileScreen(),
         '/settings': (context) => SettingsScreen(),
+        '/learnVocabulary': (context) => LearnVocabulary(),
       },
     );
   }

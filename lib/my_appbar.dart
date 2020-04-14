@@ -52,13 +52,17 @@ _languageToggle({
               'Choose Language',
               style: Theme.of(context).textTheme.headline4,
             ),
-            const Text(
-              "Select your prefered Language",
-              style: TextStyle(
-                fontSize: 18.0,
-                color: Colors.grey,
-                letterSpacing: 2.0,
-                fontWeight: FontWeight.w200,
+            FittedBox(
+              child: const Text(
+                "Select your prefered Language",
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                style: TextStyle(
+                  fontSize: 18.0,
+                  color: Colors.grey,
+                  letterSpacing: 1.0,
+                  fontWeight: FontWeight.normal,
+                ),
               ),
             ),
             const SizedBox(height: 30.0),

@@ -21,7 +21,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQuery = MediaQuery.of(context);
-    final height = mediaQuery.size.height - mediaQuery.padding.top - mediaQuery.padding.bottom;
+    final height = mediaQuery.size.height -
+        mediaQuery.padding.top -
+        mediaQuery.padding.bottom;
     final width = mediaQuery.size.width;
     final screenRatio = height / width;
 
@@ -43,7 +45,8 @@ class _SplashScreenState extends State<SplashScreen> {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: const AssetImage(
-                            'assets/images/splash_foreground.png'),
+                          'assets/images/splash_screen/splash_foreground.png',
+                        ),
                         fit: BoxFit.contain,
                       ),
                     ),
@@ -83,7 +86,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   const SizedBox(width: 10.0),
                   Container(
                     child: Image.asset(
-                      'assets/images/powerd_by_logo.png',
+                      'assets/images/splash_screen/powerd_by_logo.png',
                       width: 80,
                       height: 80,
                       fit: BoxFit.contain,

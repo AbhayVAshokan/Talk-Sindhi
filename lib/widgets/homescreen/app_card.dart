@@ -100,14 +100,14 @@ class AppCard extends StatelessWidget {
                                   children: [
                                     const SizedBox(width: 10.0),
                                     Image.asset(
-                                      'assets/images/play_store_logo.png',
+                                      'assets/images/home_screen/play_store_logo.png',
                                       width: 15.0,
                                       height: 15.0,
                                       fit: BoxFit.contain,
                                     ),
                                     const SizedBox(width: 5.0),
                                     Image.asset(
-                                      'assets/images/app_store_logo.png',
+                                      'assets/images/home_screen/app_store_logo.png',
                                       width: 15.0,
                                       height: 15.0,
                                       fit: BoxFit.contain,

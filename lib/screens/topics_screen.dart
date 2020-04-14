@@ -5,13 +5,9 @@ import 'package:flutter/material.dart';
 import '../my_appbar.dart';
 import '../my_bottom_navbar.dart';
 import './vocabulary_tab.dart';
+import './conversation_tab.dart';
 
-class TopicsScreen extends StatefulWidget {
-  @override
-  _TopicsScreenState createState() => _TopicsScreenState();
-}
-
-class _TopicsScreenState extends State<TopicsScreen> {
+class TopicsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -27,7 +23,7 @@ class _TopicsScreenState extends State<TopicsScreen> {
             ),
             body: TabBarView(children: [
               VocabularyTab(),
-              Container(),
+              ConversationTab(),
             ]),
             bottomNavigationBar: myBottomNavbar(
               context: context,

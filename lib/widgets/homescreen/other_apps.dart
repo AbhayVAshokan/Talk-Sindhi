@@ -5,7 +5,7 @@ import 'package:share/share.dart';
 
 import './app_card.dart';
 
-class AppsList extends StatelessWidget {
+class OtherApps extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -51,7 +51,7 @@ class AppsList extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 children: [
                   AppCard(
-                    imageUrl: 'assets/images/learn_sindhi_logo.png',
+                    imageUrl: 'assets/images/home_screen/learn_sindhi_logo.png',
                     title: 'Learn Sindhi',
                     width: constraints.maxHeight * 0.75,
                     onTap: () => Share.share(
@@ -59,13 +59,13 @@ class AppsList extends StatelessWidget {
                     ),
                   ),
                   AppCard(
-                    imageUrl: 'assets/images/speak_sindhi_logo.png',
+                    imageUrl: 'assets/images/home_screen/speak_sindhi_logo.png',
                     title: 'Speak Sindhi',
                     subtitle: 'Coming soon',
                     width: constraints.maxHeight * 0.75,
                   ),
                   AppCard(
-                    imageUrl: 'assets/images/idioms_and_proverbs_logo.png',
+                    imageUrl: 'assets/images/home_screen/idioms_and_proverbs_logo.png',
                     title: 'Idioms & Proverbs',
                     subtitle: 'Coming soon',
                     width: constraints.maxHeight * 0.75,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../my_appbar.dart';
 import '../my_bottom_navbar.dart';
-import '../widgets/homescreen/apps_list.dart';
+import '../widgets/homescreen/other_apps.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -28,7 +28,7 @@ class HomeScreen extends StatelessWidget {
                 width: width,
                 padding: const EdgeInsets.only(left: 150, top: 10),
                 child: Image.asset(
-                  'assets/images/ic_landing_image.png',
+                  'assets/images/home_screen/ic_landing_image.png',
                   alignment: Alignment.centerRight,
                   fit: BoxFit.contain,
                   width: screenRatio >= 1 ? width / 2 : height / 2,
@@ -83,7 +83,7 @@ class HomeScreen extends StatelessWidget {
             ),
             Expanded(
               flex: 10,
-              child: AppsList(),
+              child: OtherApps(),
             ),
           ],
         ),
