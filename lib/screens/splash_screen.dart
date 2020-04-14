@@ -4,8 +4,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../screens/home_screen.dart';
-
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -15,11 +13,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 2), () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
-      );
+    Timer(Duration(seconds: 3), () {
+      Navigator.pushReplacementNamed(context, '/home');
     });
   }
 
@@ -56,15 +51,14 @@ class _SplashScreenState extends State<SplashScreen> {
                   Container(
                     alignment: Alignment.centerLeft,
                     margin: EdgeInsets.only(
-                      left: screenRatio < 0.75
+                      left: screenRatio < 1
                           ? (width/2 - (height*5/7)*0.5)
-                          : width * 0.14,
+                          : width * 0.13,
                       bottom: height * 0.075,
                     ),
                     child: Text(
                       'Speak \nSindhi',
                       style: Theme.of(context).textTheme.headline6.copyWith(
-                            fontWeight: FontWeight.w900,
                             color: Colors.white,
                           ),
                     ),
@@ -86,7 +80,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           ),
                     ),
                   ),
-                  SizedBox(width: 10.0),
+                  const SizedBox(width: 10.0),
                   Container(
                     child: Image.asset(
                       'assets/images/powerd_by_logo.png',
