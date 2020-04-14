@@ -5,9 +5,10 @@ import 'package:flutter/services.dart';
 
 import './screens/splash_screen.dart';
 import './screens/home_screen.dart';
-import './screens/topics_screen.dart';
+import './screens/login_screen.dart';
 import './screens/profile_screen.dart';
 import './screens/settings_screen.dart';
+import './screens/topics_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +27,7 @@ class TalkSindhi extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.orange,
         primaryColor: const Color.fromRGBO(156, 9, 9, 1),
-        backgroundColor: const Color.fromRGBO(255, 227, 215, 1),
+        backgroundColor: const Color(0xFFFFE3D7),
         textTheme: const TextTheme(
           headline4: const TextStyle(
             fontSize: 25.0,
@@ -53,6 +54,7 @@ class TalkSindhi extends StatelessWidget {
       routes: {
         '/': (context) => SplashScreen(),
         '/home': (context) => HomeScreen(),
+        '/login': (context) => LoginScreen(),
         '/topics': (context) => TopicsScreen(),
         '/profile': (context) => ProfileScreen(),
         '/settings': (context) => SettingsScreen(),

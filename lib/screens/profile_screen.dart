@@ -6,12 +6,14 @@ import '../my_bottom_navbar.dart';
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: myAppBar(context: context),
-      body: SafeArea(child: Container()),
-      bottomNavigationBar: myBottomNavbar(
-        context: context,
-        currentIndex: 2,
+    return SafeArea(
+      child: Scaffold(
+        appBar: myAppBar(context: context),
+        body: Container(),
+        bottomNavigationBar: myBottomNavbar(
+          context: context,
+          currentIndex: 2,
+        ),
       ),
     );
   }

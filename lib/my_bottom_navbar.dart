@@ -34,15 +34,17 @@ BottomNavigationBarItem _myBottomNavbarItem({
   );
 }
 
-Widget myBottomNavbar({BuildContext context, int currentIndex}) {
+Widget myBottomNavbar({
+  @required BuildContext context,
+  @required int currentIndex,
+}) {
   return SizedBox(
-      child: BottomNavigationBar(
+    child: BottomNavigationBar(
       currentIndex: currentIndex,
       elevation: 3,
       type: BottomNavigationBarType.fixed,
       showUnselectedLabels: false,
       iconSize: 28.0,
-      selectedIconTheme: IconThemeData(size: 35.0),
       items: [
         _myBottomNavbarItem(
           context: context,

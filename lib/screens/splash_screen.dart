@@ -14,21 +14,21 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacementNamed(context, '/login');
     });
   }
 
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQuery = MediaQuery.of(context);
-    final height = mediaQuery.size.height - mediaQuery.padding.top;
+    final height = mediaQuery.size.height - mediaQuery.padding.top - mediaQuery.padding.bottom;
     final width = mediaQuery.size.width;
     final screenRatio = height / width;
 
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      body: SafeArea(
-        child: Column(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
+        body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Expanded(
@@ -52,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     alignment: Alignment.centerLeft,
                     margin: EdgeInsets.only(
                       left: screenRatio < 1
-                          ? (width/2 - (height*5/7)*0.5)
+                          ? (width / 2 - (height * 5 / 7) * 0.5)
                           : width * 0.13,
                       bottom: height * 0.075,
                     ),

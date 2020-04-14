@@ -1,20 +1,38 @@
+// Topics Screen: Learn new vocabulary and improve conversation skills.
+
 import 'package:flutter/material.dart';
 
 import '../my_appbar.dart';
 import '../my_bottom_navbar.dart';
+import './vocabulary_tab.dart';
 
-class TopicsScreen extends StatelessWidget {
+class TopicsScreen extends StatefulWidget {
+  @override
+  _TopicsScreenState createState() => _TopicsScreenState();
+}
+
+class _TopicsScreenState extends State<TopicsScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: myAppBar(context: context),
-      body: SafeArea(
-          child: Center(
-        child: Text('Profile Screen'),
-      )),
-      bottomNavigationBar: myBottomNavbar(
-        context: context,
-        currentIndex: 1,
+    return SafeArea(
+      child: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+            appBar: myAppBar(
+              context: context,
+              tabBar: tabBar(context: context, children: [
+                tabView(title: 'Vocabulary'),
+                tabView(title: 'Conversation'),
+              ]),
+            ),
+            body: TabBarView(children: [
+              VocabularyTab(),
+              Container(),
+            ]),
+            bottomNavigationBar: myBottomNavbar(
+              context: context,
+              currentIndex: 1,
+            )),
       ),
     );
   }

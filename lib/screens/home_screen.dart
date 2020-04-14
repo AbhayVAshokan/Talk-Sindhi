@@ -12,13 +12,13 @@ class HomeScreen extends StatelessWidget {
     final width = mediaQuery.size.width;
     final screenRatio = height / width;
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: myAppBar(
-        context: context,
-      ),
-      body: SafeArea(
-        child: Column(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: myAppBar(
+          context: context,
+        ),
+        body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -87,10 +87,10 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: myBottomNavbar(
-        context: context,
-        currentIndex: 0,
+        bottomNavigationBar: myBottomNavbar(
+          context: context,
+          currentIndex: 0,
+        ),
       ),
     );
   }
