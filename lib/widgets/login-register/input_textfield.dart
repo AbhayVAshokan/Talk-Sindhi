@@ -26,7 +26,7 @@ class _InputTextFieldState extends State<InputTextField> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 7.0),
-      child: TextField(
+      child: TextFormField(
         style:
             Theme.of(context).textTheme.subtitle1.copyWith(letterSpacing: 0.75),
         decoration: InputDecoration(

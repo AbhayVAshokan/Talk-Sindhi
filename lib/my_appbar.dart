@@ -83,19 +83,22 @@ void _shareApp() {
 
 // Individual tabs in TabBar
 Widget tabView({String title}) {
-  return Tab(
-    child: Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-      ),
-      child: Align(
-        alignment: Alignment.center,
-        child: FittedBox(
-          child: Text(
-            title,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 17.0,
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+    child: Tab(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: Align(
+          alignment: Alignment.center,
+          child: FittedBox(
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 17.0,
+              ),
             ),
           ),
         ),
@@ -108,12 +111,12 @@ Widget tabView({String title}) {
 TabBar tabBar({
   @required BuildContext context,
   @required children,
+  @required controller,
 }) {
   return TabBar(
-    labelPadding: const EdgeInsetsDirectional.only(
-      start: 40,
-      end: 40,
-    ),
+    labelStyle: const TextStyle(letterSpacing: 1.0),
+    isScrollable: true,
+    
     labelColor: Colors.white,
     unselectedLabelColor: Colors.black,
     indicatorSize: TabBarIndicatorSize.label,
@@ -122,6 +125,7 @@ TabBar tabBar({
       color: Theme.of(context).primaryColor,
     ),
     tabs: children,
+    controller: controller,
   );
 }
 
@@ -132,7 +136,11 @@ AppBar myAppBar({
 }) {
   return AppBar(
     backgroundColor: Colors.white,
-    elevation: 3,
+    elevation: 5,
+    iconTheme: IconThemeData(
+      color: Colors.grey,
+      size: 35.0,
+    ),
     title: Text(
       "Talk Sindhi",
       style: Theme.of(context).textTheme.headline6.copyWith(letterSpacing: 1.0),

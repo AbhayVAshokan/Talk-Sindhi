@@ -27,7 +27,7 @@ class VocabularyTab extends StatelessWidget {
               onTap: () => Navigator.pushNamed(
                 context,
                 '/learnVocabulary',
-                arguments: topic.words,
+                arguments: topic.categoryId,
               ),
               child: TopicCard(
                 imageUrl: topic.imageUrl,

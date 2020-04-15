@@ -3,6 +3,7 @@
 import 'package:flutter/foundation.dart';
 
 class Topic {
+  final String categoryId;
   final String name;
   final int totalWords;
   final String imageUrl;
@@ -10,6 +11,7 @@ class Topic {
   int learnedWords;
 
   Topic({
+    @required this.categoryId,
     @required this.name,
     @required this.learnedWords,
     @required this.imageUrl,
@@ -21,6 +23,7 @@ class Topic {
 // Dummy Data
 List<Topic> dummyTopics = [
   Topic(
+    categoryId: '0',
     name: 'Animals',
     learnedWords: 10,
     imageUrl: 'assets/images/topics_screen/animal.png',
@@ -47,7 +50,8 @@ List<Topic> dummyTopics = [
       'Cheetah',
     ],
   ),
-  Topic(
+  Topic(    categoryId: '1',
+
     name: 'Birds',
     learnedWords: 10,
     imageUrl: 'assets/images/topics_screen/birds.png',
@@ -74,7 +78,8 @@ List<Topic> dummyTopics = [
       'Cheetah',
     ],
   ),
-  Topic(
+  Topic(    categoryId: '2',
+
     name: 'Colors',
     learnedWords: 10,
     imageUrl: 'assets/images/topics_screen/colors.png',
@@ -101,7 +106,8 @@ List<Topic> dummyTopics = [
       'Cheetah',
     ],
   ),
-  Topic(
+  Topic(    categoryId: '3',
+
     name: 'Creature',
     learnedWords: 10,
     imageUrl: 'assets/images/topics_screen/creature.png',
@@ -128,7 +134,8 @@ List<Topic> dummyTopics = [
       'Cheetah',
     ],
   ),
-  Topic(
+  Topic(    categoryId: '4',
+
     name: 'Dress',
     learnedWords: 10,
     imageUrl: 'assets/images/topics_screen/dress.png',
@@ -155,7 +162,8 @@ List<Topic> dummyTopics = [
       'Cheetah',
     ],
   ),
-  Topic(
+  Topic(    categoryId: '5',
+
     name: 'Education',
     learnedWords: 10,
     imageUrl: 'assets/images/topics_screen/education.png',
@@ -182,7 +190,8 @@ List<Topic> dummyTopics = [
       'Cheetah',
     ],
   ),
-  Topic(
+  Topic(    categoryId: '6',
+
     name: 'Fruits',
     learnedWords: 10,
     imageUrl: 'assets/images/topics_screen/fruits.png',
@@ -209,7 +218,8 @@ List<Topic> dummyTopics = [
       'Cheetah',
     ],
   ),
-  Topic(
+  Topic(    categoryId: '7',
+
     name: 'Health',
     learnedWords: 10,
     imageUrl: 'assets/images/topics_screen/health.png',
@@ -236,7 +246,8 @@ List<Topic> dummyTopics = [
       'Cheetah',
     ],
   ),
-  Topic(
+  Topic(    categoryId: '8',
+
     name: 'Nature',
     learnedWords: 10,
     imageUrl: 'assets/images/topics_screen/nature.png',

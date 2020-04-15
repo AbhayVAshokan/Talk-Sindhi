@@ -8,6 +8,9 @@ import './vocabulary_tab.dart';
 import './conversation_tab.dart';
 
 class TopicsScreen extends StatelessWidget {
+  final TabController tabController;
+  TopicsScreen({this.tabController});
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -16,10 +19,14 @@ class TopicsScreen extends StatelessWidget {
         child: Scaffold(
             appBar: myAppBar(
               context: context,
-              tabBar: tabBar(context: context, children: [
-                tabView(title: 'Vocabulary'),
-                tabView(title: 'Conversation'),
-              ]),
+              tabBar: tabBar(
+                controller: tabController,
+                context: context,
+                children: [
+                  tabView(title: 'Vocabulary'),
+                  tabView(title: 'Conversation'),
+                ],
+              ),
             ),
             body: TabBarView(children: [
               VocabularyTab(),

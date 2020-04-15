@@ -59,7 +59,7 @@ class TalkSindhi extends StatelessWidget {
         '/topics': (context) => TopicsScreen(),
         '/profile': (context) => ProfileScreen(),
         '/settings': (context) => SettingsScreen(),
-        '/learnVocabulary': (context) => LearnVocabulary(),
+        '/learnVocabulary': (context) => LearnVocabulary( ModalRoute.of(context).settings.arguments),
       },
     );
   }

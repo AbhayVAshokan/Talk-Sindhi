@@ -41,10 +41,12 @@ Widget myBottomNavbar({
   return SizedBox(
     child: BottomNavigationBar(
       currentIndex: currentIndex,
-      elevation: 3,
+      elevation: 5,
       type: BottomNavigationBarType.fixed,
       showUnselectedLabels: false,
       iconSize: 28.0,
+      backgroundColor: Colors.white,
+      
       items: [
         _myBottomNavbarItem(
           context: context,
