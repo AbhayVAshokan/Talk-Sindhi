@@ -2,12 +2,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
+import 'package:talksindhi/file_operations.dart';
 
 // Language toggle dialog box.
 _languageToggle({
   @required BuildContext context,
 }) {
-  Widget _languageButton({String language}) {
+  Widget _languageButton({
+    @required String language,
+    @required Function onPressed,
+  }) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: RaisedButton(
@@ -28,6 +32,7 @@ _languageToggle({
         ),
         color: Theme.of(context).primaryColor,
         onPressed: () {
+          onPressed();
           Navigator.pop(context);
         },
       ),
@@ -66,8 +71,22 @@ _languageToggle({
               ),
             ),
             const SizedBox(height: 30.0),
-            _languageButton(language: 'ENGLISH'),
-            _languageButton(language: 'हिन्दी'),
+            _languageButton(
+              language: 'ENGLISH',
+              onPressed: () {
+                writeToFile(content: {
+                  'language': 'english',
+                });
+              },
+            ),
+            _languageButton(
+              language: 'हिन्दी',
+              onPressed: () {
+                writeToFile(content: {
+                  'language': 'hindi',
+                });
+              },
+            ),
           ],
         ),
       );
@@ -116,7 +135,6 @@ TabBar tabBar({
   return TabBar(
     labelStyle: const TextStyle(letterSpacing: 1.0),
     isScrollable: true,
-    
     labelColor: Colors.white,
     unselectedLabelColor: Colors.black,
     indicatorSize: TabBarIndicatorSize.label,

@@ -5,8 +5,12 @@ import '../my_bottom_navbar.dart';
 import '../widgets/homescreen/other_apps.dart';
 
 class HomeScreen extends StatelessWidget {
+  final Map<String, dynamic> localStorage;
+  HomeScreen(this.localStorage);
+
   @override
   Widget build(BuildContext context) {
+    print('inside homescreen: ' + localStorage['language']);
     MediaQueryData mediaQuery = MediaQuery.of(context);
     final height = mediaQuery.size.height - mediaQuery.padding.top;
     final width = mediaQuery.size.width;

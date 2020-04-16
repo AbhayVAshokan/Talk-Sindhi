@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -18,8 +19,17 @@ class _SplashScreenState extends State<SplashScreen> {
     });
   }
 
+  _permissionHandler() async {
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.storage,
+    ].request();
+    print(statuses[Permission.storage]);
+  }
+
   @override
   Widget build(BuildContext context) {
+    _permissionHandler();
+
     MediaQueryData mediaQuery = MediaQuery.of(context);
     final height = mediaQuery.size.height -
         mediaQuery.padding.top -

@@ -22,7 +22,7 @@ class SubmitButton extends StatelessWidget {
       child: RaisedButton(
         padding: const EdgeInsets.symmetric(
           horizontal: 20.0,
-          vertical: 10.0,
+          vertical: 12.0,
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),

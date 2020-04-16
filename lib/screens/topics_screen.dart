@@ -9,10 +9,12 @@ import './conversation_tab.dart';
 
 class TopicsScreen extends StatelessWidget {
   final TabController tabController;
-  TopicsScreen({this.tabController});
+  final Map<String, dynamic> localStorage;
+  TopicsScreen( this.localStorage, {this.tabController});
 
   @override
   Widget build(BuildContext context) {
+    print('inside topicsscreen: ' + localStorage['language']);
     return SafeArea(
       child: DefaultTabController(
         length: 2,
