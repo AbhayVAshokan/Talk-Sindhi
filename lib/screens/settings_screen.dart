@@ -8,7 +8,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: myAppBar(context: context),
+        // appBar: myAppBar(context: context),
         body: Container(),
         bottomNavigationBar: myBottomNavbar(
           context: context,

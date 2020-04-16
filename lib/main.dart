@@ -1,7 +1,6 @@
 // Major configurations: Routes and ThemeData
 
 import 'dart:io';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,20 +27,6 @@ void main() {
 class TalkSindhi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Directory directory;
-    String fileName = 'userData.json';
-    Map<String, dynamic> _localStorage;
-
-    // Function to return the location at which the data is stored locally.
-    getApplicationDocumentsDirectory().then(
-      (Directory dir) {
-        directory = dir;
-        var path = directory.path + '/' + fileName;
-        var jsonFile = File(path);
-        _localStorage = json.decode(jsonFile.readAsStringSync());
-      },
-    );
-
     return MaterialApp(
       title: "Talk Sindhi",
       theme: ThemeData(
@@ -73,9 +58,9 @@ class TalkSindhi extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => SplashScreen(),
-        '/home': (context) => HomeScreen(_localStorage),
+        '/home': (context) => HomeScreen(),
         '/login': (context) => LoginScreen(),
-        '/topics': (context) => TopicsScreen(_localStorage),
+        '/topics': (context) => TopicsScreen(),
         '/profile': (context) => ProfileScreen(),
         '/settings': (context) => SettingsScreen(),
         '/register': (context) => RegistrationScreen(),

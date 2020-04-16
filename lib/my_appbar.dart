@@ -5,10 +5,11 @@ import 'package:share/share.dart';
 import 'package:talksindhi/file_operations.dart';
 
 // Language toggle dialog box.
-_languageToggle({
+languageToggle({
   @required BuildContext context,
+  @required Function rebuildScreen,
 }) {
-  Widget _languageButton({
+  Widget languageButton({
     @required String language,
     @required Function onPressed,
   }) {
@@ -71,20 +72,26 @@ _languageToggle({
               ),
             ),
             const SizedBox(height: 30.0),
-            _languageButton(
+            languageButton(
               language: 'ENGLISH',
               onPressed: () {
-                writeToFile(content: {
-                  'language': 'english',
-                });
+                writeToFile(
+                  content: {
+                    'language': 'english',
+                  },
+                );
+                rebuildScreen();
               },
             ),
-            _languageButton(
+            languageButton(
               language: 'हिन्दी',
               onPressed: () {
-                writeToFile(content: {
-                  'language': 'hindi',
-                });
+                writeToFile(
+                  content: {
+                    'language': 'hindi',
+                  },
+                );
+                rebuildScreen();
               },
             ),
           ],
@@ -94,7 +101,7 @@ _languageToggle({
   );
 }
 
-void _shareApp() {
+void shareApp() {
   Share.share(
     'https://play.google.com/store/apps/details?id=com.sindhisangat.learnsindhi \n\nDedicated to the promotion of Sindhi Language Culture & Heritage. ',
   );
@@ -150,6 +157,7 @@ TabBar tabBar({
 // Main AppBar
 AppBar myAppBar({
   @required BuildContext context,
+  @required Function rebuildScreen,
   TabBar tabBar,
 }) {
   return AppBar(
@@ -167,7 +175,7 @@ AppBar myAppBar({
       IconButton(
         icon: Icon(Icons.share),
         color: Theme.of(context).primaryColor,
-        onPressed: () => _shareApp(),
+        onPressed: () => shareApp(),
       ),
       IconButton(
         icon: Icon(Icons.search),
@@ -177,7 +185,8 @@ AppBar myAppBar({
       IconButton(
         icon: Icon(Icons.language),
         color: Theme.of(context).primaryColor,
-        onPressed: () => _languageToggle(
+        onPressed: () => languageToggle(
+          rebuildScreen: () => rebuildScreen(),
           context: context,
         ),
       ),

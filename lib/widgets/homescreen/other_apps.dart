@@ -6,6 +6,9 @@ import 'package:share/share.dart';
 import './app_card.dart';
 
 class OtherApps extends StatelessWidget {
+  final String language;
+  OtherApps({@required this.language});
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -36,7 +39,9 @@ class OtherApps extends StatelessWidget {
                 ),
               ),
               child: Text(
-                "Sindhi Sangat Apps",
+                language == 'english'
+                    ? "Sindhi Sangat Apps"
+                    : 'सिंधी संगत एप्स',
                 style: TextStyle(
                   fontSize: constraints.maxHeight * 0.1,
                   fontWeight: FontWeight.bold,
@@ -45,7 +50,7 @@ class OtherApps extends StatelessWidget {
             ),
             Container(
               width: width,
-              height: constraints.maxHeight * 0.88,
+              height: constraints.maxHeight * 0.8,
               padding: const EdgeInsets.only(left: 10.0),
               child: ListView(
                 scrollDirection: Axis.horizontal,
@@ -54,6 +59,7 @@ class OtherApps extends StatelessWidget {
                     imageUrl: 'assets/images/home_screen/learn_sindhi_logo.png',
                     title: 'Learn Sindhi',
                     width: constraints.maxHeight * 0.75,
+                    subtitle: 'Available on',
                     onTap: () => Share.share(
                       'https://play.google.com/store/apps/details?id=com.sindhisangat.learnsindhi \n\nSindhi Sangat has produced a very simple to use Sindhi Learning App " Learn Sindhi" . The Learn Sindhi app is available on Android devices as well as iOS devices. The Learn Sindhi app contains animations, voice, games which make it fun to Learn and practice basics of the Sindhi language. The app also encourages users to register and they can be part of the Sindhi language community.',
                     ),
@@ -61,13 +67,16 @@ class OtherApps extends StatelessWidget {
                   AppCard(
                     imageUrl: 'assets/images/home_screen/speak_sindhi_logo.png',
                     title: 'Speak Sindhi',
-                    subtitle: 'Coming soon',
+                    subtitle:
+                        language == 'english' ? 'Coming soon' : 'जल्द आ रहा है',
                     width: constraints.maxHeight * 0.75,
                   ),
                   AppCard(
-                    imageUrl: 'assets/images/home_screen/idioms_and_proverbs_logo.png',
+                    imageUrl:
+                        'assets/images/home_screen/idioms_and_proverbs_logo.png',
                     title: 'Idioms & Proverbs',
-                    subtitle: 'Coming soon',
+                    subtitle:
+                        language == 'english' ? 'Coming soon' : 'जल्द आ रहा है',
                     width: constraints.maxHeight * 0.75,
                   ),
                 ],
