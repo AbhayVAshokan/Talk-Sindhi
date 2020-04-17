@@ -29,6 +29,7 @@ dependencies:
   fluttertoast: ^4.0.1
   device_info: ^0.4.2+1
   path_provider: ^1.6.5
+  connectivity: ^0.4.8+2
   permission_handler: ^5.0.0+hotfix.3
 
 

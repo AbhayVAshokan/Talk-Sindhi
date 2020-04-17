@@ -1,9 +1,17 @@
 // Splash Screen: Duration = 3 seconds
 
+import 'dart:io';
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:connectivity/connectivity.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+import '../models/topic.dart';
+import '../file_operations.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -11,10 +19,89 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  // Check internet connectivity
+  Future<ConnectivityResult> checkConnectivity() async {
+    return await (Connectivity().checkConnectivity());
+  }
+
   @override
-  void initState() {
+  initState() {
     super.initState();
-    Timer(Duration(seconds: 3), () {
+
+    // Fetching data during splashscreen.
+    Timer(Duration(seconds: 3), () async {
+      // Checking whether connected to internet or not
+      checkConnectivity().then(
+        (ConnectivityResult connectivityResult) async {
+          if (connectivityResult == ConnectivityResult.wifi ||
+              connectivityResult == ConnectivityResult.mobile) {
+            // If internet connection is available update the local data from the server.
+            var response = await http.post(
+              Uri.encodeFull('http://204.48.26.50:8033/data/get'),
+              headers: {
+                'Accept': 'application/json',
+              },
+            );
+
+            var data = json.decode(response.body) as Map;
+            for (var i = 0; i < data['data'].length; i++) {
+              if (data['data'][i]['SubCategory']['Category']['name'] ==
+                  'vocabulary') {
+                vocabulary.add(
+                  {
+                    'subCategory': data['data'][i]['SubCategory']['name'],
+                    'english': data['data'][i]['english'],
+                    'hindi': data['data'][i]['hindi'],
+                    'sindhi': data['data'][i]['sindhi'],
+                  },
+                );
+              } else if (data['data'][i]['SubCategory']['Category']['name'] ==
+                  'conversation') {
+                conversation.add(
+                  {
+                    'subCategory': data['data'][i]['SubCategory']['name'],
+                    'english': data['data'][i]['english'],
+                    'hindi': data['data'][i]['hindi'],
+                    'sindhi': data['data'][i]['sindhi'],
+                  },
+                );
+              } else {
+                sentence.add(
+                  {
+                    'subCategory': data['data'][i]['SubCategory']['name'],
+                    'english': data['data'][i]['english'],
+                    'hindi': data['data'][i]['hindi'],
+                    'sindhi': data['data'][i]['sindhi'],
+                  },
+                );
+              }
+            }
+
+            // Update local files
+            writeToFile(
+              content: {
+                'vocabulary': vocabulary,
+                'conversation': conversation,
+                'sentence': sentence,
+              },
+              fileName: 'learnData.json',
+            );
+          }
+        },
+      );
+
+      // Checking whether the user had previously logged in. If yes, jump directly into the home screen.
+      getApplicationDocumentsDirectory().then((Directory dir) {
+        var path = dir.path + '/userData.json';
+        var jsonFile = File(path);
+        if (jsonFile.existsSync()) {
+          var localStorage = json.decode(jsonFile.readAsStringSync());
+
+          if (localStorage['isLoggedIn'] == true)
+            Navigator.pushReplacementNamed(context, '/home');
+        }
+      });
+
       Navigator.pushReplacementNamed(context, '/login');
     });
   }
@@ -74,6 +161,16 @@ class _SplashScreenState extends State<SplashScreen> {
                       style: Theme.of(context).textTheme.headline6.copyWith(
                             color: Colors.white,
                           ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: width / 2 - 15,
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        Colors.red,
+                      ),
+                      backgroundColor: Colors.white24,
                     ),
                   ),
                 ],

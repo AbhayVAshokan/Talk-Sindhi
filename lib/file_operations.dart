@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
 // Create the local JSON file
 void createFile({
   Map<String, dynamic> content,
-  String pathToJSON,
+  @required String pathToJSON,
+  @required String fileName,
 }) {
   File file = File(pathToJSON);
   file.createSync();
@@ -15,10 +17,10 @@ void createFile({
 
 // Write content into local JSON file
 void writeToFile({
-  Map<String, dynamic> content,
+  @required Map<String, dynamic> content,
+  @required String fileName,
 }) {
   Directory directory;
-  String fileName = 'userData.json';
 
   // Function to return the location at which the data is stored locally.
   getApplicationDocumentsDirectory().then(
@@ -42,6 +44,7 @@ void writeToFile({
         createFile(
           content: content,
           pathToJSON: path,
+          fileName: fileName,
         );
       }
       print('file contents: ' + jsonFile.readAsStringSync());
@@ -51,7 +54,7 @@ void writeToFile({
 
 // Funtion to read and return the JSON file contents
 void readFromFile(fileContent) {
-   Directory directory;
+  Directory directory;
   String fileName = 'userData.json';
 
   // Function to return the location at which the data is stored locally.
@@ -62,7 +65,7 @@ void readFromFile(fileContent) {
       var jsonFile = File(path);
       print('--------------------------------------');
       print(json.decode(jsonFile.readAsStringSync()));
-      fileContent =  json.decode(jsonFile.readAsStringSync());
+      fileContent = json.decode(jsonFile.readAsStringSync());
     },
   );
 }

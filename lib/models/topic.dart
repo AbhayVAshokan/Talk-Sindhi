@@ -20,6 +20,10 @@ class Topic {
   });
 }
 
+List vocabulary = [];
+List conversation = [];
+List sentence = [];
+
 // Dummy Data
 List<Topic> dummyTopics = [
   Topic(

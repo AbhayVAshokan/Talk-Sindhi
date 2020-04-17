@@ -40,16 +40,19 @@ class _LearnVocabularyState extends State<LearnVocabulary>
         length: category.words.length,
         child: Scaffold(
           backgroundColor: Theme.of(context).backgroundColor,
-          // appBar: myAppBar(
-          //   context: context,
-          //   tabBar: tabBar(
-          //     context: context,
-          //     controller: _tabController,
-          //     children: [
-          //       ...category.words.map((word) => tabView(title: word)),
-          //     ],
-          //   ),
-          // ),
+          appBar: myAppBar(
+            context: context,
+            tabBar: tabBar(
+              context: context,
+              controller: _tabController,
+              children: [
+                ...category.words.map((word) => tabView(title: word)),
+              ],
+            ),
+            rebuildScreen: () {
+              print('rebuilding screen');
+            },
+          ),
           body: TabBarView(
             children: [
               ...category.words.map(

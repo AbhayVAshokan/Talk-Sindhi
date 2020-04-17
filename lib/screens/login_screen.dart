@@ -3,35 +3,74 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:connectivity/connectivity.dart';
 
-import '../widgets/login-register/input_textformfield.dart';
+import '../file_operations.dart';
 import '../widgets/login-register/submit_button.dart';
+import '../widgets/login-register/input_textformfield.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  postData({
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  writeToFileAsynchronous({content}) async {
+    writeToFile(
+      fileName: 'userData.json',
+      content: content,
+    );
+  }
+
+  // Check whether connected to internet or not.
+  @override
+  initState() {
+    checkConnectivity();
+    super.initState();
+  }
+
+  ConnectivityResult connectivityResult;
+  checkConnectivity() async {
+    connectivityResult = await (Connectivity().checkConnectivity());
+  }
+
+  userLogin({
     @required String email,
     @required String password,
     @required BuildContext context,
   }) async {
-    print('inside postdata');
-    var response = await http
-        .post(Uri.encodeFull('http://204.48.26.50:8033/user/login'), headers: {
-      'Accept': 'application/json',
-    }, body: {
-      'email': email,
-      'password': password,
-    });
+    var response = await http.post(
+      Uri.encodeFull('http://204.48.26.50:8033/user/login'),
+      headers: {
+        'Accept': 'application/json',
+      },
+      body: {
+        'email': email,
+        'password': password,
+      },
+    );
 
     var jsonFile = json.decode(response.body);
-    print(jsonFile);
 
-    if (jsonFile['status'] == true)
+    if (jsonFile['status'] == true) {
+      writeToFileAsynchronous(
+        content: {
+          'email': _emailAddress,
+          'userName': jsonFile['userName'],
+          'firstName': jsonFile['firstName'],
+          'lastName': jsonFile['lastName'],
+          'mobileNumber': jsonFile['mobileNumber'],
+          'language': 'english',
+          'isLoggedIn': true,
+        },
+      );
+
       Navigator.pushReplacementNamed(context, '/home');
-    else if (jsonFile['message'] == 'email not found')
+    } else if (jsonFile['message'] == 'email not found')
       Fluttertoast.showToast(
         msg: "User does not exist.",
         toastLength: Toast.LENGTH_SHORT,
@@ -54,11 +93,12 @@ class LoginScreen extends StatelessWidget {
   }
 
   String _emailAddress = "";
+
   String _password = "";
+
   @override
   Widget build(BuildContext context) {
-    print('executing build: ' +  _emailAddress + _password);
-
+    print('executing build: ' + _emailAddress + _password);
 
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final double height = mediaQuery.size.height -
@@ -121,7 +161,7 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ),
                           Form(
-                            key: _formKey,
+                            key: LoginScreen._formKey,
                             child: Column(
                               children: [
                                 inputTextFormField(
@@ -198,11 +238,25 @@ class LoginScreen extends StatelessWidget {
                                 width: constraints.maxWidth * 0.4,
                                 color: Colors.pink,
                                 onTap: () {
-                                  if (!_formKey.currentState.validate())
+                                  if (!LoginScreen._formKey.currentState
+                                      .validate())
                                     return;
+                                  else if (connectivityResult ==
+                                          ConnectivityResult.wifi ||
+                                      connectivityResult ==
+                                          ConnectivityResult.mobile)
+                                    Fluttertoast.showToast(
+                                      msg: "No network connectivity",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.CENTER,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.black87,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0,
+                                    );
                                   else {
-                                    _formKey.currentState.save();
-                                    postData(
+                                    LoginScreen._formKey.currentState.save();
+                                    userLogin(
                                       context: context,
                                       email: _emailAddress,
                                       password: _password,

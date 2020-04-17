@@ -3,12 +3,14 @@
 import 'dart:io';
 import 'dart:convert';
 
+
 import '../file_operations.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_id/device_id.dart';
 import 'package:device_info/device_info.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:connectivity/connectivity.dart';
 
 import '../models/user.dart';
 import '../widgets/login-register/submit_button.dart';
@@ -30,7 +32,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   initState() {
     // get DeviceId, DeviceName, DeviceType
     getDeviceInfo();
+    checkConnectivity();
     super.initState();
+  }
+
+  // Check internet connectivity
+  ConnectivityResult connectivityResult;
+  checkConnectivity() async {
+    connectivityResult = await (Connectivity().checkConnectivity());
   }
 
   // Register new user using API.
@@ -64,6 +73,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       print('DEBUG: User successfully registered.');
 
       writeToFile(
+        fileName: 'userData.json',
         content: {
           'email': _emailAddress,
           'userName': _userName,
@@ -230,7 +240,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                         print(
                                             'DEBUG: Form cannot be submitted due to form validation requirements.');
                                         return;
-                                      } else {
+                                      } else if (connectivityResult ==
+                                              ConnectivityResult.wifi ||
+                                          connectivityResult ==
+                                              ConnectivityResult.mobile)
+                                        Fluttertoast.showToast(
+                                          msg: "No network connectivity",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.CENTER,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.black87,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0,
+                                        );
+                                      else {
                                         print(
                                             'DEBUG: Form succesfully submitted for online validation.');
                                         _registrationFormKey.currentState

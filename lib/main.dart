@@ -1,10 +1,7 @@
 // Major configurations: Routes and ThemeData
 
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 
 import './screens/splash_screen.dart';
 import './screens/home_screen.dart';
