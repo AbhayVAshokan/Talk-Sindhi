@@ -51,7 +51,6 @@ class _TopicsScreenState extends State<TopicsScreen> {
             appBar: myAppBar(
               context: context,
               tabBar: tabBar(
-                controller: widget.tabController,
                 context: context,
                 children: [
                   tabView(

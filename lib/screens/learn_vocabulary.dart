@@ -39,35 +39,35 @@ class _LearnVocabularyState extends State<LearnVocabulary>
       child: DefaultTabController(
         length: category.words.length,
         child: Scaffold(
-          backgroundColor: Theme.of(context).backgroundColor,
-          appBar: myAppBar(
-            context: context,
-            tabBar: tabBar(
-              context: context,
-              controller: _tabController,
-              children: [
-                ...category.words.map((word) => tabView(title: word)),
-              ],
-            ),
-            rebuildScreen: () {
-              print('rebuilding screen');
-            },
-          ),
-          body: TabBarView(
-            children: [
-              ...category.words.map(
-                (word) => LearnWord(
-                  tabController: _tabController,
-                  word: word,
-                  category: category,
-                ),
-              ),
-            ],
-          ),
-          bottomNavigationBar: myBottomNavbar(
-            context: context,
-            currentIndex: 1,
-          ),
+          // backgroundColor: Theme.of(context).backgroundColor,
+          // appBar: myAppBar(
+          //   context: context,
+          //   tabBar: tabBar(
+          //     context: context,
+          //     controller: _tabController,
+          //     children: [
+          //       ...category.words.map((word) => tabView(title: word)),
+          //     ],
+          //   ),
+          //   rebuildScreen: () {
+          //     print('rebuilding screen');
+          //   },
+          // ),
+          // body: TabBarView(
+          //   children: [
+          //     ...category.words.map(
+          //       (word) => LearnWord(
+          //         tabController: _tabController,
+          //         word: word,
+          //         category: category,
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // bottomNavigationBar: myBottomNavbar(
+          //   context: context,
+          //   currentIndex: 1,
+          // ),
         ),
       ),
     );

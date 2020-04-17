@@ -2,18 +2,19 @@
 
 import 'package:flutter/material.dart';
 
-import '../models/topic.dart';
 import '../widgets/vocabulary-tab/word_card.dart';
 
 class LearnWord extends StatelessWidget {
-  final String word;
-  final Topic category;
+  final Map<String, dynamic> wordData;
   final TabController tabController;
+  final int currentWordCount;
+  final int totalWordCount;
 
   LearnWord({
-    @required this.word,
-    @required this.category,
+    @required this.wordData,
     @required this.tabController,
+    @required this.currentWordCount,
+    @required this.totalWordCount,
   });
 
   // Individual arrow keys to navigate to next word/milestone
@@ -45,8 +46,8 @@ class LearnWord extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox.shrink(),
-        WordCard(word: word, language: 'english'),
-        WordCard(word: word, language: 'sindhi'),
+        WordCard(word: wordData['english'], language: 'english'),
+        WordCard(word: wordData['sindhi'], language: 'sindhi'),
         ClipRRect(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20.0),
@@ -64,7 +65,7 @@ class LearnWord extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Your milestone: ${category.learnedWords}/${category.totalWords}',
+                    'Your milestone: $currentWordCount/$totalWordCount',
                     style: const TextStyle(
                       fontSize: 18.0,
                       letterSpacing: 0.75,
@@ -88,15 +89,16 @@ class LearnWord extends StatelessWidget {
                       arrowButton(
                         context: context,
                         icon: Icons.arrow_forward_ios,
-                        onTap: () {
-                          tabController.index < category.words.length - 1
-                              ? tabController.animateTo(
-                                  tabController.index + 1,
-                                  curve: Curves.decelerate,
-                                  duration: Duration(milliseconds: 200),
-                                )
-                              : print('Not possible to go forward!');
-                        },
+                        onTap: () {},
+                        // onTap: () {
+                        //   tabController.index < category.words.length - 1
+                        //       ? tabController.animateTo(
+                        //           tabController.index + 1,
+                        //           curve: Curves.decelerate,
+                        //           duration: Duration(milliseconds: 200),
+                        //         )
+                        //       : print('Not possible to go forward!');
+                        // },
                       ),
                     ],
                   ),

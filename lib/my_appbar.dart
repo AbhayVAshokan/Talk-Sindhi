@@ -1,5 +1,6 @@
 // Custom AppBar
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:talksindhi/file_operations.dart';
@@ -112,26 +113,16 @@ void shareApp() {
 // Individual tabs in TabBar
 Widget tabView({String title}) {
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+    padding: const EdgeInsets.symmetric(horizontal: 20.0),
     child: Tab(
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50),
-        ),
-        child: Align(
-          alignment: Alignment.center,
-          child: FittedBox(
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 17.0,
-              ),
-            ),
-          ),
-        ),
+    child: Text(
+      title,
+      style: const TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 15.0,
       ),
     ),
+      ),
   );
 }
 
@@ -139,7 +130,6 @@ Widget tabView({String title}) {
 TabBar tabBar({
   @required BuildContext context,
   @required children,
-  @required controller,
 }) {
   return TabBar(
     labelStyle: const TextStyle(letterSpacing: 1.0),
@@ -151,8 +141,11 @@ TabBar tabBar({
       borderRadius: BorderRadius.circular(50),
       color: Theme.of(context).primaryColor,
     ),
+    labelPadding: const EdgeInsets.symmetric(
+      horizontal: 10.0,
+      // vertical: 5.0,
+    ),
     tabs: children,
-    controller: controller,
   );
 }
 

@@ -34,16 +34,18 @@ class WordCard extends StatelessWidget {
                   horizontal: 30.0,
                   vertical: 50.0,
                 ),
-                child: Text(
-                  word,
-                  style: const TextStyle(
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.0,
+                child: FittedBox(
+                  child: Text(
+                    word,
+                    style: const TextStyle(
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.0,
+                    ),
+                    textDirection: language == 'english'
+                        ? TextDirection.ltr
+                        : TextDirection.rtl,
                   ),
-                  textDirection: language == 'english'
-                      ? TextDirection.ltr
-                      : TextDirection.rtl,
                 ),
               ),
             ),

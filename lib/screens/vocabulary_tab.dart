@@ -1,5 +1,3 @@
-// Vocabulary tab in HomeScreen.
-
 import 'package:flutter/material.dart';
 
 import '../models/topic.dart';
@@ -19,21 +17,21 @@ class VocabularyTab extends StatelessWidget {
             crossAxisSpacing: 5.0,
             mainAxisSpacing: 5.0,
           ),
-          itemCount: dummyTopics.length,
+          itemCount: vocabularyProgress.length,
           itemBuilder: (context, index) {
-            final topic = dummyTopics[index];
+            final topic = vocabularyProgress[index];
 
             return GestureDetector(
               onTap: () => Navigator.pushNamed(
                 context,
-                '/learnVocabulary',
-                arguments: topic.categoryId,
+                '/learnContent',
+                arguments: topic,
               ),
               child: TopicCard(
-                imageUrl: topic.imageUrl,
-                title: topic.name,
-                learnedWords: topic.learnedWords,
-                totalWords: topic.totalWords,
+                imageUrl: 'assets/images/card_back.jpg',
+                title: topic['subCategory'],
+                learnedWords: topic['learnedWords'],
+                totalWords: topic['totalWords'],
               ),
             );
           }),

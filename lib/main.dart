@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:talksindhi/screens/learn_content.dart';
 
 import './screens/splash_screen.dart';
 import './screens/home_screen.dart';
@@ -63,6 +64,7 @@ class TalkSindhi extends StatelessWidget {
         '/register': (context) => RegistrationScreen(),
         '/learnVocabulary': (context) =>
             LearnVocabulary(ModalRoute.of(context).settings.arguments),
+        '/learnContent': (context) => LearnContent(ModalRoute.of(context).settings.arguments),
       },
     );
   }

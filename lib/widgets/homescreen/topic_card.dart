@@ -25,16 +25,30 @@ class TopicCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Image.asset(imageUrl,
-                fit: BoxFit.cover, height: constraints.maxHeight * 0.5),
+            Container(
+              height: constraints.maxHeight * 0.55,
+              width: constraints.maxWidth * 0.7,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5.0),
+                image: DecorationImage(
+                  image: AssetImage(imageUrl),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
             Column(
               children: [
-                Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: constraints.maxHeight * 0.09,
+                Padding(
+                  padding:  EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.05),
+                  child: Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: constraints.maxHeight * 0.09,
+                    ),
                   ),
                 ),
                 Text(
@@ -48,6 +62,7 @@ class TopicCard extends StatelessWidget {
               ],
             ),
             Container(
+              height: constraints.maxHeight * 0.1,
               padding: EdgeInsets.only(left: 10, right: 10, bottom: 15),
               child: LinearProgressIndicator(
                 value: learnedWords / totalWords,

@@ -29,81 +29,119 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     // Fetching data during splashscreen.
-    Timer(Duration(seconds: 3), () async {
-      // Checking whether connected to internet or not
-      checkConnectivity().then(
-        (ConnectivityResult connectivityResult) async {
-          if (connectivityResult == ConnectivityResult.wifi ||
-              connectivityResult == ConnectivityResult.mobile) {
-            // If internet connection is available update the local data from the server.
-            var response = await http.post(
-              Uri.encodeFull('http://204.48.26.50:8033/data/get'),
-              headers: {
-                'Accept': 'application/json',
-              },
-            );
+    Timer(
+      Duration(seconds: 3),
+      () async {
+        // Checking whether connected to internet or not
+        checkConnectivity().then(
+          (ConnectivityResult connectivityResult) async {
+            if (connectivityResult == ConnectivityResult.wifi ||
+                connectivityResult == ConnectivityResult.mobile) {
+              // If internet connection is available update the local data from the server.
+              var response = await http.post(
+                Uri.encodeFull('http://204.48.26.50:8033/data/get'),
+                headers: {
+                  'Accept': 'application/json',
+                },
+              );
 
-            var data = json.decode(response.body) as Map;
-            for (var i = 0; i < data['data'].length; i++) {
-              if (data['data'][i]['SubCategory']['Category']['name'] ==
-                  'vocabulary') {
-                vocabulary.add(
-                  {
-                    'subCategory': data['data'][i]['SubCategory']['name'],
-                    'english': data['data'][i]['english'],
-                    'hindi': data['data'][i]['hindi'],
-                    'sindhi': data['data'][i]['sindhi'],
-                  },
-                );
-              } else if (data['data'][i]['SubCategory']['Category']['name'] ==
-                  'conversation') {
-                conversation.add(
-                  {
-                    'subCategory': data['data'][i]['SubCategory']['name'],
-                    'english': data['data'][i]['english'],
-                    'hindi': data['data'][i]['hindi'],
-                    'sindhi': data['data'][i]['sindhi'],
-                  },
-                );
-              } else {
-                sentence.add(
-                  {
-                    'subCategory': data['data'][i]['SubCategory']['name'],
-                    'english': data['data'][i]['english'],
-                    'hindi': data['data'][i]['hindi'],
-                    'sindhi': data['data'][i]['sindhi'],
-                  },
-                );
+              var data = json.decode(response.body) as Map;
+              for (var i = 0; i < data['data'].length; i++) {
+                if (data['data'][i]['SubCategory']['Category']['name'] ==
+                    'vocabulary') {
+                  var index = vocabulary.indexWhere((element) =>
+                      element['subCategory'] ==
+                      data['data'][i]['SubCategory']['name']);
+
+                  // print(index.toString() +
+                  //     ' ' +
+                  //     data['data'][i]['SubCategory']['name'] +
+                  //     vocabulary.toString());
+                  // print(data['data'][i]['SubCategory']['name']);
+
+                  if (index == -1)
+                    vocabulary.add(
+                      {
+                        'subCategory': data['data'][i]['SubCategory']['name'],
+                        'data': [
+                          {
+                            'english': data['data'][i]['english'],
+                            'hindi': data['data'][i]['hindi'],
+                            'sindhi': data['data'][i]['sindhi'],
+                          },
+                        ],
+                      },
+                    );
+                  else
+                    vocabulary[index]['data'].add({
+                      'english': data['data'][i]['english'],
+                      'hindi': data['data'][i]['hindi'],
+                      'sindhi': data['data'][i]['sindhi'],
+                    });
+                } else if (data['data'][i]['SubCategory']['Category']['name'] ==
+                    'Conversation') {
+                  var index = conversation.indexWhere((element) =>
+                      element['subCategory'] ==
+                      data['data'][i]['SubCategory']['name']);
+
+                  if (index == -1)
+                    conversation.add(
+                      {
+                        'subCategory': data['data'][i]['SubCategory']['name'],
+                        'data': [
+                          {
+                            'english': data['data'][i]['english'],
+                            'hindi': data['data'][i]['hindi'],
+                            'sindhi': data['data'][i]['sindhi'],
+                          },
+                        ],
+                      },
+                    );
+                  else
+                    conversation[index]['data'].add({
+                      'english': data['data'][i]['english'],
+                      'hindi': data['data'][i]['hindi'],
+                      'sindhi': data['data'][i]['sindhi'],
+                    });
+                }
               }
+
+              print('number of vocabulary categories: ' +
+                  vocabulary.length.toString());
+              print('number of conversation categories: ' +
+                  conversation.length.toString());
+
+              // Update the locally stored data
+              writeToFile(
+                content: {
+                  'vocabulary': vocabulary,
+                  'conversation': conversation,
+                },
+                fileName: 'learnData.json',
+              );
+              conversation.forEach((element) {
+                print(element['subCategory']);
+              });
+              createProgressFile();
             }
+          },
+        );
 
-            // Update local files
-            writeToFile(
-              content: {
-                'vocabulary': vocabulary,
-                'conversation': conversation,
-                'sentence': sentence,
-              },
-              fileName: 'learnData.json',
-            );
+        // Checking whether the user had previously logged in. If yes, jump directly into the home screen.
+        getApplicationDocumentsDirectory().then((Directory dir) {
+          var path = dir.path + '/userData.json';
+          var jsonFile = File(path);
+          if (jsonFile.existsSync()) {
+            var localStorage = json.decode(jsonFile.readAsStringSync());
+
+            if (localStorage['isLoggedIn'] == true)
+              Navigator.pushReplacementNamed(context, '/home');
           }
-        },
-      );
+        });
 
-      // Checking whether the user had previously logged in. If yes, jump directly into the home screen.
-      getApplicationDocumentsDirectory().then((Directory dir) {
-        var path = dir.path + '/userData.json';
-        var jsonFile = File(path);
-        if (jsonFile.existsSync()) {
-          var localStorage = json.decode(jsonFile.readAsStringSync());
-
-          if (localStorage['isLoggedIn'] == true)
-            Navigator.pushReplacementNamed(context, '/home');
-        }
-      });
-
-      Navigator.pushReplacementNamed(context, '/login');
-    });
+        Navigator.pushReplacementNamed(context, '/login');
+      },
+    );
   }
 
   _permissionHandler() async {

@@ -22,7 +22,10 @@ class Topic {
 
 List vocabulary = [];
 List conversation = [];
-List sentence = [];
+// List vocabularyCategories = [];
+// List conversationCategories = [];
+List vocabularyProgress = [];
+List conversationProgress = [];
 
 // Dummy Data
 List<Topic> dummyTopics = [
@@ -54,8 +57,8 @@ List<Topic> dummyTopics = [
       'Cheetah',
     ],
   ),
-  Topic(    categoryId: '1',
-
+  Topic(
+    categoryId: '1',
     name: 'Birds',
     learnedWords: 10,
     imageUrl: 'assets/images/topics_screen/birds.png',
@@ -82,8 +85,8 @@ List<Topic> dummyTopics = [
       'Cheetah',
     ],
   ),
-  Topic(    categoryId: '2',
-
+  Topic(
+    categoryId: '2',
     name: 'Colors',
     learnedWords: 10,
     imageUrl: 'assets/images/topics_screen/colors.png',
@@ -110,8 +113,8 @@ List<Topic> dummyTopics = [
       'Cheetah',
     ],
   ),
-  Topic(    categoryId: '3',
-
+  Topic(
+    categoryId: '3',
     name: 'Creature',
     learnedWords: 10,
     imageUrl: 'assets/images/topics_screen/creature.png',
@@ -138,8 +141,8 @@ List<Topic> dummyTopics = [
       'Cheetah',
     ],
   ),
-  Topic(    categoryId: '4',
-
+  Topic(
+    categoryId: '4',
     name: 'Dress',
     learnedWords: 10,
     imageUrl: 'assets/images/topics_screen/dress.png',
@@ -166,8 +169,8 @@ List<Topic> dummyTopics = [
       'Cheetah',
     ],
   ),
-  Topic(    categoryId: '5',
-
+  Topic(
+    categoryId: '5',
     name: 'Education',
     learnedWords: 10,
     imageUrl: 'assets/images/topics_screen/education.png',
@@ -194,8 +197,8 @@ List<Topic> dummyTopics = [
       'Cheetah',
     ],
   ),
-  Topic(    categoryId: '6',
-
+  Topic(
+    categoryId: '6',
     name: 'Fruits',
     learnedWords: 10,
     imageUrl: 'assets/images/topics_screen/fruits.png',
@@ -222,8 +225,8 @@ List<Topic> dummyTopics = [
       'Cheetah',
     ],
   ),
-  Topic(    categoryId: '7',
-
+  Topic(
+    categoryId: '7',
     name: 'Health',
     learnedWords: 10,
     imageUrl: 'assets/images/topics_screen/health.png',
@@ -250,8 +253,8 @@ List<Topic> dummyTopics = [
       'Cheetah',
     ],
   ),
-  Topic(    categoryId: '8',
-
+  Topic(
+    categoryId: '8',
     name: 'Nature',
     learnedWords: 10,
     imageUrl: 'assets/images/topics_screen/nature.png',

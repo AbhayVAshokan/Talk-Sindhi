@@ -241,10 +241,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   if (!LoginScreen._formKey.currentState
                                       .validate())
                                     return;
-                                  else if (connectivityResult ==
+                                  else if (!(connectivityResult ==
                                           ConnectivityResult.wifi ||
                                       connectivityResult ==
-                                          ConnectivityResult.mobile)
+                                          ConnectivityResult.mobile))
                                     Fluttertoast.showToast(
                                       msg: "No network connectivity",
                                       toastLength: Toast.LENGTH_SHORT,
