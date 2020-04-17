@@ -9,12 +9,14 @@ class LearnWord extends StatelessWidget {
   final TabController tabController;
   final int currentWordCount;
   final int totalWordCount;
+  final String language;
 
   LearnWord({
     @required this.wordData,
     @required this.tabController,
     @required this.currentWordCount,
     @required this.totalWordCount,
+    this.language = 'english',
   });
 
   // Individual arrow keys to navigate to next word/milestone
@@ -42,11 +44,16 @@ class LearnWord extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('inside learn word with language: ' + language);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox.shrink(),
-        WordCard(word: wordData['english'], language: 'english'),
+        WordCard(
+            word:
+                language == 'english' ? wordData['english'] : wordData['hindi'],
+            language: 'english'),
         WordCard(word: wordData['sindhi'], language: 'sindhi'),
         ClipRRect(
           borderRadius: BorderRadius.only(

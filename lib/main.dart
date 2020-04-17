@@ -11,7 +11,6 @@ import './screens/registration_screen.dart';
 import './screens/profile_screen.dart';
 import './screens/settings_screen.dart';
 import './screens/topics_screen.dart';
-import './screens/learn_vocabulary.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,9 +61,8 @@ class TalkSindhi extends StatelessWidget {
         '/profile': (context) => ProfileScreen(),
         '/settings': (context) => SettingsScreen(),
         '/register': (context) => RegistrationScreen(),
-        '/learnVocabulary': (context) =>
-            LearnVocabulary(ModalRoute.of(context).settings.arguments),
-        '/learnContent': (context) => LearnContent(ModalRoute.of(context).settings.arguments),
+        '/learnContent': (context) =>
+            LearnContent(ModalRoute.of(context).settings.arguments),
       },
     );
   }

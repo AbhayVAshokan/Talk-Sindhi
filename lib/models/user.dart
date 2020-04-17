@@ -1,35 +1,3 @@
-import 'package:flutter/foundation.dart';
-
-class User {
-  final String emailAddress;
-  final String password;
-  final String userName;
-  String firstName;
-  String lastName;
-  int mobileNumber;
-  String countryId;
-  String cityId;
-  String deviceId;
-  String deviceToken;
-  String deviceName;
-  String deviceType;
-
-  User({
-    @required this.emailAddress,
-    @required this.password,
-    @required this.userName,
-    this.firstName,
-    this.lastName,
-    this.mobileNumber,
-    this.countryId,
-    this.deviceId,
-    this.deviceName,
-    this.deviceToken,
-    this.deviceType,
-    this.cityId,
-  });
-}
-
 List<String> countries = [
   "--- select country ---",
   "India",

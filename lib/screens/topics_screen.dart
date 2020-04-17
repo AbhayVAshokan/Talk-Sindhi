@@ -40,6 +40,7 @@ class _TopicsScreenState extends State<TopicsScreen> {
           setState(() {
             language = localStorage['language'];
           });
+          print(localStorage['language']);
         }
       },
     );
@@ -66,8 +67,20 @@ class _TopicsScreenState extends State<TopicsScreen> {
               },
             ),
             body: TabBarView(children: [
-              VocabularyTab(),
-              ConversationTab(),
+              VocabularyTab(
+                  language: language,
+                  rebuildScreen: () {
+                    setState(() {
+                      print('rebuilding screen');
+                    });
+                  }),
+              ConversationTab(
+                  language: language,
+                  rebuildScreen: () {
+                    setState(() {
+                      print('rebuilding screen');
+                    });
+                  }),
             ]),
             bottomNavigationBar: myBottomNavbar(
               context: context,

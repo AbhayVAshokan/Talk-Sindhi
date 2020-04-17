@@ -4,8 +4,18 @@ import '../models/topic.dart';
 import '../widgets/homescreen/topic_card.dart';
 
 class ConversationTab extends StatelessWidget {
+  final String language;
+  final Function rebuildScreen;
+
+  ConversationTab({
+    this.language,
+    @required this.rebuildScreen,
+    Key key,
+  });
+
   @override
   Widget build(BuildContext context) {
+    print('building conversation screen with language: ' + language);
     return Container(
       width: double.infinity,
       color: Theme.of(context).backgroundColor,
@@ -25,7 +35,10 @@ class ConversationTab extends StatelessWidget {
               onTap: () => Navigator.pushNamed(
                 context,
                 '/learnContent',
-                arguments: topic,
+                arguments: {
+                  'topic': topic,
+                  'rebuildScreen': rebuildScreen,
+                },
               ),
               child: TopicCard(
                 imageUrl: 'assets/images/card_back.jpg',

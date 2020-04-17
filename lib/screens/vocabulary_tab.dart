@@ -4,6 +4,14 @@ import '../models/topic.dart';
 import '../widgets/homescreen/topic_card.dart';
 
 class VocabularyTab extends StatelessWidget {
+  final String language;
+  final Function rebuildScreen;
+
+  VocabularyTab({
+    this.language,
+    @required this.rebuildScreen,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,7 +33,10 @@ class VocabularyTab extends StatelessWidget {
               onTap: () => Navigator.pushNamed(
                 context,
                 '/learnContent',
-                arguments: topic,
+                arguments: {
+                  'topic': topic,
+                  'rebuildScreen': rebuildScreen,
+                },
               ),
               child: TopicCard(
                 imageUrl: 'assets/images/card_back.jpg',

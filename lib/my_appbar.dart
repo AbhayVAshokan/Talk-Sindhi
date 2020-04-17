@@ -1,6 +1,5 @@
 // Custom AppBar
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:talksindhi/file_operations.dart';
@@ -115,14 +114,14 @@ Widget tabView({String title}) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 20.0),
     child: Tab(
-    child: Text(
-      title,
-      style: const TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 15.0,
+      child: Text(
+        title,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 15.0,
+        ),
       ),
     ),
-      ),
   );
 }
 
