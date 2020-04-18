@@ -7,19 +7,18 @@ import '../widgets/vocabulary-tab/word_card.dart';
 
 class LearnWord extends StatelessWidget {
   final Map<String, dynamic> wordData;
-  final TabController tabController;
-  final int currentWordCount;
   final int totalWordCount;
-  final index;
+  final String category;
+  final int subCategoryIndex;
+  final int dataIndex;
 
   LearnWord({
     @required this.wordData,
-    @required this.tabController,
-    @required this.currentWordCount,
     @required this.totalWordCount,
-    this.index,
+    @required this.category,
+    @required this.subCategoryIndex,
+    @required this.dataIndex,
   });
-
 
   // Individual arrow keys to navigate to next word/milestone
   Widget arrowButton({
@@ -46,7 +45,16 @@ class LearnWord extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('inside learn word with language: ' + globalLanguage);
+    // Check whether the user has already learned this word/conversation. If not add it to the list of learned words/conversations.
+    if (category == 'vocabulary') {
+      if (!vocabulary[subCategoryIndex]['learnedWords']
+          .contains(wordData['english']))
+        vocabulary[subCategoryIndex]['learnedWords'].add(wordData['english']);
+    } else if (category == 'conversation') {
+      if (!conversation[subCategoryIndex]['learnedWords']
+          .contains(wordData['english']))
+        conversation[subCategoryIndex]['learnedWords'].add(wordData['english']);
+    }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -80,7 +88,7 @@ class LearnWord extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Your milestone: $currentWordCount/$totalWordCount',
+                    'Your milestone: ${DefaultTabController.of(context).index + 1}/$totalWordCount',
                     style: const TextStyle(
                       fontSize: 18.0,
                       letterSpacing: 0.75,
@@ -92,29 +100,30 @@ class LearnWord extends StatelessWidget {
                         context: context,
                         icon: Icons.arrow_back_ios,
                         onTap: () {
-                          print(index);
-                          tabController.index > 0 
-                              ? tabController.animateTo(
-                                  tabController.index - 1,
-                                  curve: Curves.decelerate,
-                                  duration: Duration(microseconds: 200),
-                                )
-                              : print('Not possible to go back!');
+                          if (DefaultTabController.of(context).index > 0)
+                            DefaultTabController.of(context).animateTo(
+                              DefaultTabController.of(context).index - 1,
+                              curve: Curves.easeIn,
+                              duration: Duration(
+                                milliseconds: 500,
+                              ),
+                            );
                         },
                       ),
                       arrowButton(
                         context: context,
                         icon: Icons.arrow_forward_ios,
-                        onTap: () {},
-                        // onTap: () {
-                        //   tabController.index < category.words.length - 1
-                        //       ? tabController.animateTo(
-                        //           tabController.index + 1,
-                        //           curve: Curves.decelerate,
-                        //           duration: Duration(milliseconds: 200),
-                        //         )
-                        //       : print('Not possible to go forward!');
-                        // },
+                        onTap: () {
+                          if (DefaultTabController.of(context).index <
+                              totalWordCount - 1)
+                            DefaultTabController.of(context).animateTo(
+                              DefaultTabController.of(context).index + 1,
+                              curve: Curves.easeIn,
+                              duration: Duration(
+                                milliseconds: 500,
+                              ),
+                            );
+                        },
                       ),
                     ],
                   ),

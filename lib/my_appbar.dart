@@ -155,11 +155,21 @@ TabBar tabBar({
 AppBar myAppBar({
   @required BuildContext context,
   @required Function rebuildScreen,
+  backButton = false,
   TabBar tabBar,
 }) {
   return AppBar(
     backgroundColor: Colors.white,
     elevation: 5,
+    leading: backButton == true
+        ? IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              rebuildScreen();
+              Navigator.pop(context);
+            },
+          )
+        : null,
     iconTheme: IconThemeData(
       color: Colors.grey,
       size: 35.0,

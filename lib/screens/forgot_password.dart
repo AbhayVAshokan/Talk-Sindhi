@@ -14,7 +14,6 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   String _emailAddress = "";
-  String _password = "";
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +34,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 37.5),
                 width: screenRatio < 1 ? width * 0.75 : width * 0.9,
-                height: screenRatio < 1 ? height * 0.9 : height * 0.6,
+                height: 300,
                 child: Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -47,7 +46,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 60.0),
+                            padding: const EdgeInsets.only(
+                              left: 60.0,
+                              bottom: 20.0,
+                            ),
                             child: FittedBox(
                               child: RichText(
                                 text: TextSpan(
@@ -56,9 +58,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                       .textTheme
                                       .headline6
                                       .copyWith(
-                                          color: Colors.red,
-                                          fontSize:
-                                              constraints.maxHeight * 0.07),
+                                          color: Colors.red, fontSize: 30.0),
                                   children: [
                                     const TextSpan(
                                       text: 'PEAK ',
@@ -98,59 +98,15 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                     return null;
                                   },
                                 ),
-                                inputTextFormField(
-                                  context: context,
-                                  labelText: 'Password',
-                                  data: _password,
-                                  obscureText: true,
-                                  textInputAction: TextInputAction.done,
-                                  onChanged: (newValue) => _password = newValue,
-                                  validation: (String input) {
-                                    if (input.isEmpty)
-                                      return 'Password cannot be null';
-                                    else
-                                      return null;
-                                  },
-                                ),
                               ],
                             ),
                           ),
-                          GestureDetector(
-                            child: const Align(
-                              alignment: Alignment.centerRight,
-                              child: const Text(
-                                'Forgot Password?',
-                                style: const TextStyle(
-                                  color: Colors.grey,
-                                  letterSpacing: 0.75,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SubmitButton(
-                                text: 'FACEBOOK',
-                                width: constraints.maxWidth * 0.4,
-                                color: Colors.blue,
-                                onTap: () {},
-                              ),
-                              Text(
-                                'Or',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline6
-                                    .copyWith(fontWeight: FontWeight.normal),
-                              ),
-                              SubmitButton(
-                                text: 'LOGIN',
-                                width: constraints.maxWidth * 0.4,
-                                color: Colors.pink,
-                                onTap: () {},
-                              ),
-                            ],
-                          ),
+                          SubmitButton(
+                            text: 'NEXT',
+                            width: constraints.maxWidth * 0.4,
+                            color: Colors.pink,
+                            onTap: () {},
+                          ),  
                           Divider(color: Theme.of(context).backgroundColor),
                           GestureDetector(
                             onTap: () => Navigator.pushReplacementNamed(

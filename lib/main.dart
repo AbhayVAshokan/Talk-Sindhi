@@ -2,15 +2,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:talksindhi/screens/learn_content.dart';
 
-import './screens/splash_screen.dart';
 import './screens/home_screen.dart';
 import './screens/login_screen.dart';
-import './screens/registration_screen.dart';
+import './screens/topics_screen.dart';
+import './screens/learn_content.dart';
+import './screens/splash_screen.dart';
 import './screens/profile_screen.dart';
 import './screens/settings_screen.dart';
-import './screens/topics_screen.dart';
+import './screens/forgot_password.dart';
+import './screens/registration_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,6 +64,7 @@ class TalkSindhi extends StatelessWidget {
         '/register': (context) => RegistrationScreen(),
         '/learnContent': (context) =>
             LearnContent(ModalRoute.of(context).settings.arguments),
+        '/forgotPassword': (context) => ForgotPassword(),
       },
     );
   }

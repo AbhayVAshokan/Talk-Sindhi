@@ -132,7 +132,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   String _emailAddress = "";
-
   String _password = "";
 
   @override
@@ -236,18 +235,20 @@ class _LoginScreenState extends State<LoginScreen> {
                               ],
                             ),
                           ),
-                          GestureDetector(
-                            child: const Align(
-                              alignment: Alignment.centerRight,
-                              child: const Text(
-                                'Forgot Password?',
-                                style: const TextStyle(
-                                  color: Colors.grey,
-                                  letterSpacing: 0.75,
-                                ),
-                              ),
-                            ),
-                          ),
+                          // GestureDetector(
+                          //   onTap: () =>
+                          //       Navigator.pushNamed(context, '/forgotPassword'),
+                          //   child: const Align(
+                          //     alignment: Alignment.centerRight,
+                          //     child: const Text(
+                          //       'Forgot Password?',
+                          //       style: const TextStyle(
+                          //         color: Colors.grey,
+                          //         letterSpacing: 0.75,
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [

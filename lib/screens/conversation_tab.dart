@@ -27,22 +27,24 @@ class ConversationTab extends StatelessWidget {
           ),
           itemCount: conversation.length,
           itemBuilder: (context, index) {
-            final topic = conversation[index];
+            final subCategory = conversation[index];
 
             return GestureDetector(
               onTap: () => Navigator.pushNamed(
                 context,
                 '/learnContent',
                 arguments: {
-                  'topic': topic,
+                  'category': 'conversation',
+                  'subCategory': subCategory,
+                  'subCategoryIndex': index,
                   'rebuildScreen': rebuildScreen,
                 },
               ),
               child: TopicCard(
                 imageUrl: cardImageUrl,
-                title: topic['subCategory'],
-                learnedWords: topic['learnedWords'].length,
-                totalWords: topic['totalWords'],
+                title: subCategory['subCategory'],
+                learnedWords: subCategory['learnedWords'].length,
+                totalWords: subCategory['totalWords'],
               ),
             );
           }),

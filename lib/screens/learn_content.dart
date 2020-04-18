@@ -16,37 +16,33 @@ class LearnContent extends StatefulWidget {
 
 class _LearnContentState extends State<LearnContent>
     with SingleTickerProviderStateMixin {
-  TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(
-      vsync: this,
-      length: (widget.arguments as Map)['topic']['data'].length,
-    );
   }
 
   @override
   Widget build(BuildContext context) {
-    print(_tabController.index);
-    print(_tabController.previousIndex);
-    final topic = (widget.arguments as Map<String, dynamic>)['topic'];
+    final category = (widget.arguments as Map<String, dynamic>)['category'];
+    final subCategory = (widget.arguments as Map<String, dynamic>)['subCategory'];
+    final subCategoryIndex = (widget.arguments as Map<String, dynamic>)['subCategoryIndex'];
     final rebuildScreen =
         (widget.arguments as Map<String, dynamic>)['rebuildScreen'];
 
     return SafeArea(
       child: DefaultTabController(
-        length: topic['data'].length,
+        length: subCategory['data'].length,
         child: Scaffold(
           backgroundColor: Theme.of(context).backgroundColor,
           appBar: myAppBar(
               context: context,
               rebuildScreen: () => rebuildScreen(),
+              backButton: true,
               tabBar: tabBar(
                 context: context,
                 children: <Widget>[
-                  ...topic['data'].map(
+                  ...subCategory['data'].map(
                     (item) => tabView(
                       title: globalLanguage == 'english'
                           ? item['english']
@@ -57,13 +53,13 @@ class _LearnContentState extends State<LearnContent>
               )),
           body: TabBarView(
             children: [
-              for (var i = 0; i < topic['data'].length; i++)
+              for (var i = 0; i < subCategory['data'].length; i++)
                 LearnWord(
-                  wordData: topic['data'][i],
-                  tabController: _tabController,
-                  currentWordCount: i + 1,
-                  totalWordCount: topic['totalWords'],
-                  index: _tabController.index,
+                  category: category,
+                  subCategoryIndex: subCategoryIndex,
+                  dataIndex: i,
+                  wordData: subCategory['data'][i],
+                  totalWordCount: subCategory['totalWords'],
                 )
             ],
           ),

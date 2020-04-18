@@ -27,22 +27,24 @@ class VocabularyTab extends StatelessWidget {
           ),
           itemCount: vocabulary.length,
           itemBuilder: (context, index) {
-            final topic = vocabulary[index];
+            final subCategory = vocabulary[index];
 
             return GestureDetector(
               onTap: () => Navigator.pushNamed(
                 context,
                 '/learnContent',
                 arguments: {
-                  'topic': topic,
+                  'category': 'vocabulary',
+                  'subCategory': subCategory,
+                  'subCategoryIndex': index,
                   'rebuildScreen': rebuildScreen,
                 },
               ),
               child: TopicCard(
                 imageUrl: cardImageUrl,
-                title: topic['subCategory'],
-                learnedWords: topic['learnedWords'].length,
-                totalWords: topic['totalWords'],
+                title: subCategory['subCategory'],
+                learnedWords: subCategory['learnedWords'].length,
+                totalWords: subCategory['totalWords'],
               ),
             );
           }),

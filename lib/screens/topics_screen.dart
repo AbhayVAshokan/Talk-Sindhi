@@ -1,6 +1,7 @@
 // Topics Screen: Learn new vocabulary and improve conversation skills.
 
 import 'package:flutter/material.dart';
+import 'package:talksindhi/file_operations.dart';
 
 import '../my_appbar.dart';
 import '../realtime_data.dart';
@@ -19,6 +20,12 @@ class TopicsScreen extends StatefulWidget {
 class _TopicsScreenState extends State<TopicsScreen> {
   @override
   Widget build(BuildContext context) {
+    // Updating local storage
+    writeToFile(content: {
+      'vocabulary': vocabulary,
+      'conversation': conversation,
+    }, fileName: '/progressData.json');
+
     return SafeArea(
       child: DefaultTabController(
         length: 2,
