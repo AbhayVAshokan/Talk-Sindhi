@@ -1,14 +1,11 @@
 // Vocabulary/Conversation learning screen
 
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 
-import '../screens/learn_word.dart';
 import '../my_appbar.dart';
+import '../realtime_data.dart';
 import '../my_bottom_navbar.dart';
+import '../screens/learn_word.dart';
 
 class LearnContent extends StatefulWidget {
   @override
@@ -30,31 +27,17 @@ class _LearnContentState extends State<LearnContent>
     );
   }
 
-  var language = 'english';
   @override
   Widget build(BuildContext context) {
-    // Function to return the location at which the data is stored locally.
-    getApplicationDocumentsDirectory().then(
-      (Directory dir) {
-        var jsonFile = File(dir.path + '/userData.json');
-        var localStorage = json.decode(jsonFile.readAsStringSync());
-
-        if (language != localStorage['language']) {
-          setState(() {
-            language = localStorage['language'];
-          });
-          print('inshid learn content: ' + localStorage['language']);
-        }
-      },
-    );
-
+    print(_tabController.index);
+    print(_tabController.previousIndex);
     final topic = (widget.arguments as Map<String, dynamic>)['topic'];
     final rebuildScreen =
         (widget.arguments as Map<String, dynamic>)['rebuildScreen'];
 
     return SafeArea(
       child: DefaultTabController(
-        length: topic['allWords'].length,
+        length: topic['data'].length,
         child: Scaffold(
           backgroundColor: Theme.of(context).backgroundColor,
           appBar: myAppBar(
@@ -63,9 +46,9 @@ class _LearnContentState extends State<LearnContent>
               tabBar: tabBar(
                 context: context,
                 children: <Widget>[
-                  ...topic['allWords'].map(
+                  ...topic['data'].map(
                     (item) => tabView(
-                      title: language == 'english'
+                      title: globalLanguage == 'english'
                           ? item['english']
                           : item['hindi'],
                     ),
@@ -74,12 +57,13 @@ class _LearnContentState extends State<LearnContent>
               )),
           body: TabBarView(
             children: [
-              for (var i = 0; i < topic['allWords'].length; i++)
+              for (var i = 0; i < topic['data'].length; i++)
                 LearnWord(
-                  wordData: topic['allWords'][i],
+                  wordData: topic['data'][i],
                   tabController: _tabController,
                   currentWordCount: i + 1,
                   totalWordCount: topic['totalWords'],
+                  index: _tabController.index,
                 )
             ],
           ),

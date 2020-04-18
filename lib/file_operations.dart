@@ -1,9 +1,13 @@
 import 'dart:io';
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-import 'package:talksindhi/models/topic.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:connectivity/connectivity.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
+
+import './realtime_data.dart';
 
 // Create the local JSON file
 void createFile({
@@ -20,13 +24,10 @@ void writeToFile({
   @required Map<String, dynamic> content,
   @required String fileName,
 }) {
-  Directory directory;
-
   // Function to return the location at which the data is stored locally.
   getApplicationDocumentsDirectory().then(
     (Directory dir) {
-      directory = dir;
-      var path = directory.path + '/' + fileName;
+      var path = dir.path + '/' + fileName;
       var jsonFile = File(path);
 
       bool fileExists = jsonFile.existsSync();
@@ -46,79 +47,231 @@ void writeToFile({
   );
 }
 
-createProgressFile() {
-  getApplicationDocumentsDirectory().then((Directory dir) {
-    var progressFile = File(dir.path + '/progressData.json');
-    var dataFile = File(dir.path + '/learnData.json');
-    var dataFileContents = json.decode(dataFile.readAsStringSync());
+// Check internet connectivity asynchronously.
+Future<ConnectivityResult> checkConnectivity() async {
+  return await (Connectivity().checkConnectivity());
+}
 
-    if (!progressFile.existsSync()) {
-      createFile(
-        pathToJSON: dir.path + '/progressData.json',
-        content: {},
-      );
-    }
+// Sync local data with server data.
+syncWithServer(response) {
+  var vocabularyData = [];
+  var conversationData = [];
+  var apiResponse = json.decode(response.body) as Map;
 
-    var progressFileContents = json.decode(progressFile.readAsStringSync());
+  for (var i = 0; i < apiResponse['data'].length; i++) {
+    // Parsing vocabulary data
+    if (apiResponse['data'][i]['SubCategory']['Category']['name'] ==
+        'vocabulary') {
+      var index = vocabularyData.indexWhere((element) =>
+          element['subCategory'] ==
+          apiResponse['data'][i]['SubCategory']['name']);
 
-    for (final category in progressFileContents.keys) {
-      if (category == 'vocabulary')
-        vocabularyProgress = progressFileContents[category]['data'];
-      else if (category == 'conversation')
-        conversationProgress = progressFileContents[category]['data'];
-    }
+      var media = apiResponse['data'][i]['media'] == null
+          ? null
+          : apiResponse['data'][i]['media']['url'];
 
-    // updating vocabulary progress
-    for (var i = 0; i < vocabulary.length; i++) {
-      var index = vocabularyProgress.indexWhere((wordData) {
-        return wordData.containsKey(vocabulary[i]['subCategory']);
-      });
-
-      if (index == -1) {
-        vocabularyProgress.add(
+      if (index == -1)
+        vocabularyData.add(
           {
-            'subCategory': dataFileContents['vocabulary'][i]['subCategory'],
-            'data': [],
-            'totalWords': vocabulary[i]['data'].length,
-            'learnedWords': 0,
-            'allWords': vocabulary[i]['data'],
+            'subCategory': apiResponse['data'][i]['SubCategory']['name'],
+            'data': [
+              {
+                'english': apiResponse['data'][i]['english'],
+                'hindi': apiResponse['data'][i]['hindi'],
+                'sindhi': apiResponse['data'][i]['sindhi'],
+                'media': media,
+              },
+            ],
           },
         );
-      } else {
-        vocabularyProgress[index]['totalWords'] = vocabulary[i]['data'].length;
-        vocabularyProgress[index]['allWords'] = vocabulary[i]['data'];
-      }
-    }
-
-    // updating conversation progress
-    for (var i = 0; i < dataFileContents['conversation'].length; i++) {
-      var index = conversationProgress.indexWhere((wordData) {
-        return wordData
-            .containsKey(dataFileContents['conversation'][i]['subCategory']);
-      });
-
-      if (index == -1) {
-        conversationProgress.add(
+      else
+        vocabularyData[index]['data'].add(
           {
-            'subCategory': dataFileContents['conversation'][i]['subCategory'],
-            'data': [],
-            'totalWords': conversation[i]['data'].length,
-            'learnedWords': 0,
-            'allWords': conversation[i]['data'],
+            'english': apiResponse['data'][i]['english'],
+            'hindi': apiResponse['data'][i]['hindi'],
+            'sindhi': apiResponse['data'][i]['sindhi'],
+            'media': media,
           },
         );
-      } else {
-        conversationProgress[index]['totalWords'] =
-            conversation[i]['data'].length;
-        conversationProgress[index]['allWords'] = conversation[i]['data'];
-      }
     }
-    // print(conversationProgress[0]['allWords']);
-    // print(conversationProgress[0]['allWords'].length);
-    // print(conversation[0]['data']);
-    // print(conversation[0]['data'].length);
-    // print('progress file: ' + vocabularyProgress.length.toString());
-    // print('progress file: ' + vocabulary.length.toString());
-    // print('progress file: ' + vocabularyProgress.toString());
-  });
+
+    // Parsing conversation data
+    else if (apiResponse['data'][i]['SubCategory']['Category']['name'] ==
+        'Conversation') {
+      var index = conversationData.indexWhere((element) =>
+          element['subCategory'] ==
+          apiResponse['data'][i]['SubCategory']['name']);
+
+      var media = apiResponse['data'][i]['media'] == null
+          ? null
+          : apiResponse['data'][i]['media']['url'];
+
+      if (index == -1)
+        conversationData.add(
+          {
+            'subCategory': apiResponse['data'][i]['SubCategory']['name'],
+            'data': [
+              {
+                'english': apiResponse['data'][i]['english'],
+                'hindi': apiResponse['data'][i]['hindi'],
+                'sindhi': apiResponse['data'][i]['sindhi'],
+                'media': media,
+              },
+            ],
+          },
+        );
+      else
+        conversationData[index]['data'].add(
+          {
+            'english': apiResponse['data'][i]['english'],
+            'hindi': apiResponse['data'][i]['hindi'],
+            'sindhi': apiResponse['data'][i]['sindhi'],
+            'media': media,
+          },
+        );
+    }
+  }
+
+  // Update progress data
+  updateLocalData(vocabularyData, conversationData);
+
+  Fluttertoast.showToast(
+    msg: "Finished syncing with server",
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.BOTTOM,
+    timeInSecForIosWeb: 1,
+    backgroundColor: Colors.black87,
+    textColor: Colors.white,
+    fontSize: 16.0,
+  );
+}
+
+// Loading local data as real-time data.
+loadLocalData() {
+  getApplicationDocumentsDirectory().then(
+    (Directory dir) {
+      var progressFile = File(dir.path + '/progressData.json');
+      if (progressFile.existsSync()) {
+        var localData = json.decode(progressFile.readAsStringSync());
+        for (final category in localData.keys) {
+          if (category == 'vocabulary')
+            vocabulary = localData['vocabulary'];
+          else if (category == 'conversation')
+            conversation = localData['conversation'];
+        }
+      }
+    },
+  );
+}
+
+// update local data (progress)
+updateLocalData(vocabularyData, conversationData) {
+  getApplicationDocumentsDirectory().then(
+    (Directory dir) {
+      File progressFile = File(dir.path + '/progressData.json');
+      if (!progressFile.existsSync()) {
+        var content = {
+          'vocabulary': [],
+          'conversation': [],
+        };
+
+        for (var i = 0; i < vocabularyData.length; i++) {
+          content['vocabulary'].add(
+            {
+              'subCategory': vocabularyData[i]['subCategory'],
+              'data': [],
+              'totalWords': 0,
+              'learnedWords': [],
+            },
+          );
+        }
+        for (var i = 0; i < conversationData.length; i++) {
+          content['conversation'].add(
+            {
+              'subCategory': conversationData[i]['subCategory'],
+              'data': [],
+              'totalWords': 0,
+              'learnedWords': [],
+            },
+          );
+        }
+
+        createFile(
+          content: content,
+          pathToJSON: dir.path + '/progressData.json',
+        );
+      }
+
+      var progressFileData = json.decode(progressFile.readAsStringSync());
+
+      // updating vocabulary data.
+      for (var i = 0; i < vocabularyData.length; i++) {
+        var subCategoryIndex = progressFileData['vocabulary'].indexWhere(
+          (wordData) =>
+              wordData['subCategory'] == vocabularyData[i]['subCategory'],
+        );
+
+        if (subCategoryIndex == -1) {
+          var content = {
+            'subCategory': vocabularyData[i]['subCategory'],
+            'data': vocabularyData[i]['data'],
+            'totalWords': vocabularyData[i]['data'].length,
+            'learnedWords': [],
+          };
+          progressFileData['vocabulary'].add(content);
+        } else {
+          progressFileData['vocabulary'][subCategoryIndex] = {
+            'subCategory': vocabularyData[i]['subCategory'],
+            'data': vocabularyData[i]['data'],
+            'totalWords': vocabularyData[i]['data'].length,
+            'learnedWords': progressFileData['vocabulary'][subCategoryIndex]
+                ['learnedWords'],
+          };
+        }
+      }
+
+      // updating conversation data.
+      for (var i = 0; i < conversationData.length; i++) {
+        var subCategoryIndex = progressFileData['conversation'].indexWhere(
+          (wordData) =>
+              wordData['subCategory'] == conversationData[i]['subCategory'],
+        );
+
+        if (subCategoryIndex == -1) {
+          var content = {
+            'subCategory': conversationData[i]['subCategory'],
+            'data': conversationData[i]['data'],
+            'totalWords': conversationData[i]['data'].length,
+            'learnedWords': [],
+          };
+          progressFileData['conversation'].add(content);
+        } else {
+          progressFileData['conversation'][subCategoryIndex] = {
+            'subCategory': conversationData[i]['subCategory'],
+            'data': conversationData[i]['data'],
+            'totalWords': conversationData[i]['data'].length,
+            'learnedWords': progressFileData['conversation'][subCategoryIndex]
+                ['learnedWords'],
+          };
+        }
+      }
+      writeToFile(content: progressFileData, fileName: '/progressData.json');
+      vocabulary = progressFileData['vocabulary'];
+      conversation = progressFileData['conversation'];
+    },
+  );
+}
+
+// Downloading files from server
+downloadFile(String url, String fileName) async {
+  print('downloading file');
+  getApplicationDocumentsDirectory().then(
+    (Directory dir) async {
+      var file = File('${dir.path}/$fileName');
+      var request = await http.get(url);
+      var bytes = request.bodyBytes;
+      file.writeAsBytesSync(bytes);
+      print('downloaded file: ${file.path}' + file.existsSync().toString());
+    },
+  );
 }

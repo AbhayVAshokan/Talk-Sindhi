@@ -11,7 +11,7 @@ import 'package:device_info/device_info.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:connectivity/connectivity.dart';
 
-import '../models/user.dart';
+import '../realtime_data.dart';
 import '../widgets/login-register/submit_button.dart';
 import '../widgets/login-register/input_textformfield.dart';
 
@@ -236,13 +236,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                     onTap: () {
                                       if (!_registrationFormKey.currentState
                                           .validate()) {
+                                        Fluttertoast.showToast(
+                                          msg: "Enter valid inputs",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.black87,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0,
+                                        );
                                         print(
                                             'DEBUG: Form cannot be submitted due to form validation requirements.');
                                         return;
-                                      } else if (connectivityResult ==
-                                              ConnectivityResult.wifi ||
-                                          connectivityResult ==
-                                              ConnectivityResult.mobile)
+                                      } else if (connectivityResult == ConnectivityResult.none)
                                         Fluttertoast.showToast(
                                           msg: "No network connectivity",
                                           toastLength: Toast.LENGTH_SHORT,

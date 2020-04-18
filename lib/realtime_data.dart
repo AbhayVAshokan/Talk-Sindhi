@@ -1,3 +1,10 @@
+String globalLanguage = 'english';
+
+// Contains list of all words/conversations classified into various subcategories.
+List vocabulary = [];
+List conversation = [];
+
+// List of all countries for drop down menu.
 List<String> countries = [
   "--- select country ---",
   "India",

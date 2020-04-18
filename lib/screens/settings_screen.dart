@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:talksindhi/models/topic.dart';
 
 import '../my_appbar.dart';
 import '../my_bottom_navbar.dart';
+
+import '../realtime_data.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override

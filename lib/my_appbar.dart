@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:talksindhi/file_operations.dart';
+import 'package:talksindhi/realtime_data.dart';
 
 // Language toggle dialog box.
 languageToggle({
@@ -75,6 +76,7 @@ languageToggle({
             languageButton(
               language: 'ENGLISH',
               onPressed: () {
+                globalLanguage = 'english';
                 writeToFile(
                   fileName: 'userData.json',
                   content: {
@@ -87,6 +89,7 @@ languageToggle({
             languageButton(
               language: 'हिन्दी',
               onPressed: () {
+                globalLanguage = 'hindi';
                 writeToFile(
                   fileName: 'userData.json',
                   content: {

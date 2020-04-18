@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/topic.dart';
+import '../realtime_data.dart';
 import '../widgets/homescreen/topic_card.dart';
 
 class ConversationTab extends StatelessWidget {
@@ -27,9 +27,9 @@ class ConversationTab extends StatelessWidget {
             crossAxisSpacing: 5.0,
             mainAxisSpacing: 5.0,
           ),
-          itemCount: conversationProgress.length,
+          itemCount: conversation.length,
           itemBuilder: (context, index) {
-            final topic = conversationProgress[index];
+            final topic = conversation[index];
 
             return GestureDetector(
               onTap: () => Navigator.pushNamed(
@@ -43,7 +43,7 @@ class ConversationTab extends StatelessWidget {
               child: TopicCard(
                 imageUrl: 'assets/images/card_back.jpg',
                 title: topic['subCategory'],
-                learnedWords: topic['learnedWords'],
+                learnedWords: topic['learnedWords'].length,
                 totalWords: topic['totalWords'],
               ),
             );

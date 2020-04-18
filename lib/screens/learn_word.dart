@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 
+import '../realtime_data.dart';
 import '../widgets/vocabulary-tab/word_card.dart';
 
 class LearnWord extends StatelessWidget {
@@ -10,6 +11,7 @@ class LearnWord extends StatelessWidget {
   final int currentWordCount;
   final int totalWordCount;
   final String language;
+  final index;
 
   LearnWord({
     @required this.wordData,
@@ -17,7 +19,9 @@ class LearnWord extends StatelessWidget {
     @required this.currentWordCount,
     @required this.totalWordCount,
     this.language = 'english',
+    this.index,
   });
+
 
   // Individual arrow keys to navigate to next word/milestone
   Widget arrowButton({
@@ -51,10 +55,16 @@ class LearnWord extends StatelessWidget {
       children: [
         SizedBox.shrink(),
         WordCard(
-            word:
-                language == 'english' ? wordData['english'] : wordData['hindi'],
-            language: 'english'),
-        WordCard(word: wordData['sindhi'], language: 'sindhi'),
+          word: globalLanguage == 'english'
+              ? wordData['english']
+              : wordData['hindi'],
+          language: globalLanguage,
+        ),
+        WordCard(
+          word: wordData['sindhi'],
+          language: 'sindhi',
+          media: wordData['media'],
+        ),
         ClipRRect(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20.0),
@@ -84,7 +94,8 @@ class LearnWord extends StatelessWidget {
                         context: context,
                         icon: Icons.arrow_back_ios,
                         onTap: () {
-                          tabController.index > 0
+                          print(index);
+                          tabController.index > 0 
                               ? tabController.animateTo(
                                   tabController.index - 1,
                                   curve: Curves.decelerate,

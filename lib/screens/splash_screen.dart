@@ -10,7 +10,6 @@ import 'package:connectivity/connectivity.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../models/topic.dart';
 import '../file_operations.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -19,19 +18,19 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  // Check internet connectivity
-  Future<ConnectivityResult> checkConnectivity() async {
-    return await (Connectivity().checkConnectivity());
-  }
-
   @override
   initState() {
     super.initState();
 
-    // Fetching data during splashscreen.
+    // Request for storage permission.
+    _permissionHandler();
+
     Timer(
-      Duration(seconds: 3),
+      Duration(seconds: 4),
       () async {
+        // Load local data as real-time data
+        loadLocalData();
+
         // Checking whether connected to internet or not
         checkConnectivity().then(
           (ConnectivityResult connectivityResult) async {
@@ -44,106 +43,31 @@ class _SplashScreenState extends State<SplashScreen> {
                   'Accept': 'application/json',
                 },
               );
-
-              var data = json.decode(response.body) as Map;
-              for (var i = 0; i < data['data'].length; i++) {
-                if (data['data'][i]['SubCategory']['Category']['name'] ==
-                    'vocabulary') {
-                  var index = vocabulary.indexWhere((element) =>
-                      element['subCategory'] ==
-                      data['data'][i]['SubCategory']['name']);
-
-                  // print(index.toString() +
-                  //     ' ' +
-                  //     data['data'][i]['SubCategory']['name'] +
-                  //     vocabulary.toString());
-                  // print(data['data'][i]['SubCategory']['name']);
-
-                  if (index == -1)
-                    vocabulary.add(
-                      {
-                        'subCategory': data['data'][i]['SubCategory']['name'],
-                        'data': [
-                          {
-                            'english': data['data'][i]['english'],
-                            'hindi': data['data'][i]['hindi'],
-                            'sindhi': data['data'][i]['sindhi'],
-                          },
-                        ],
-                      },
-                    );
-                  else
-                    vocabulary[index]['data'].add({
-                      'english': data['data'][i]['english'],
-                      'hindi': data['data'][i]['hindi'],
-                      'sindhi': data['data'][i]['sindhi'],
-                    });
-                } else if (data['data'][i]['SubCategory']['Category']['name'] ==
-                    'Conversation') {
-                  var index = conversation.indexWhere((element) =>
-                      element['subCategory'] ==
-                      data['data'][i]['SubCategory']['name']);
-
-                  if (index == -1)
-                    conversation.add(
-                      {
-                        'subCategory': data['data'][i]['SubCategory']['name'],
-                        'data': [
-                          {
-                            'english': data['data'][i]['english'],
-                            'hindi': data['data'][i]['hindi'],
-                            'sindhi': data['data'][i]['sindhi'],
-                          },
-                        ],
-                      },
-                    );
-                  else
-                    conversation[index]['data'].add({
-                      'english': data['data'][i]['english'],
-                      'hindi': data['data'][i]['hindi'],
-                      'sindhi': data['data'][i]['sindhi'],
-                    });
-                }
-              }
-
-              print('number of vocabulary categories: ' +
-                  vocabulary.length.toString());
-              print('number of conversation categories: ' +
-                  conversation.length.toString());
-
-              // Update the locally stored data
-              writeToFile(
-                content: {
-                  'vocabulary': vocabulary,
-                  'conversation': conversation,
-                },
-                fileName: 'learnData.json',
-              );
-              conversation.forEach((element) {
-                print(element['subCategory']);
-              });
-              createProgressFile();
+              // Sync local data with server.
+              syncWithServer(response);
             }
           },
         );
 
         // Checking whether the user had previously logged in. If yes, jump directly into the home screen.
-        getApplicationDocumentsDirectory().then((Directory dir) {
-          var path = dir.path + '/userData.json';
-          var jsonFile = File(path);
-          if (jsonFile.existsSync()) {
-            var localStorage = json.decode(jsonFile.readAsStringSync());
+        getApplicationDocumentsDirectory().then(
+          (Directory dir) {
+            var path = dir.path + '/userData.json';
+            var jsonFile = File(path);
+            if (jsonFile.existsSync()) {
+              var localStorage = json.decode(jsonFile.readAsStringSync());
 
-            if (localStorage['isLoggedIn'] == true)
-              Navigator.pushReplacementNamed(context, '/home');
-          }
-        });
-
+              if (localStorage['isLoggedIn'] == true)
+                Navigator.pushReplacementNamed(context, '/home');
+            }
+          },
+        );
         Navigator.pushReplacementNamed(context, '/login');
       },
     );
   }
 
+  // Request storage permission.
   _permissionHandler() async {
     Map<Permission, PermissionStatus> statuses = await [
       Permission.storage,
@@ -153,8 +77,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _permissionHandler();
-
     MediaQueryData mediaQuery = MediaQuery.of(context);
     final height = mediaQuery.size.height -
         mediaQuery.padding.top -
