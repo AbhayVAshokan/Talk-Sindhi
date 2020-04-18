@@ -10,6 +10,8 @@ import 'package:device_id/device_id.dart';
 import 'package:device_info/device_info.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:dropdownfield/dropdownfield.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 import '../realtime_data.dart';
 import '../widgets/login-register/submit_button.dart';
@@ -39,6 +41,92 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   ConnectivityResult connectivityResult;
   checkConnectivity() async {
     connectivityResult = await (Connectivity().checkConnectivity());
+  }
+
+  bool isLoggedIn = false;
+
+  void onLoginStatusChanged(bool isLoggedIn) {
+    setState(() {
+      this.isLoggedIn = isLoggedIn;
+    });
+  }
+
+  void initiateFacebookLogin() async {
+    var facebookLogin = FacebookLogin();
+    var facebookLoginResult =
+        await facebookLogin.logInWithReadPermissions(['email']);
+    switch (facebookLoginResult.status) {
+      case FacebookLoginStatus.error:
+        print("Error");
+        onLoginStatusChanged(false);
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        print("CancelledByUser");
+        onLoginStatusChanged(false);
+
+        break;
+      case FacebookLoginStatus.loggedIn:
+        print("LoggedIn");
+
+        var graphResponse = await http.get(
+            'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${facebookLoginResult.accessToken.token}');
+
+        var profile = json.decode(graphResponse.body);
+        print(profile.toString());
+
+        onLoginStatusChanged(true);
+        var response = await http.post(
+          Uri.encodeFull('http://204.48.26.50:8033/user/register'),
+          headers: {
+            'Accept': 'application/json',
+          },
+          body: {
+            'email': profile['email'],
+            'password': profile['id'],
+            'userName': (profile['first_name'] + profile['last_name'])
+                .split(' ')
+                .join(),
+            'firstName': profile['first_name'],
+            'lastName': profile['last_name'],
+            'deviceId': _deviceId,
+            'deviceToken': _deviceToken,
+            'deviceName': _deviceName,
+            'deviceType': _deviceType,
+          },
+        );
+
+        var jsonResponse = json.decode(response.body);
+
+        if (jsonResponse['status'] == true) {
+          print('DEBUG: User successfully registered.');
+
+          writeToFile(
+            fileName: 'userData.json',
+            content: {
+              'email': profile['email'],
+              'userName': (profile['first_name'] + profile['last_name'])
+                  .split(' ')
+                  .join(),
+              'firstName': profile['first_name'],
+              'lastname': profile['last_name'],
+              'language': 'english',
+              'isLoggedIn': true,
+            },
+          );
+
+          Navigator.pushReplacementNamed(context, '/home');
+        } else if (jsonResponse['message'] == "Email already registered")
+          Fluttertoast.showToast(
+            msg: "Email already registered",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black87,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+        break;
+    }
   }
 
   // Register new user using API.
@@ -145,9 +233,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             alignment: Alignment.center,
             children: <Widget>[
               Container(
-                margin: const EdgeInsets.symmetric(vertical: 37.5),
+                margin: const EdgeInsets.symmetric(vertical: 20),
                 width: screenRatio < 1 ? width * 0.75 : width * 0.9,
-                height: screenRatio < 1 ? height * 0.9 : height * 0.8,
+                height: screenRatio < 1 ? height * 0.9 : height,
                 child: Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -169,7 +257,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       .headline6
                                       .copyWith(
                                         color: Colors.red,
-                                        fontSize: constraints.maxHeight * 0.05,
+                                        fontSize: 30.0,
                                       ),
                                   children: [
                                     const TextSpan(
@@ -211,15 +299,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                     text: 'FACEBOOK',
                                     width: constraints.maxWidth * 0.4,
                                     color: Colors.blue,
-                                    onTap: () => Fluttertoast.showToast(
-                                      msg: "Feature coming soon",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.CENTER,
-                                      timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.black87,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0,
-                                    ),
+                                    onTap: () => initiateFacebookLogin(),
                                   ),
                                   Text(
                                     'Or',
@@ -248,7 +328,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                         print(
                                             'DEBUG: Form cannot be submitted due to form validation requirements.');
                                         return;
-                                      } else if (connectivityResult == ConnectivityResult.none)
+                                      } else if (!(connectivityResult ==
+                                              ConnectivityResult.wifi ||
+                                          connectivityResult ==
+                                              ConnectivityResult.mobile))
                                         Fluttertoast.showToast(
                                           msg: "No network connectivity",
                                           toastLength: Toast.LENGTH_SHORT,
@@ -320,7 +403,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   var _firstName = "";
   var _lastName = "";
   var _mobileNumber = '';
-  var _countryId = "--- select country ---";
+  var _countryId = "";
   var _cityId = "";
   var _deviceId = '';
   var _deviceToken = '';
@@ -333,6 +416,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       key: _registrationFormKey,
       child: Column(
         children: [
+          DropDownField(
+            value: _countryId,
+            itemsVisibleInDropdown: 3,
+            textStyle: const TextStyle(
+              fontWeight: FontWeight.normal,
+            ),
+            labelText: 'Select country',
+            labelStyle: TextStyle(
+              color: Theme.of(context).primaryColor,
+            ),
+            items: countries,
+            setter: (dynamic newValue) {
+              _countryId = newValue;
+            },
+          ),
+          const SizedBox(height: 5.0),
           inputTextFormField(
             context: context,
             labelText: 'Email Address',
@@ -341,7 +440,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             onChanged: (newValue) => _emailAddress = newValue,
             validation: (String email) {
               if (!RegExp(
-                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      r"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$")
                   .hasMatch(email)) {
                 return 'Enter valid email address';
               }
@@ -358,12 +457,35 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               _password = newValue;
             },
             validation: (String input) {
+              bool _checkNumber() {
+                int flag = 0;
+                for (var i = 0; i < input.length; i++) {
+                  if ("1234567890".contains(input[i])) flag = 1;
+                }
+                if (flag == 1)
+                  return true;
+                else
+                  return false;
+              }
+
+              bool _checkCharacter() {
+                int flag = 0;
+                for (var i = 0; i < input.length; i++) {
+                  if ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                      .contains(input[i])) flag = 1;
+                }
+                if (flag == 1)
+                  return true;
+                else
+                  return false;
+              }
+
               if (input.length < 8)
                 return "Must contain atleast 8 characters";
-              else if (!RegExp(
-                      r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$")
-                  .hasMatch(input))
-                return "Must contain atleast one number and  special character";
+              else if (!_checkNumber())
+                return "Must contain atleast one digit";
+              else if (!_checkCharacter())
+                return "Must contain atleast one character";
               else
                 return null;
             },
@@ -430,26 +552,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 return null;
             },
             keyboardType: TextInputType.phone,
-          ),
-          DropdownButton(
-            items: countries.map((String country) {
-              return DropdownMenuItem<String>(
-                value: country,
-                child: Text(
-                  country,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              );
-            }).toList(),
-            dropdownColor: Colors.amber[300],
-            value: _countryId,
-            onChanged: (selectedCountry) {
-              setState(() {
-                _countryId = selectedCountry;
-              });
-            },
           ),
           inputTextFormField(
             context: context,

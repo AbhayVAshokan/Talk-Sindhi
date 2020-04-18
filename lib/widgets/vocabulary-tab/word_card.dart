@@ -3,12 +3,10 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:talksindhi/file_operations.dart';
 
 class WordCard extends StatelessWidget {
   final String word;
@@ -24,23 +22,6 @@ class WordCard extends StatelessWidget {
   final AudioPlayer audioPlayer = AudioPlayer();
 
   // Play offline audio if available, else play online audio and download the audio for offline play.
-  playAudio(directoryPath) {
-    File audioFile = File('$directoryPath/$word.mp3');
-    if (audioFile.existsSync()) {
-      print('playing offline audio');
-      playLocalAudio('$directoryPath/$word.mp3');
-    } else {
-      print('playing online audio');
-      playOnlineAudio();
-      downloadFile(media, '$word.mp3');
-    }
-    print('in wordcard:$directoryPath/$word.mp3 ' + audioFile.existsSync().toString());
-  }
-
-  playOnlineAudio() async {
-    await audioPlayer.play(media);
-  }
-
   playLocalAudio(localPath) async {
     await audioPlayer.play(localPath, isLocal: true);
   }
@@ -71,14 +52,14 @@ class WordCard extends StatelessWidget {
                   horizontal: 30.0,
                   vertical: 50.0,
                 ),
-                child: FittedBox(
-                  child: SizedBox(
-                    width: constraints.maxWidth * 0.8,
+                child: SizedBox(
+                  width: constraints.maxWidth * 0.8,
+                  child: FittedBox(
                     child: Text(
                       word,
-                      maxLines: 1,
+                      maxLines: 2,
                       style: const TextStyle(
-                        fontSize: 30.0,
+                        fontSize: 40.0,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.0,
                       ),
@@ -127,7 +108,7 @@ class WordCard extends StatelessWidget {
                       fontSize: 16.0,
                     );
                   } else {
-                    playAudio(directoryPath);
+                    playLocalAudio('$directoryPath/$word.mp3');
                     // checkConnectivity().then(
                     //   (ConnectivityResult connectivityResult) {
                     //     if (!(connectivityResult == ConnectivityResult.mobile ||
@@ -152,8 +133,10 @@ class WordCard extends StatelessWidget {
                   foregroundColor: Colors.white,
                   backgroundImage: AssetImage(
                     (language == 'sindhi' && media != null)
-                        ? 'assets/images/speaker.png'
-                        : 'assets/images/study.jpg',
+                        ? 'assets/images/speaker_on.png'
+                        : (language == 'sindhi'
+                            ? 'assets/images/sound_off.png'
+                            : 'assets/images/book.png'),
                   ),
                   backgroundColor: const Color(0x00FFFFFF),
                 ),

@@ -6,7 +6,6 @@ List conversation = [];
 
 // List of all countries for drop down menu.
 List<String> countries = [
-  "--- select country ---",
   "India",
   "Pakistan",
   "United States",

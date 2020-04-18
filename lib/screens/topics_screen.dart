@@ -17,11 +17,8 @@ class TopicsScreen extends StatefulWidget {
 }
 
 class _TopicsScreenState extends State<TopicsScreen> {
-
   @override
   Widget build(BuildContext context) {
-   
-
     return SafeArea(
       child: DefaultTabController(
         length: 2,
@@ -32,9 +29,13 @@ class _TopicsScreenState extends State<TopicsScreen> {
                 context: context,
                 children: [
                   tabView(
-                      title: globalLanguage == 'english' ? 'Vocabulary' : 'शब्दावली'),
+                      title: globalLanguage == 'english'
+                          ? 'Vocabulary'
+                          : 'शब्दावली'),
                   tabView(
-                      title: globalLanguage == 'english' ? 'Conversation' : 'बातचीत'),
+                      title: globalLanguage == 'english'
+                          ? 'Conversation'
+                          : 'बातचीत'),
                 ],
               ),
               rebuildScreen: () {
@@ -45,19 +46,17 @@ class _TopicsScreenState extends State<TopicsScreen> {
             ),
             body: TabBarView(children: [
               VocabularyTab(
-                  language: globalLanguage,
-                  rebuildScreen: () {
-                    setState(() {
-                      print('rebuilding screen');
-                    });
-                  }),
+                rebuildScreen: () {
+                  setState(() {});
+                },
+                cardImageUrl: 'assets/images/vocabulary.jpg',
+              ),
               ConversationTab(
-                  language: globalLanguage,
-                  rebuildScreen: () {
-                    setState(() {
-                      print('rebuilding screen');
-                    });
-                  }),
+                rebuildScreen: () {
+                  setState(() {});
+                },
+                cardImageUrl: 'assets/images/conversation.jpg',
+              ),
             ]),
             bottomNavigationBar: myBottomNavbar(
               context: context,

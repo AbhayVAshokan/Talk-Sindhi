@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 import '../file_operations.dart';
 import '../widgets/login-register/submit_button.dart';
@@ -24,6 +25,44 @@ class _LoginScreenState extends State<LoginScreen> {
       fileName: 'userData.json',
       content: content,
     );
+  }
+
+  bool isLoggedIn = false;
+
+  void onLoginStatusChanged(bool isLoggedIn) {
+    setState(() {
+      this.isLoggedIn = isLoggedIn;
+    });
+  }
+
+  void initiateFacebookLogin() async {
+    var facebookLogin = FacebookLogin();
+    var facebookLoginResult =
+        await facebookLogin.logInWithReadPermissions(['email']);
+    switch (facebookLoginResult.status) {
+      case FacebookLoginStatus.error:
+        print("Error");
+        onLoginStatusChanged(false);
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        print("CancelledByUser");
+        onLoginStatusChanged(false);
+
+        break;
+      case FacebookLoginStatus.loggedIn:
+        print("LoggedIn");
+
+        var graphResponse = await http.get(
+            'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${facebookLoginResult.accessToken.token}');
+
+        var profile = json.decode(graphResponse.body);
+        print(profile.toString());
+
+        onLoginStatusChanged(true);
+        userLogin(
+            email: profile['email'], password: profile['id'], context: context);
+        break;
+    }
   }
 
   // Check whether connected to internet or not.
@@ -173,7 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       _emailAddress = newValue,
                                   validation: (String email) {
                                     if (!RegExp(
-                                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                            r"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$")
                                         .hasMatch(email)) {
                                       return 'Enter valid email address';
                                     }
@@ -216,15 +255,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 text: 'FACEBOOK',
                                 width: constraints.maxWidth * 0.4,
                                 color: Colors.blue,
-                                onTap: () => Fluttertoast.showToast(
-                                  msg: "Feature coming soon",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.CENTER,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor: Colors.black87,
-                                  textColor: Colors.white,
-                                  fontSize: 16.0,
-                                ),
+                                onTap: () => initiateFacebookLogin(),
                               ),
                               Text(
                                 'Or',

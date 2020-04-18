@@ -52,6 +52,7 @@ Future<ConnectivityResult> checkConnectivity() async {
   return await (Connectivity().checkConnectivity());
 }
 
+var directoryPath;
 // Sync local data with server data.
 syncWithServer(response) {
   var vocabularyData = [];
@@ -69,6 +70,12 @@ syncWithServer(response) {
       var media = apiResponse['data'][i]['media'] == null
           ? null
           : apiResponse['data'][i]['media']['url'];
+
+      // if media is not already downloaded, download so that it is available offline
+      if (media != null &&
+          !File('$directoryPath/${apiResponse['data'][i]['sindhi']}.mp3')
+              .existsSync())
+        downloadFile(media, apiResponse['data'][i]['sindhi'] + '.mp3');
 
       if (index == -1)
         vocabularyData.add(
@@ -150,6 +157,7 @@ syncWithServer(response) {
 loadLocalData() {
   getApplicationDocumentsDirectory().then(
     (Directory dir) {
+      directoryPath = dir.path;
       var progressFile = File(dir.path + '/progressData.json');
       if (progressFile.existsSync()) {
         var localData = json.decode(progressFile.readAsStringSync());

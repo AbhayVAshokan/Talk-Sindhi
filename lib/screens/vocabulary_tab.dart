@@ -4,12 +4,12 @@ import '../realtime_data.dart';
 import '../widgets/homescreen/topic_card.dart';
 
 class VocabularyTab extends StatelessWidget {
-  final String language;
   final Function rebuildScreen;
+  final String cardImageUrl;
 
   VocabularyTab({
-    this.language,
     @required this.rebuildScreen,
+    @required this.cardImageUrl,
   });
 
   @override
@@ -39,7 +39,7 @@ class VocabularyTab extends StatelessWidget {
                 },
               ),
               child: TopicCard(
-                imageUrl: 'assets/images/card_back.jpg',
+                imageUrl: cardImageUrl,
                 title: topic['subCategory'],
                 learnedWords: topic['learnedWords'].length,
                 totalWords: topic['totalWords'],

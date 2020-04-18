@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">talksindhi</string>
+    <string name="facebook_app_id">214399943190368</string>
+    <string name="fb_login_protocol_scheme">fb214399943190368</string>
+</resources>    
