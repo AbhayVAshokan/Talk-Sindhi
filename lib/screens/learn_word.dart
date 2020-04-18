@@ -10,7 +10,6 @@ class LearnWord extends StatelessWidget {
   final TabController tabController;
   final int currentWordCount;
   final int totalWordCount;
-  final String language;
   final index;
 
   LearnWord({
@@ -18,7 +17,6 @@ class LearnWord extends StatelessWidget {
     @required this.tabController,
     @required this.currentWordCount,
     @required this.totalWordCount,
-    this.language = 'english',
     this.index,
   });
 
@@ -48,7 +46,7 @@ class LearnWord extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('inside learn word with language: ' + language);
+    print('inside learn word with language: ' + globalLanguage);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

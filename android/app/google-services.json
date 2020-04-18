@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "265986400106",
+    "firebase_url": "https://talk-sindhi.firebaseio.com",
+    "project_id": "talk-sindhi",
+    "storage_bucket": "talk-sindhi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:265986400106:android:a3e9e07f10694781a58f13",
+        "android_client_info": {
+          "package_name": "com.example.talksindhi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "265986400106-8dl5ocq1pbq6rqvml0j4qeeiimdv51pu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.talksindhi",
+            "certificate_hash": "9b74fdfe522042900bffa28918afff8208ccfafd"
+          }
+        },
+        {
+          "client_id": "265986400106-ms0qat3ts8rj55q5f35nfbseihf30f6d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwmLWBTQXU0ZS9gTafLX0lbC5fKM97AUU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "265986400106-ms0qat3ts8rj55q5f35nfbseihf30f6d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

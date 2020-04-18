@@ -3,7 +3,6 @@
 import 'dart:io';
 import 'dart:convert';
 
-import '../file_operations.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_id/device_id.dart';
@@ -14,6 +13,7 @@ import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 import '../realtime_data.dart';
+import '../file_operations.dart';
 import '../widgets/login-register/submit_button.dart';
 import '../widgets/login-register/input_textformfield.dart';
 
