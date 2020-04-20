@@ -48,36 +48,34 @@ class WordCard extends StatelessWidget {
               margin: const EdgeInsets.symmetric(vertical: 35.0),
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.9,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 30.0,
-                  vertical: 50.0,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: word.length < 10 ? 20.0 : 60.0,
                 ),
-                child: SizedBox(
-                  width: constraints.maxWidth * 0.8,
-                  child: FittedBox(
-                    child: Text(
-                      word,
-                      maxLines: 2,
-                      style: const TextStyle(
-                        fontSize: 40.0,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.0,
-                      ),
-                      textDirection:
-                          language == 'english' || language == 'hindi'
-                              ? TextDirection.ltr
-                              : TextDirection.rtl,
-                      textAlign: TextAlign.start,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    word,
+                    maxLines: 2,
+                    style: TextStyle(
+                      fontSize: language == 'sindhi' ? 100.0 : 30.0,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.0,
                     ),
+                    textDirection: language == 'english' || language == 'hindi'
+                        ? TextDirection.ltr
+                        : TextDirection.rtl,
+                    textAlign: TextAlign.start,
                   ),
                 ),
               ),
             ),
             Container(
-              padding: const EdgeInsets.only(
+              padding: EdgeInsets.only(
                 left: 20.0,
                 right: 20.0,
-                top: 30.0,
+                top: language == 'sindhi' ? 50.0 : 40,
+                bottom: 0.0,
               ),
               child: const Text(
                 '---------------------------------------------------------------------------------------------------------------------------',
@@ -109,23 +107,6 @@ class WordCard extends StatelessWidget {
                     );
                   } else {
                     playLocalAudio('$directoryPath/$word.mp3');
-                    // checkConnectivity().then(
-                    //   (ConnectivityResult connectivityResult) {
-                    //     if (!(connectivityResult == ConnectivityResult.mobile ||
-                    //         connectivityResult == ConnectivityResult.wifi))
-                    //       Fluttertoast.showToast(
-                    //         msg: "Network not available",
-                    //         toastLength: Toast.LENGTH_SHORT,
-                    //         gravity: ToastGravity.BOTTOM,
-                    //         timeInSecForIosWeb: 1,
-                    //         backgroundColor: Colors.black87,
-                    //         textColor: Colors.white,
-                    //         fontSize: 16.0,
-                    //       );
-                    //     else {
-                    //     }
-                    //   },
-                    // );
                   }
                 },
                 child: CircleAvatar(

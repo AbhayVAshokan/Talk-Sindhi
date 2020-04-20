@@ -53,8 +53,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   void initiateFacebookLogin() async {
     var facebookLogin = FacebookLogin();
-    var facebookLoginResult =
-        await facebookLogin.logInWithReadPermissions(['email']);
+    var facebookLoginResult = await facebookLogin.logIn(['email']);
     switch (facebookLoginResult.status) {
       case FacebookLoginStatus.error:
         print("Error");
@@ -434,10 +433,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           const SizedBox(height: 5.0),
           inputTextFormField(
             context: context,
-            labelText: 'Email Address',
+            labelText: '*Email Address',
             data: _emailAddress,
             keyboardType: TextInputType.emailAddress,
             onChanged: (newValue) => _emailAddress = newValue,
+            prefixIcon: Icons.email,
             validation: (String email) {
               if (!RegExp(
                       r"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$")
@@ -449,9 +449,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           ),
           inputTextFormField(
             context: context,
-            labelText: 'Password',
+            labelText: '*Password',
             data: _password,
             obscureText: true,
+            prefixIcon: Icons.security,
             textInputAction: TextInputAction.next,
             onChanged: (newValue) {
               _password = newValue;
@@ -492,7 +493,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           ),
           inputTextFormField(
             context: context,
-            labelText: 'Confirm Password',
+            labelText: '*Confirm Password',
+            prefixIcon: Icons.security,
             data: _confirmPassword,
             obscureText: true,
             textInputAction: TextInputAction.next,
@@ -506,7 +508,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           ),
           inputTextFormField(
             context: context,
-            labelText: 'Username',
+            labelText: '*Username',
+            prefixIcon: Icons.person,
             data: _userName,
             textInputAction: TextInputAction.next,
             onChanged: (newValue) => _userName = newValue,
@@ -517,30 +520,40 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 return null;
             },
           ),
-          inputTextFormField(
-            context: context,
-            labelText: 'First Name',
-            data: _firstName,
-            textInputAction: TextInputAction.next,
-            onChanged: (newValue) => _firstName = newValue,
-            validation: (String input) {
-              if (_firstName.isEmpty)
-                return 'First name cannot be null';
-              else
-                return null;
-            },
-          ),
-          inputTextFormField(
-            context: context,
-            labelText: 'Last Name',
-            data: _lastName,
-            textInputAction: TextInputAction.next,
-            onChanged: (newValue) => _lastName = newValue,
-            validation: (String input) => null,
+          Row(
+            children: [
+              Expanded(
+                child: inputTextFormField(
+                  context: context,
+                  labelText: '*First Name',
+                  data: _firstName,
+                  textInputAction: TextInputAction.next,
+                  onChanged: (newValue) => _firstName = newValue,
+                  validation: (String input) {
+                    if (_firstName.isEmpty)
+                      return 'First name cannot be null';
+                    else
+                      return null;
+                  },
+                ),
+              ),
+              const SizedBox(width: 5.0),
+              Expanded(
+                child: inputTextFormField(
+                  context: context,
+                  labelText: 'Last Name',
+                  data: _lastName,
+                  textInputAction: TextInputAction.next,
+                  onChanged: (newValue) => _lastName = newValue,
+                  validation: (String input) => null,
+                ),
+              ),
+            ],
           ),
           inputTextFormField(
             context: context,
             labelText: 'Mobile Number',
+            prefixIcon: Icons.call,
             data: _mobileNumber,
             textInputAction: TextInputAction.next,
             onChanged: (String newValue) => _mobileNumber = newValue,
@@ -556,6 +569,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           inputTextFormField(
             context: context,
             labelText: 'City',
+            prefixIcon: Icons.location_city,
             data: _cityId,
             textInputAction: TextInputAction.next,
             onChanged: (newValue) => _cityId = newValue,

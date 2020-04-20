@@ -25,8 +25,23 @@ class _SplashScreenState extends State<SplashScreen> {
     // Request for storage permission.
     _permissionHandler();
 
+    // Checking whether the user had previously logged in. If yes, jump directly into the home screen.
+    getApplicationDocumentsDirectory().then(
+      (Directory dir) {
+        var path = dir.path + '/userData.json';
+        var jsonFile = File(path);
+        if (jsonFile.existsSync()) {
+          var localStorage = json.decode(jsonFile.readAsStringSync());
+
+          if (localStorage['isLoggedIn'] == true)
+            Navigator.pushReplacementNamed(context, '/home');
+        } else
+          Navigator.pushReplacementNamed(context, '/login');
+      },
+    );
+
     Timer(
-      Duration(seconds: 4),
+      Duration(seconds: 5),
       () async {
         // Load local data as real-time data
         loadLocalData();
@@ -48,21 +63,6 @@ class _SplashScreenState extends State<SplashScreen> {
             }
           },
         );
-
-        // Checking whether the user had previously logged in. If yes, jump directly into the home screen.
-        getApplicationDocumentsDirectory().then(
-          (Directory dir) {
-            var path = dir.path + '/userData.json';
-            var jsonFile = File(path);
-            if (jsonFile.existsSync()) {
-              var localStorage = json.decode(jsonFile.readAsStringSync());
-
-              if (localStorage['isLoggedIn'] == true)
-                Navigator.pushReplacementNamed(context, '/home');
-            }
-          },
-        );
-        Navigator.pushReplacementNamed(context, '/login');
       },
     );
   }

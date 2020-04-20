@@ -37,8 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void initiateFacebookLogin() async {
     var facebookLogin = FacebookLogin();
-    var facebookLoginResult =
-        await facebookLogin.logInWithReadPermissions(['email']);
+    var facebookLoginResult = await facebookLogin.logIn(['email']);
     switch (facebookLoginResult.status) {
       case FacebookLoginStatus.error:
         print("Error");
@@ -205,6 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 inputTextFormField(
                                   context: context,
                                   labelText: 'Email',
+                                  prefixIcon: Icons.mail,
                                   data: _emailAddress,
                                   keyboardType: TextInputType.emailAddress,
                                   onChanged: (newValue) =>
@@ -220,6 +220,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 inputTextFormField(
                                   context: context,
+                                  prefixIcon: Icons.security,
                                   labelText: 'Password',
                                   data: _password,
                                   obscureText: true,
@@ -235,6 +236,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               ],
                             ),
                           ),
+                          // FORGOT PASSWORD
+                          
                           // GestureDetector(
                           //   onTap: () =>
                           //       Navigator.pushNamed(context, '/forgotPassword'),

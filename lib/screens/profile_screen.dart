@@ -21,10 +21,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
             });
           },
         ),
-        body: Container(),
+        body: Center(
+          child: Text('Profile Screen'),
+        ),
         bottomNavigationBar: myBottomNavbar(
           context: context,
-          currentIndex: 2,
+          currentIndex: 3,
         ),
       ),
     );

@@ -1,11 +1,11 @@
 // Topics Screen: Learn new vocabulary and improve conversation skills.
 
 import 'package:flutter/material.dart';
-import 'package:talksindhi/file_operations.dart';
 
 import '../my_appbar.dart';
 import '../realtime_data.dart';
 import './vocabulary_tab.dart';
+import '../file_operations.dart';
 import './conversation_tab.dart';
 import '../my_bottom_navbar.dart';
 
@@ -21,37 +21,41 @@ class _TopicsScreenState extends State<TopicsScreen> {
   @override
   Widget build(BuildContext context) {
     // Updating local storage
-    writeToFile(content: {
-      'vocabulary': vocabulary,
-      'conversation': conversation,
-    }, fileName: '/progressData.json');
+    writeToFile(
+      content: {
+        'vocabulary': vocabulary,
+        'conversation': conversation,
+      },
+      fileName: '/progressData.json',
+    );
 
     return SafeArea(
       child: DefaultTabController(
         length: 2,
         child: Scaffold(
-            appBar: myAppBar(
+          appBar: myAppBar(
+            context: context,
+            tabBar: tabBar(
               context: context,
-              tabBar: tabBar(
-                context: context,
-                children: [
-                  tabView(
-                      title: globalLanguage == 'english'
-                          ? 'Vocabulary'
-                          : 'शब्दावली'),
-                  tabView(
-                      title: globalLanguage == 'english'
-                          ? 'Conversation'
-                          : 'बातचीत'),
-                ],
-              ),
-              rebuildScreen: () {
-                setState(() {
-                  print('rebuilding screen');
-                });
-              },
+              children: [
+                tabView(
+                    title: globalLanguage == 'english'
+                        ? 'Vocabulary'
+                        : 'शब्दावली'),
+                tabView(
+                    title: globalLanguage == 'english'
+                        ? 'Conversation'
+                        : 'बातचीत'),
+              ],
             ),
-            body: TabBarView(children: [
+            rebuildScreen: () {
+              setState(() {
+                print('rebuilding screen');
+              });
+            },
+          ),
+          body: TabBarView(
+            children: [
               VocabularyTab(
                 rebuildScreen: () {
                   setState(() {});
@@ -64,11 +68,13 @@ class _TopicsScreenState extends State<TopicsScreen> {
                 },
                 cardImageUrl: 'assets/images/conversation.jpg',
               ),
-            ]),
-            bottomNavigationBar: myBottomNavbar(
-              context: context,
-              currentIndex: 1,
-            )),
+            ],
+          ),
+          bottomNavigationBar: myBottomNavbar(
+            context: context,
+            currentIndex: 1,
+          ),
+        ),
       ),
     );
   }

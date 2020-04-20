@@ -5,12 +5,12 @@ import '../my_bottom_navbar.dart';
 
 import '../realtime_data.dart';
 
-class SettingsScreen extends StatefulWidget {
+class QuizScreen extends StatefulWidget {
   @override
-  _SettingsScreenState createState() => _SettingsScreenState();
+  _QuizScreenState createState() => _QuizScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
     print(vocabulary);
@@ -26,10 +26,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
             );
           },
         ),
-        body: Container(),
+        body: Center(
+          child: Text('Quiz Screen'),
+        ),
         bottomNavigationBar: myBottomNavbar(
           context: context,
-          currentIndex: 3,
+          currentIndex: 2,
         ),
       ),
     );

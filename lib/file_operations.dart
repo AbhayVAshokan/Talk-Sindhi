@@ -142,15 +142,8 @@ syncWithServer(response) {
   // Update progress data
   updateLocalData(vocabularyData, conversationData);
 
-  Fluttertoast.showToast(
-    msg: "Finished syncing with server",
-    toastLength: Toast.LENGTH_SHORT,
-    gravity: ToastGravity.BOTTOM,
-    timeInSecForIosWeb: 1,
-    backgroundColor: Colors.black87,
-    textColor: Colors.white,
-    fontSize: 16.0,
-  );
+  // Build searchBar list
+  createSearchList();
 }
 
 // Loading local data as real-time data.
@@ -168,6 +161,7 @@ loadLocalData() {
             conversation = localData['conversation'];
         }
       }
+      createSearchList();
     },
   );
 }
@@ -263,10 +257,60 @@ updateLocalData(vocabularyData, conversationData) {
           };
         }
       }
+
+      // Sorting data
+      // 1. vocabulary
+      for (var i = 0; i < progressFileData['vocabulary'].length; i++) {
+        (progressFileData['vocabulary'][i]['data']
+                as List<Map<String, dynamic>>)
+            .sort(
+          (word1, word2) => word1['english'].compareTo(
+            word2['english'],
+          ),
+        );
+      }
+      for (var i = 0; i < progressFileData['vocabulary'].length; i++) {
+        for (var j = i + 1; j < progressFileData['vocabulary'].length; j++) {
+          if (progressFileData['vocabulary'][i]['subCategory']
+                  .compareTo(progressFileData['vocabulary'][j]['subCategory']) >
+              0) {
+            var temp = progressFileData['vocabulary'][j];
+            progressFileData['vocabulary'][j] =
+                progressFileData['vocabulary'][i];
+            progressFileData['vocabulary'][i] = temp;
+          }
+        }
+      }
+
+      // 2. conversation
+
+      for (var i = 0; i < progressFileData['conversation'].length; i++) {
+        for (var j = i + 1; j < progressFileData['conversation'].length; j++) {
+          if (progressFileData['conversation'][i]['subCategory'].compareTo(
+                  progressFileData['conversation'][j]['subCategory']) >
+              0) {
+            var temp = progressFileData['conversation'][j];
+            progressFileData['conversation'][j] =
+                progressFileData['conversation'][i];
+            progressFileData['conversation'][i] = temp;
+          }
+        }
+      }
+
       writeToFile(content: progressFileData, fileName: '/progressData.json');
       vocabulary = progressFileData['vocabulary'];
       conversation = progressFileData['conversation'];
     },
+  );
+
+  Fluttertoast.showToast(
+    msg: "Finished syncing with server",
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.BOTTOM,
+    timeInSecForIosWeb: 1,
+    backgroundColor: Colors.black87,
+    textColor: Colors.white,
+    fontSize: 16.0,
   );
 }
 
@@ -282,4 +326,33 @@ downloadFile(String url, String fileName) async {
       print('downloaded file: ${file.path}' + file.existsSync().toString());
     },
   );
+}
+
+// Creating searchList for the searchBar
+createSearchList() {
+  List<Map<String, dynamic>> placeholder = [];
+  for (var i = 0; i < vocabulary.length; i++) {
+    for (var j = 0; j < vocabulary[i]['data'].length; j++) {
+      placeholder.add({
+        'category': 'vocabulary',
+        'subCategory': vocabulary[i],
+        'subCategoryIndex': i,
+        'rebuildScreen': () {},
+        'initialIndex': j,
+      });
+    }
+  }
+
+  for (var i = 0; i < conversation.length; i++) {
+    for (var j = 0; j < conversation[i]['data'].length; j++) {
+      placeholder.add({
+        'category': 'conversation',
+        'subCategory': conversation[i],
+        'subCategoryIndex': i,
+        'rebuildScreen': () {},
+        'initialIndex': j,
+      });
+    }
+  }
+  searchItems = placeholder;
 }

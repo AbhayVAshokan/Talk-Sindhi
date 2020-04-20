@@ -156,17 +156,22 @@ AppBar myAppBar({
   @required BuildContext context,
   @required Function rebuildScreen,
   backButton = false,
+  elevation = 5.0,
+  backgroundColor = Colors.white,
   TabBar tabBar,
 }) {
   return AppBar(
-    backgroundColor: Colors.white,
-    elevation: 5,
+    backgroundColor: backgroundColor,
+    elevation: elevation,
     leading: backButton == true
         ? IconButton(
-            icon: Icon(Icons.arrow_back_ios),
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Theme.of(context).primaryColor,
+            ),
             onPressed: () {
               rebuildScreen();
-              Navigator.pop(context);
+              Navigator.of(context).popUntil((route) => route.isFirst);
             },
           )
         : null,
@@ -185,9 +190,16 @@ AppBar myAppBar({
         onPressed: () => shareApp(),
       ),
       IconButton(
-        icon: Icon(Icons.search),
+        icon: Icon(
+          Icons.search,
+          size: 30.0,
+          color: Theme.of(context).primaryColor,
+        ),
         color: Theme.of(context).primaryColor,
-        onPressed: () {},
+        onPressed: () {
+          rebuildScreen();
+          Navigator.pushNamed(context, '/search');
+        },
       ),
       IconButton(
         icon: Icon(Icons.language),

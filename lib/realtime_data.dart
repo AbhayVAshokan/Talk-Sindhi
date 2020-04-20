@@ -3,6 +3,7 @@ String globalLanguage = 'english';
 // Contains list of all words/conversations classified into various subcategories.
 List vocabulary = [];
 List conversation = [];
+List<Map<String, dynamic>> searchItems = [];
 
 // List of all countries for drop down menu.
 List<String> countries = [

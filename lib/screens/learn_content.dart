@@ -16,7 +16,6 @@ class LearnContent extends StatefulWidget {
 
 class _LearnContentState extends State<LearnContent>
     with SingleTickerProviderStateMixin {
-
   @override
   void initState() {
     super.initState();
@@ -25,13 +24,18 @@ class _LearnContentState extends State<LearnContent>
   @override
   Widget build(BuildContext context) {
     final category = (widget.arguments as Map<String, dynamic>)['category'];
-    final subCategory = (widget.arguments as Map<String, dynamic>)['subCategory'];
-    final subCategoryIndex = (widget.arguments as Map<String, dynamic>)['subCategoryIndex'];
+    final subCategory =
+        (widget.arguments as Map<String, dynamic>)['subCategory'];
+    final subCategoryIndex =
+        (widget.arguments as Map<String, dynamic>)['subCategoryIndex'];
     final rebuildScreen =
         (widget.arguments as Map<String, dynamic>)['rebuildScreen'];
+    int initialIndex =
+        (widget.arguments as Map<String, dynamic>)['initialIndex'];
 
     return SafeArea(
       child: DefaultTabController(
+        initialIndex: initialIndex,
         length: subCategory['data'].length,
         child: Scaffold(
           backgroundColor: Theme.of(context).backgroundColor,
@@ -57,7 +61,6 @@ class _LearnContentState extends State<LearnContent>
                 LearnWord(
                   category: category,
                   subCategoryIndex: subCategoryIndex,
-                  dataIndex: i,
                   wordData: subCategory['data'][i],
                   totalWordCount: subCategory['totalWords'],
                 )

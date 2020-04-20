@@ -38,6 +38,7 @@ class ConversationTab extends StatelessWidget {
                   'subCategory': subCategory,
                   'subCategoryIndex': index,
                   'rebuildScreen': rebuildScreen,
+                  'initialIndex': 0,
                 },
               ),
               child: TopicCard(

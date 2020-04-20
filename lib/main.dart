@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import './screens/home_screen.dart';
+import './screens/quiz_screen.dart';
 import './screens/login_screen.dart';
+import './screens/search_screen.dart';
 import './screens/topics_screen.dart';
 import './screens/learn_content.dart';
 import './screens/splash_screen.dart';
 import './screens/profile_screen.dart';
-import './screens/settings_screen.dart';
 import './screens/forgot_password.dart';
 import './screens/registration_screen.dart';
 
@@ -51,20 +52,22 @@ class TalkSindhi extends StatelessWidget {
         iconTheme: const IconThemeData(
           size: 40.0,
         ),
+        cursorColor: Colors.orange,
       ),
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
         '/': (context) => SplashScreen(),
         '/home': (context) => HomeScreen(),
+        '/quiz': (context) => QuizScreen(),
         '/login': (context) => LoginScreen(),
         '/topics': (context) => TopicsScreen(),
+        '/search': (context) => SearchScreen(),
         '/profile': (context) => ProfileScreen(),
-        '/settings': (context) => SettingsScreen(),
         '/register': (context) => RegistrationScreen(),
+        '/forgotPassword': (context) => ForgotPassword(),
         '/learnContent': (context) =>
             LearnContent(ModalRoute.of(context).settings.arguments),
-        '/forgotPassword': (context) => ForgotPassword(),
       },
     );
   }

@@ -46,7 +46,6 @@ Widget myBottomNavbar({
       showUnselectedLabels: false,
       iconSize: 28.0,
       backgroundColor: Colors.white,
-      
       items: [
         _myBottomNavbarItem(
           context: context,
@@ -68,22 +67,23 @@ Widget myBottomNavbar({
         ),
         _myBottomNavbarItem(
           context: context,
+          activeIcon: Icons.show_chart,
+          inactiveIcon: Icons.show_chart,
+          screen: '/quiz',
+          title: 'Quiz',
+          iconSize: 35.0,
+          currentIndex: currentIndex,
+          itemIndex: 2,
+        ),
+        _myBottomNavbarItem(
+          context: context,
           activeIcon: Icons.person,
           inactiveIcon: Icons.person_outline,
           screen: '/profile',
           title: 'Profile',
           currentIndex: currentIndex,
-          itemIndex: 2,
-          iconSize: 35.0,
-        ),
-        _myBottomNavbarItem(
-          context: context,
-          activeIcon: CustomIcons.wrench,
-          inactiveIcon: CustomIcons.wrench_outline,
-          screen: '/settings',
-          title: 'Settings',
-          currentIndex: currentIndex,
           itemIndex: 3,
+          iconSize: 35.0,
         ),
       ],
     ),
