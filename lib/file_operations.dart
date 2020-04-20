@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:connectivity/connectivity.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 
 import './realtime_data.dart';
@@ -161,6 +160,12 @@ loadLocalData() {
             conversation = localData['conversation'];
         }
       }
+
+      var personalDataFile = File(dir.path + '/userData.json');
+      if (personalDataFile.existsSync()) {
+        userData = json.decode(personalDataFile.readAsStringSync());
+      }
+
       createSearchList();
     },
   );
@@ -302,16 +307,6 @@ updateLocalData(vocabularyData, conversationData) {
       conversation = progressFileData['conversation'];
     },
   );
-
-  Fluttertoast.showToast(
-    msg: "Finished syncing with server",
-    toastLength: Toast.LENGTH_SHORT,
-    gravity: ToastGravity.BOTTOM,
-    timeInSecForIosWeb: 1,
-    backgroundColor: Colors.black87,
-    textColor: Colors.white,
-    fontSize: 16.0,
-  );
 }
 
 // Downloading files from server
@@ -333,26 +328,36 @@ createSearchList() {
   List<Map<String, dynamic>> placeholder = [];
   for (var i = 0; i < vocabulary.length; i++) {
     for (var j = 0; j < vocabulary[i]['data'].length; j++) {
-      placeholder.add({
-        'category': 'vocabulary',
-        'subCategory': vocabulary[i],
-        'subCategoryIndex': i,
-        'rebuildScreen': () {},
-        'initialIndex': j,
-      });
+      placeholder.add(
+        {
+          'category': 'vocabulary',
+          'subCategory': vocabulary[i],
+          'subCategoryIndex': i,
+          'rebuildScreen': () {},
+          'initialIndex': j,
+        },
+      );
     }
+    // track total progress for profile screen
+    wordsLearned[0] += vocabulary[i]['learnedWords'].length;
+    totalWords[0] += vocabulary[i]['totalWords'];
   }
 
   for (var i = 0; i < conversation.length; i++) {
     for (var j = 0; j < conversation[i]['data'].length; j++) {
-      placeholder.add({
-        'category': 'conversation',
-        'subCategory': conversation[i],
-        'subCategoryIndex': i,
-        'rebuildScreen': () {},
-        'initialIndex': j,
-      });
+      placeholder.add(
+        {
+          'category': 'conversation',
+          'subCategory': conversation[i],
+          'subCategoryIndex': i,
+          'rebuildScreen': () {},
+          'initialIndex': j,
+        },
+      );
     }
+    // track total progress for profile screen.
+    wordsLearned[1] += conversation[i]['learnedWords'].length;
+    totalWords[1] += conversation[i]['totalWords'];
   }
   searchItems = placeholder;
 }

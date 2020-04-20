@@ -29,7 +29,8 @@ class ConversationTab extends StatelessWidget {
           itemBuilder: (context, index) {
             final subCategory = conversation[index];
 
-            return GestureDetector(
+            return InkWell(
+              splashColor: Colors.orange,
               onTap: () => Navigator.pushNamed(
                 context,
                 '/learnContent',

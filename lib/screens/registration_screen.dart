@@ -110,8 +110,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               'lastname': profile['last_name'],
               'language': 'english',
               'isLoggedIn': true,
+              'league': 'bronze',
+              'score': 0,
             },
           );
+
+          userData = {
+            'email': profile['email'],
+            'userName': (profile['first_name'] + profile['last_name'])
+                .split(' ')
+                .join(),
+            'firstName': profile['first_name'],
+            'lastname': profile['last_name'],
+            'language': 'english',
+            'isLoggedIn': true,
+            'league': 'bronze',
+            'score': 0,
+          };
 
           Navigator.pushReplacementNamed(context, '/home');
         } else if (jsonResponse['message'] == "Email already registered")
@@ -168,8 +183,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           'mobileNumber': _mobileNumber,
           'language': 'english',
           'isLoggedIn': true,
+          'league': 'bronze',
+          'score': 0,
         },
       );
+
+      userData = {
+        'email': _emailAddress,
+        'userName': _userName,
+        'firstName': _firstName,
+        'lastname': _lastName,
+        'mobileNumber': _mobileNumber,
+        'language': 'english',
+        'isLoggedIn': true,
+        'league': 'bronze',
+        'score': 0,
+      };
 
       Navigator.pushReplacementNamed(context, '/home');
     } else if (jsonResponse['message'] == "Email already registered")

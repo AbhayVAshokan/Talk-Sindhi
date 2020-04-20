@@ -4,6 +4,11 @@ String globalLanguage = 'english';
 List vocabulary = [];
 List conversation = [];
 List<Map<String, dynamic>> searchItems = [];
+Map<String, dynamic> userData;
+
+// progress data for profile
+List<int> wordsLearned = [0, 0];
+List<int> totalWords = [0, 0];
 
 // List of all countries for drop down menu.
 List<String> countries = [

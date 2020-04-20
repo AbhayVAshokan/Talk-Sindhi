@@ -12,7 +12,8 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget searchItem({BuildContext context, element}) {
     var category = element['category'];
 
-    return GestureDetector(
+    return InkWell(
+      splashColor: Colors.orange,
       onTap: () => Navigator.pushReplacementNamed(
         context,
         '/learnContent',
@@ -37,7 +38,11 @@ class _SearchScreenState extends State<SearchScreen> {
                   Icons.people,
                   color: Colors.blue[200],
                 ),
-                trailing:  Icon(Icons.search, size: 30.0, color: Colors.orange[200],),
+          trailing: Icon(
+            Icons.search,
+            size: 30.0,
+            color: Colors.orange[200],
+          ),
           title: category == 'vocabulary'
               ? Text(
                   vocabulary[element['subCategoryIndex']]['data']
@@ -70,7 +75,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('rebuilding search screen');
     return SafeArea(
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
@@ -78,7 +82,11 @@ class _SearchScreenState extends State<SearchScreen> {
           context: context,
           elevation: 0.0,
           backgroundColor: Colors.orange[50],
-          rebuildScreen: () {},
+          rebuildScreen: () {
+            setState(() {
+              print('rebuild screen');
+            });
+          },
           backButton: true,
         ),
         body: Column(
@@ -110,7 +118,9 @@ class _SearchScreenState extends State<SearchScreen> {
                         letterSpacing: 0.75,
                       ),
                       decoration: InputDecoration(
-                        hintText: 'Search and learn',
+                        hintText: globalLanguage == 'english'
+                            ? 'Search and learn'
+                            : 'खोजो और सीखो',
                         hintStyle: const TextStyle(
                             fontSize: 18.0, color: Colors.blueGrey),
                         enabledBorder: UnderlineInputBorder(
@@ -168,10 +178,12 @@ class _SearchScreenState extends State<SearchScreen> {
                           'assets/images/unhappy-face.png',
                           width: MediaQuery.of(context).size.width * 0.2,
                         ),
-                        const Padding(
+                        Padding(
                           padding: const EdgeInsets.all(20.0),
-                          child: const Text(
-                            'Sorry, we could not find what you were looking for',
+                          child: Text(
+                            globalLanguage == 'english'
+                                ? 'Sorry, we could not find what you were looking for'
+                                : 'क्षमा करें, हमें वह नहीं मिल रहा है जिसकी आपको तलाश है',
                             maxLines: 3,
                             textAlign: TextAlign.center,
                             style: const TextStyle(

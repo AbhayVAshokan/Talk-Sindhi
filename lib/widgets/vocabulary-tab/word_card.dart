@@ -77,14 +77,16 @@ class WordCard extends StatelessWidget {
                 top: language == 'sindhi' ? 50.0 : 40,
                 bottom: 0.0,
               ),
-              child: const Text(
-                '---------------------------------------------------------------------------------------------------------------------------',
-                maxLines: 1,
-                overflow: TextOverflow.clip,
-                style: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 30.0,
-                  fontWeight: FontWeight.w200,
+              child: const FittedBox(
+                child: const Text(
+                  '---------------------------------------------------------------------------------------------------------------------------',
+                  maxLines: 1,
+                  overflow: TextOverflow.clip,
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.w200,
+                  ),
                 ),
               ),
             ),

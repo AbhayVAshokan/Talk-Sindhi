@@ -10,6 +10,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../realtime_data.dart';
 import '../file_operations.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -25,42 +26,42 @@ class _SplashScreenState extends State<SplashScreen> {
     // Request for storage permission.
     _permissionHandler();
 
-    // Checking whether the user had previously logged in. If yes, jump directly into the home screen.
-    getApplicationDocumentsDirectory().then(
-      (Directory dir) {
-        var path = dir.path + '/userData.json';
-        var jsonFile = File(path);
-        if (jsonFile.existsSync()) {
-          var localStorage = json.decode(jsonFile.readAsStringSync());
+    // Load local data as real-time data
+    loadLocalData();
 
-          if (localStorage['isLoggedIn'] == true)
-            Navigator.pushReplacementNamed(context, '/home');
-        } else
-          Navigator.pushReplacementNamed(context, '/login');
+    // Checking whether connected to internet or not
+    checkConnectivity().then(
+      (ConnectivityResult connectivityResult) async {
+        if (connectivityResult == ConnectivityResult.wifi ||
+            connectivityResult == ConnectivityResult.mobile) {
+          // If internet connection is available update the local data from the server.
+          var response = await http.post(
+            Uri.encodeFull('http://204.48.26.50:8033/data/get'),
+            headers: {
+              'Accept': 'application/json',
+            },
+          );
+          // Sync local data with server.
+          syncWithServer(response);
+        }
       },
     );
 
     Timer(
       Duration(seconds: 5),
       () async {
-        // Load local data as real-time data
-        loadLocalData();
-
-        // Checking whether connected to internet or not
-        checkConnectivity().then(
-          (ConnectivityResult connectivityResult) async {
-            if (connectivityResult == ConnectivityResult.wifi ||
-                connectivityResult == ConnectivityResult.mobile) {
-              // If internet connection is available update the local data from the server.
-              var response = await http.post(
-                Uri.encodeFull('http://204.48.26.50:8033/data/get'),
-                headers: {
-                  'Accept': 'application/json',
-                },
-              );
-              // Sync local data with server.
-              syncWithServer(response);
-            }
+        // Checking whether the user had previously logged in. If yes, jump directly into the home screen.
+        getApplicationDocumentsDirectory().then(
+          (Directory dir) {
+            var path = dir.path + '/userData.json';
+            var jsonFile = File(path);
+            if (jsonFile.existsSync()) {
+              var localStorage = json.decode(jsonFile.readAsStringSync());
+              userData = localStorage;
+              if (localStorage['isLoggedIn'] == true)
+                Navigator.pushReplacementNamed(context, '/home');
+            } else
+              Navigator.pushReplacementNamed(context, '/login');
           },
         );
       },

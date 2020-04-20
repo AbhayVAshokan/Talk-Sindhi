@@ -57,6 +57,7 @@ class LearnWord extends StatelessWidget {
           .contains(wordData['english'])) {
         conversation[subCategoryIndex]['learnedWords'].add(wordData['english']);
         completed = false;
+        wordsLearned[1] += 1;
       }
     }
 

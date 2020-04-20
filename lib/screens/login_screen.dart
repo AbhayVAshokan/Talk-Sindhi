@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
+import '../realtime_data.dart';
 import '../file_operations.dart';
 import '../widgets/login-register/submit_button.dart';
 import '../widgets/login-register/input_textformfield.dart';
@@ -97,15 +98,29 @@ class _LoginScreenState extends State<LoginScreen> {
     if (jsonFile['status'] == true) {
       writeToFileAsynchronous(
         content: {
-          'email': _emailAddress,
+          'email': jsonFile['email'],
           'userName': jsonFile['userName'],
           'firstName': jsonFile['firstName'],
           'lastName': jsonFile['lastName'],
           'mobileNumber': jsonFile['mobileNumber'],
           'language': 'english',
           'isLoggedIn': true,
+          'league': 'bronze',
+          'score': 0,
         },
+        
       );
+      userData = {
+          'email': jsonFile['email'],
+          'userName': jsonFile['userName'],
+          'firstName': jsonFile['firstName'],
+          'lastName': jsonFile['lastName'],
+          'mobileNumber': jsonFile['mobileNumber'],
+          'language': 'english',
+          'isLoggedIn': true,
+          'league': 'bronze',
+          'score': 0,
+        };
 
       Navigator.pushReplacementNamed(context, '/home');
     } else if (jsonFile['message'] == 'email not found')

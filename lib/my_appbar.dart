@@ -119,9 +119,9 @@ Widget tabView({String title}) {
     child: Tab(
       child: Text(
         title,
-        style: const TextStyle(
+        style: TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: 15.0,
+          fontSize: globalLanguage == 'english' ? 15.0 : 18.0,
         ),
       ),
     ),
@@ -159,6 +159,7 @@ AppBar myAppBar({
   elevation = 5.0,
   backgroundColor = Colors.white,
   TabBar tabBar,
+  iconColor,
 }) {
   return AppBar(
     backgroundColor: backgroundColor,
@@ -167,7 +168,9 @@ AppBar myAppBar({
         ? IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
-              color: Theme.of(context).primaryColor,
+              color: iconColor == null
+                  ? Theme.of(context).primaryColor
+                  : iconColor,
             ),
             onPressed: () {
               rebuildScreen();
@@ -181,19 +184,21 @@ AppBar myAppBar({
     ),
     title: Text(
       "Talk Sindhi",
-      style: Theme.of(context).textTheme.headline6.copyWith(letterSpacing: 1.0),
+      style: Theme.of(context).textTheme.headline6.copyWith(
+          letterSpacing: 1.0,
+          color: iconColor == null ? Colors.black : iconColor),
     ),
     actions: <Widget>[
       IconButton(
         icon: Icon(Icons.share),
-        color: Theme.of(context).primaryColor,
+        color: iconColor == null ? Theme.of(context).primaryColor : iconColor,
         onPressed: () => shareApp(),
       ),
       IconButton(
         icon: Icon(
           Icons.search,
           size: 30.0,
-          color: Theme.of(context).primaryColor,
+          color: iconColor == null ? Theme.of(context).primaryColor : iconColor,
         ),
         color: Theme.of(context).primaryColor,
         onPressed: () {
@@ -203,7 +208,7 @@ AppBar myAppBar({
       ),
       IconButton(
         icon: Icon(Icons.language),
-        color: Theme.of(context).primaryColor,
+        color: iconColor == null ? Theme.of(context).primaryColor : iconColor,
         onPressed: () => languageToggle(
           rebuildScreen: () => rebuildScreen(),
           context: context,

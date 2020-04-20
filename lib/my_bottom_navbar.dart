@@ -67,8 +67,8 @@ Widget myBottomNavbar({
         ),
         _myBottomNavbarItem(
           context: context,
-          activeIcon: Icons.show_chart,
-          inactiveIcon: Icons.show_chart,
+          activeIcon: Icons.lightbulb_outline,
+          inactiveIcon: Icons.lightbulb_outline,
           screen: '/quiz',
           title: 'Quiz',
           iconSize: 35.0,

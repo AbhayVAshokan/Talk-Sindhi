@@ -19,7 +19,8 @@ class AppCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
+      splashColor: Colors.orange,
       onTap: this.subtitle == "Available on" ? () => onTap() : () {},
       child: Padding(
         padding: const EdgeInsets.only(
