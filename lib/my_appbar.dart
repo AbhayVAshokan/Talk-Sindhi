@@ -2,8 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
-import 'package:talksindhi/file_operations.dart';
-import 'package:talksindhi/realtime_data.dart';
+
+import './file_operations.dart';
+import './realtime_data.dart';
+import './widgets/quiz/points_bar.dart';
 
 // Language toggle dialog box.
 languageToggle({
@@ -160,6 +162,7 @@ AppBar myAppBar({
   backgroundColor = Colors.white,
   TabBar tabBar,
   iconColor,
+  pointsBar = false,
 }) {
   return AppBar(
     backgroundColor: backgroundColor,
@@ -189,31 +192,44 @@ AppBar myAppBar({
           color: iconColor == null ? Colors.black : iconColor),
     ),
     actions: <Widget>[
-      IconButton(
-        icon: Icon(Icons.share),
-        color: iconColor == null ? Theme.of(context).primaryColor : iconColor,
-        onPressed: () => shareApp(),
-      ),
-      IconButton(
-        icon: Icon(
-          Icons.search,
-          size: 30.0,
-          color: iconColor == null ? Theme.of(context).primaryColor : iconColor,
-        ),
-        color: Theme.of(context).primaryColor,
-        onPressed: () {
-          rebuildScreen();
-          Navigator.pushNamed(context, '/search');
-        },
-      ),
-      IconButton(
-        icon: Icon(Icons.language),
-        color: iconColor == null ? Theme.of(context).primaryColor : iconColor,
-        onPressed: () => languageToggle(
-          rebuildScreen: () => rebuildScreen(),
-          context: context,
-        ),
-      ),
+      pointsBar == false
+          ? IconButton(
+              icon: Icon(Icons.share),
+              color: iconColor == null
+                  ? Theme.of(context).primaryColor
+                  : iconColor,
+              onPressed: () => shareApp(),
+            )
+          : SizedBox.shrink(),
+      pointsBar == false
+          ? IconButton(
+              icon: Icon(
+                Icons.search,
+                size: 30.0,
+                color: iconColor == null
+                    ? Theme.of(context).primaryColor
+                    : iconColor,
+              ),
+              color: Theme.of(context).primaryColor,
+              onPressed: () {
+                rebuildScreen();
+                Navigator.pushNamed(context, '/search');
+              },
+            )
+          : SizedBox.shrink(),
+      pointsBar == false
+          ? IconButton(
+              icon: Icon(Icons.language),
+              color: iconColor == null
+                  ? Theme.of(context).primaryColor
+                  : iconColor,
+              onPressed: () => languageToggle(
+                rebuildScreen: () => rebuildScreen(),
+                context: context,
+              ),
+            )
+          : SizedBox.shrink(),
+      pointsBar == true ? PointsBar() : SizedBox.shrink(),
     ],
     bottom: tabBar != null ? tabBar : null,
   );

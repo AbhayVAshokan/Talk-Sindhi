@@ -1,6 +1,7 @@
 // Screen for learning individual words in the vocabulary screen.
 
 import 'package:flutter/material.dart';
+import 'package:talksindhi/file_operations.dart';
 
 import '../realtime_data.dart';
 import '../widgets/vocabulary-tab/word_card.dart';
@@ -51,6 +52,8 @@ class LearnWord extends StatelessWidget {
           .contains(wordData['english'])) {
         vocabulary[subCategoryIndex]['learnedWords'].add(wordData['english']);
         completed = false;
+        wordsLearned[0] += 1;
+        userData['points'] += 1;
       }
     } else if (category == 'conversation') {
       if (!conversation[subCategoryIndex]['learnedWords']
@@ -58,8 +61,10 @@ class LearnWord extends StatelessWidget {
         conversation[subCategoryIndex]['learnedWords'].add(wordData['english']);
         completed = false;
         wordsLearned[1] += 1;
+        userData['points'] += 1;
       }
     }
+    writeToFile(content: userData, fileName: '/userData.json');
 
     return Container(
       color: completed ? Colors.green[100] : Theme.of(context).backgroundColor,

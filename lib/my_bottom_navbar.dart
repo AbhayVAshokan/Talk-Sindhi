@@ -58,10 +58,11 @@ Widget myBottomNavbar({
         ),
         _myBottomNavbarItem(
           context: context,
-          activeIcon: CustomIcons.address_book,
-          inactiveIcon: CustomIcons.address_book_alt,
+          activeIcon: Icons.view_quilt,
+          inactiveIcon: Icons.view_quilt,
           screen: '/topics',
           title: 'Topics',
+          iconSize: 35.0,
           currentIndex: currentIndex,
           itemIndex: 1,
         ),

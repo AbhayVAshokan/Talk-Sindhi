@@ -96,6 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
     var jsonFile = json.decode(response.body);
 
     if (jsonFile['status'] == true) {
+      authToken = jsonFile['auth'];
       writeToFileAsynchronous(
         content: {
           'email': jsonFile['email'],
@@ -106,21 +107,22 @@ class _LoginScreenState extends State<LoginScreen> {
           'language': 'english',
           'isLoggedIn': true,
           'league': 'bronze',
-          'score': 0,
+          'points': 0,
+          'auth': jsonFile['auth'],
         },
-        
       );
       userData = {
-          'email': jsonFile['email'],
-          'userName': jsonFile['userName'],
-          'firstName': jsonFile['firstName'],
-          'lastName': jsonFile['lastName'],
-          'mobileNumber': jsonFile['mobileNumber'],
-          'language': 'english',
-          'isLoggedIn': true,
-          'league': 'bronze',
-          'score': 0,
-        };
+        'email': jsonFile['email'],
+        'userName': jsonFile['userName'],
+        'firstName': jsonFile['firstName'],
+        'lastName': jsonFile['lastName'],
+        'mobileNumber': jsonFile['mobileNumber'],
+        'language': 'english',
+        'isLoggedIn': true,
+        'league': 'bronze',
+        'points': 0,
+        'auth': jsonFile['auth'],
+      };
 
       Navigator.pushReplacementNamed(context, '/home');
     } else if (jsonFile['message'] == 'email not found')
@@ -252,7 +254,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           // FORGOT PASSWORD
-                          
+
                           // GestureDetector(
                           //   onTap: () =>
                           //       Navigator.pushNamed(context, '/forgotPassword'),

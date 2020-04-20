@@ -9,6 +9,12 @@ Map<String, dynamic> userData;
 // progress data for profile
 List<int> wordsLearned = [0, 0];
 List<int> totalWords = [0, 0];
+// 0 - 99 : League 1
+// 100 - 249 : League 2
+// 250 - 500+ : League 3
+
+
+String authToken;
 
 // List of all countries for drop down menu.
 List<String> countries = [

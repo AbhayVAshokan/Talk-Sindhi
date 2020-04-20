@@ -140,9 +140,6 @@ syncWithServer(response) {
 
   // Update progress data
   updateLocalData(vocabularyData, conversationData);
-
-  // Build searchBar list
-  createSearchList();
 }
 
 // Loading local data as real-time data.
@@ -159,14 +156,13 @@ loadLocalData() {
           else if (category == 'conversation')
             conversation = localData['conversation'];
         }
+        createSearchList();
       }
 
       var personalDataFile = File(dir.path + '/userData.json');
       if (personalDataFile.existsSync()) {
         userData = json.decode(personalDataFile.readAsStringSync());
       }
-
-      createSearchList();
     },
   );
 }
@@ -305,6 +301,9 @@ updateLocalData(vocabularyData, conversationData) {
       writeToFile(content: progressFileData, fileName: '/progressData.json');
       vocabulary = progressFileData['vocabulary'];
       conversation = progressFileData['conversation'];
+
+      // Build searchBar list
+      createSearchList();
     },
   );
 }

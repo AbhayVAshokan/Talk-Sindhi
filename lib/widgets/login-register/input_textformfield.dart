@@ -11,6 +11,7 @@ Widget inputTextFormField({
   TextInputType keyboardType = TextInputType.text,
   TextInputAction textInputAction = TextInputAction.next,
   bool obscureText = false,
+  bool autoFocus = false,
 }) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 5.0),
@@ -44,6 +45,7 @@ Widget inputTextFormField({
         ),
       ),
       validator: validation,
+      autofocus: autoFocus,
       onChanged: onChanged,
       keyboardType: keyboardType,
       obscureText: obscureText,

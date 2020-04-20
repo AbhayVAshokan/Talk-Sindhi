@@ -29,6 +29,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Map<String, dynamic> fileContent;
   String path;
 
+  // To login after registration to obtain the auth token
+  loginToHome({email, password}) async {
+    var response = await http.post(
+      Uri.encodeFull('http://204.48.26.50:8033/user/login'),
+      headers: {
+        'Accept': 'application/json',
+      },
+      body: {
+        'email': email,
+        'password': password,
+      },
+    );
+    var jsonFile = json.decode(response.body);
+    authToken = jsonFile['auth'];
+    Navigator.pushReplacementNamed(context, '/home');
+  }
+
   @override
   initState() {
     // get DeviceId, DeviceName, DeviceType
@@ -97,6 +114,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         var jsonResponse = json.decode(response.body);
 
         if (jsonResponse['status'] == true) {
+          authToken = jsonResponse['auth'];
+          print(authToken);
           print('DEBUG: User successfully registered.');
 
           writeToFile(
@@ -111,7 +130,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               'language': 'english',
               'isLoggedIn': true,
               'league': 'bronze',
-              'score': 0,
+              'auth': authToken,
+              'points': 0,
             },
           );
 
@@ -125,10 +145,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             'language': 'english',
             'isLoggedIn': true,
             'league': 'bronze',
-            'score': 0,
+            'points': 0,
+            'auth': authToken,
+
           };
 
-          Navigator.pushReplacementNamed(context, '/home');
+          loginToHome(
+            email: profile['email'],
+            password: profile['id'],
+          );
         } else if (jsonResponse['message'] == "Email already registered")
           Fluttertoast.showToast(
             msg: "Email already registered",
@@ -172,6 +197,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
     if (jsonResponse['status'] == true) {
       print('DEBUG: User successfully registered.');
+      authToken = jsonResponse['auth'];
+      print(authToken);
 
       writeToFile(
         fileName: 'userData.json',
@@ -185,6 +212,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           'isLoggedIn': true,
           'league': 'bronze',
           'score': 0,
+          'auth': authToken,
         },
       );
 
@@ -198,9 +226,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         'isLoggedIn': true,
         'league': 'bronze',
         'score': 0,
+        'auth': authToken,
       };
 
-      Navigator.pushReplacementNamed(context, '/home');
+      loginToHome(email: _emailAddress, password: _password);
     } else if (jsonResponse['message'] == "Email already registered")
       Fluttertoast.showToast(
         msg: "Email already registered",
