@@ -60,13 +60,13 @@ class _TopicsScreenState extends State<TopicsScreen> {
                 rebuildScreen: () {
                   setState(() {});
                 },
-                cardImageUrl: 'assets/images/vocabulary.jpg',
+                cardImageUrl: 'assets/images/vocabulary_card.jpg',
               ),
               ConversationTab(
                 rebuildScreen: () {
                   setState(() {});
                 },
-                cardImageUrl: 'assets/images/conversation.jpg',
+                cardImageUrl: 'assets/images/conversation_card.jpg',
               ),
             ],
           ),

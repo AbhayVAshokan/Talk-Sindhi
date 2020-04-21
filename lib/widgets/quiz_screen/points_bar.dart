@@ -93,7 +93,7 @@ class PointsBar extends StatelessWidget {
                     ),
                   ),
                   TextSpan(
-                    text: 'points',
+                    text: globalLanguage == 'english' ? 'points' : 'अंक',
                     style: const TextStyle(
                       fontWeight: FontWeight.w600,
                     ),

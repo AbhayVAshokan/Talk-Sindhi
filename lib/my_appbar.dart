@@ -5,7 +5,7 @@ import 'package:share/share.dart';
 
 import './file_operations.dart';
 import './realtime_data.dart';
-import './widgets/quiz/points_bar.dart';
+import './widgets/quiz_screen/points_bar.dart';
 
 // Language toggle dialog box.
 languageToggle({

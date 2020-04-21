@@ -58,6 +58,7 @@ flutter:
     - assets/images/
     - assets/images/home_screen/
     - assets/images/splash_screen/
+    - assets/images/quiz_screen/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -74,6 +75,10 @@ flutter:
     - family: CustomIcons
       fonts:
         - asset: assets/fonts/CustomIcons.ttf
+
+    - family: Quintessential
+      fonts:
+        - asset: assets/fonts/Quintessential.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
