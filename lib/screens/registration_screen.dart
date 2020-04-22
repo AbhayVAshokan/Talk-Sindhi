@@ -211,7 +211,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           'language': 'english',
           'isLoggedIn': true,
           'league': 'bronze',
-          'score': 0,
+          'ponits': 0,
           'auth': authToken,
         },
       );
@@ -225,9 +225,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         'language': 'english',
         'isLoggedIn': true,
         'league': 'bronze',
-        'score': 0,
+        'points': 0,
         'auth': authToken,
       };
+      
 
       loginToHome(email: _emailAddress, password: _password);
     } else if (jsonResponse['message'] == "Email already registered")

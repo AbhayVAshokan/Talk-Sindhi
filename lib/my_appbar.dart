@@ -147,7 +147,6 @@ TabBar tabBar({
     ),
     labelPadding: const EdgeInsets.symmetric(
       horizontal: 10.0,
-      // vertical: 5.0,
     ),
     tabs: children,
   );

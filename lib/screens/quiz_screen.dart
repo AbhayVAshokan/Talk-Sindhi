@@ -13,7 +13,6 @@ class QuizScreen extends StatefulWidget {
 class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
-    print(vocabulary);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0x7754123B),
@@ -30,29 +29,59 @@ class _QuizScreenState extends State<QuizScreen> {
         ),
         body: ListView(
           children: [
-            QuizCard(
-              name: globalLanguage == 'english' ? 'Vocabulary' : 'शब्दावली',
-              imageUrl: 'assets/images/quiz_screen/vocabulary.jpg',
-              winPoints: 10,
-              backgroundColor: Color(0xFF84142D),
-              questions: 10,
-              cardImage: 'assets/images/quiz_screen/vocabulary_card.png',
+            GestureDetector(
+              onTap: () {
+                totalTime = 60;
+                quizCategory = 'vocabulary';
+                Navigator.pushNamed(
+                  context,
+                  '/chooseLanguage',
+                );
+              },
+              child: QuizCard(
+                name: globalLanguage == 'english' ? 'Vocabulary' : 'शब्दावली',
+                imageUrl: 'assets/images/quiz_screen/vocabulary.jpg',
+                winPoints: 15,
+                backgroundColor: Color(0xFF84142D),
+                questions: 10,
+                cardImage: 'assets/images/quiz_screen/vocabulary_card.png',
+              ),
             ),
-            QuizCard(
-              name: globalLanguage == 'english' ? 'Conversation' : 'बातचीत',
-              imageUrl: 'assets/images/quiz_screen/conversation.jpg',
-              winPoints: 10,
-              backgroundColor: Colors.amber,
-              questions: 10,
-              cardImage: 'assets/images/quiz_screen/conversation_card.png',
+            GestureDetector(
+              onTap: () {
+                totalTime = 60;
+                quizCategory = 'conversation';
+                Navigator.pushNamed(
+                  context,
+                  '/chooseLanguage',
+                );
+              },
+              child: QuizCard(
+                name: globalLanguage == 'english' ? 'Conversation' : 'बातचीत',
+                imageUrl: 'assets/images/quiz_screen/conversation.jpg',
+                winPoints: 15,
+                backgroundColor: Colors.amber,
+                questions: 10,
+                cardImage: 'assets/images/quiz_screen/conversation_card.png',
+              ),
             ),
-            QuizCard(
-              name: globalLanguage == 'english' ? 'Absolute' : 'मुकम्मल',
-              imageUrl: 'assets/images/quiz_screen/absolute.jpg',
-              winPoints: 50,
-              backgroundColor: Color(0xFF182952),
-              questions: 20,
-              cardImage: 'assets/images/quiz_screen/absolute_card.png',
+            GestureDetector(
+              onTap: () {
+                totalTime = 120;
+                quizCategory = 'absolute';
+                Navigator.pushNamed(
+                  context,
+                  '/chooseLanguage',
+                );
+              },
+              child: QuizCard(
+                name: globalLanguage == 'english' ? 'Absolute' : 'मुकम्मल',
+                imageUrl: 'assets/images/quiz_screen/absolute.jpg',
+                winPoints: 25,
+                backgroundColor: Color(0xFF182952),
+                questions: 20,
+                cardImage: 'assets/images/quiz_screen/absolute_card.png',
+              ),
             ),
           ],
         ),

@@ -10,17 +10,17 @@ class PointsBar extends StatelessWidget {
     int points = userData['points'];
 
     int upperLimit, lowerLimit;
-    if (points < 100) {
+    if (points < 500) {
       lowerLimit = points;
-      upperLimit = 100;
-      userData['league'] = 'bronze';
-    } else if (points < 250) {
-      lowerLimit = points - 100;
-      upperLimit = 250;
-      userData['league'] = 'silver';
-    } else if (points < 500) {
-      lowerLimit = points - 350;
       upperLimit = 500;
+      userData['league'] = 'bronze';
+    } else if (points < 1000) {
+      lowerLimit = points - 500;
+      upperLimit = 1000;
+      userData['league'] = 'silver';
+    } else if (points < 2000) {
+      lowerLimit = points - 1500;
+      upperLimit = 2000;
       userData['league'] = 'gold';
     } else {
       lowerLimit = points;
@@ -68,7 +68,7 @@ class PointsBar extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: 100,
+                  width: 125,
                   child: LinearProgressIndicator(
                     value: lowerLimit / upperLimit,
                     backgroundColor: Colors.white,

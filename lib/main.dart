@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 
 import './screens/home_screen.dart';
 import './screens/quiz_screen.dart';
+import './screens/quiz_results.dart';
 import './screens/login_screen.dart';
 import './screens/search_screen.dart';
 import './screens/topics_screen.dart';
@@ -13,6 +14,8 @@ import './screens/splash_screen.dart';
 import './screens/profile_screen.dart';
 import './screens/forgot_password.dart';
 import './screens/registration_screen.dart';
+import './screens/quiz_choose_language.dart';
+import './screens/quiz_questions_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,8 +67,11 @@ class TalkSindhi extends StatelessWidget {
         '/topics': (context) => TopicsScreen(),
         '/search': (context) => SearchScreen(),
         '/profile': (context) => ProfileScreen(),
+        '/quizResults': (context) => QuizResults(),
         '/register': (context) => RegistrationScreen(),
         '/forgotPassword': (context) => ForgotPassword(),
+        '/chooseLanguage': (context) => QuizChooseLanguage(),
+        '/quizQuestions': (context) => QuizQuestionsScreen(),
         '/learnContent': (context) =>
             LearnContent(ModalRoute.of(context).settings.arguments),
       },

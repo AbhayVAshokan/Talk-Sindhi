@@ -60,88 +60,91 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       margin: EdgeInsets.all(0.0),
                       child: Padding(
                         padding: const EdgeInsets.all(40.0),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Stack(
-                                children: [
-                                  CircleAvatar(
-                                    radius: mediaQuery.size.width * 0.18,
-                                    backgroundColor: Colors.lightGreen,
-                                    child: FittedBox(
-                                      child: Text(
-                                        userData['firstName'][0],
-                                        style: const TextStyle(
-                                          fontSize: 300.0,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: mediaQuery.size.width *
-                                            0.2 *
-                                            (sqrt2 - 1) /
-                                            sqrt2 -
-                                        mediaQuery.size.width * 0.04,
-                                    bottom: mediaQuery.size.width *
-                                            0.2 *
-                                            (sqrt2 - 1) /
-                                            sqrt2 -
-                                        mediaQuery.size.width * 0.04,
-                                    child: CircleAvatar(
-                                      backgroundColor:
-                                          userData['league'] == 'bronze'
-                                              ? Color(0xFFCD6B32)
-                                              : (userData['league'] == 'silver'
-                                                  ? Color(0xFFAAA9AD)
-                                                  : Color(0xFFFFD700)),
-                                      radius: mediaQuery.size.width * 0.04,
+                        child: SizedBox(
+                          width: mediaQuery.size.width,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: Stack(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: mediaQuery.size.width * 0.18,
+                                      backgroundColor: Colors.lightGreen,
                                       child: FittedBox(
-                                        child: Icon(
-                                          Icons.star,
-                                          color: Colors.white,
+                                        child: Text(
+                                          userData['firstName'][0],
+                                          style: const TextStyle(
+                                            fontSize: 300.0,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            FittedBox(
-                              child: SizedBox(
-                                width: mediaQuery.size.width * 0.8,
-                                child: RichText(
-                                  textAlign: TextAlign.center,
-                                  text: TextSpan(
-                                    text: userData['firstName'],
-                                    children: [
-                                      TextSpan(
-                                        text: userData['lastName'] == null
-                                            ? ''
-                                            : ' ${userData['lastName']}',
+                                    Positioned(
+                                      right: mediaQuery.size.width *
+                                              0.2 *
+                                              (sqrt2 - 1) /
+                                              sqrt2 -
+                                          mediaQuery.size.width * 0.04,
+                                      bottom: mediaQuery.size.width *
+                                              0.2 *
+                                              (sqrt2 - 1) /
+                                              sqrt2 -
+                                          mediaQuery.size.width * 0.04,
+                                      child: CircleAvatar(
+                                        backgroundColor: userData['league'] ==
+                                                'bronze'
+                                            ? Color(0xFFCD6B32)
+                                            : (userData['league'] == 'silver'
+                                                ? Color(0xFFAAA9AD)
+                                                : Color(0xFFFFD700)),
+                                        radius: mediaQuery.size.width * 0.04,
+                                        child: FittedBox(
+                                          child: Icon(
+                                            Icons.star,
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                       ),
-                                    ],
-                                    style: TextStyle(
-                                        fontSize: 35.0,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 1.0,
-                                        color: Colors.white),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: mediaQuery.size.width * 0.75,
+                                child: FittedBox(
+                                  child: RichText(
+                                    textAlign: TextAlign.center,
+                                    text: TextSpan(
+                                      text: userData['firstName'],
+                                      children: [
+                                        TextSpan(
+                                          text: userData['lastName'] == null
+                                              ? ''
+                                              : ' ${userData['lastName']}',
+                                        ),
+                                      ],
+                                      style: TextStyle(
+                                          fontSize: 35.0,
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: 1.0,
+                                          color: Colors.white),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Text(
-                              userData['email'],
-                              style: const TextStyle(
-                                color: Colors.white,
-                                letterSpacing: 0.75,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15.0,
+                              Text(
+                                userData['email'],
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  letterSpacing: 0.75,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15.0,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

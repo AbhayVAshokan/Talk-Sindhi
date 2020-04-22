@@ -60,6 +60,8 @@ syncWithServer(response) {
 
   for (var i = 0; i < apiResponse['data'].length; i++) {
     // Parsing vocabulary data
+    // print(apiResponse['data']);
+
     if (apiResponse['data'][i]['SubCategory']['Category']['name'] ==
         'vocabulary') {
       var index = vocabularyData.indexWhere((element) =>
@@ -103,7 +105,7 @@ syncWithServer(response) {
 
     // Parsing conversation data
     else if (apiResponse['data'][i]['SubCategory']['Category']['name'] ==
-        'Conversation') {
+        'conversation') {
       var index = conversationData.indexWhere((element) =>
           element['subCategory'] ==
           apiResponse['data'][i]['SubCategory']['name']);
@@ -111,6 +113,12 @@ syncWithServer(response) {
       var media = apiResponse['data'][i]['media'] == null
           ? null
           : apiResponse['data'][i]['media']['url'];
+
+      // if media is not already downloaded, download so that it is available offline
+      if (media != null &&
+          !File('$directoryPath/${apiResponse['data'][i]['sindhi']}.mp3')
+              .existsSync())
+        downloadFile(media, apiResponse['data'][i]['sindhi'] + '.mp3');
 
       if (index == -1)
         conversationData.add(

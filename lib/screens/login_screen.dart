@@ -111,6 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
           'auth': jsonFile['auth'],
         },
       );
+
       userData = {
         'email': jsonFile['email'],
         'userName': jsonFile['userName'],

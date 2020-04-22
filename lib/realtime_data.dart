@@ -13,6 +13,17 @@ List<int> totalWords = [0, 0];
 // 100 - 249 : League 2
 // 250 - 500+ : League 3
 
+// quizScreen contents
+String quizCategory;
+String quizLanguage;
+List<Map<String, dynamic>> quizData = [];
+int correctAnswers;
+int wrongAnswers;
+int notAttempted;
+int timeTaken;
+int totalTime;
+int quizPoints;
+List<int> optionsOrder;
 
 String authToken;
 

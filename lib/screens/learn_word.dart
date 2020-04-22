@@ -50,7 +50,13 @@ class LearnWord extends StatelessWidget {
     if (category == 'vocabulary') {
       if (!vocabulary[subCategoryIndex]['learnedWords']
           .contains(wordData['english'])) {
-        vocabulary[subCategoryIndex]['learnedWords'].add(wordData['english']);
+        vocabulary[subCategoryIndex]['learnedWords'].add(
+          {
+            'english': wordData['english'],
+            'hindi': wordData['hindi'],
+            'sindhi': wordData['sindhi'],
+          },
+        );
         completed = false;
         wordsLearned[0] += 1;
         userData['points'] += 1;
@@ -58,7 +64,14 @@ class LearnWord extends StatelessWidget {
     } else if (category == 'conversation') {
       if (!conversation[subCategoryIndex]['learnedWords']
           .contains(wordData['english'])) {
-        conversation[subCategoryIndex]['learnedWords'].add(wordData['english']);
+        conversation[subCategoryIndex]['learnedWords'].add(
+          {
+            'english': wordData['english'],
+            'hindi': wordData['hindi'],
+            'sindhi': wordData['sindhi'],
+          },
+        );
+
         completed = false;
         wordsLearned[1] += 1;
         userData['points'] += 1;
