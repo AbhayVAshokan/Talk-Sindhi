@@ -26,7 +26,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(userData);
     MediaQueryData mediaQuery = MediaQuery.of(context);
     return SafeArea(
       child: Scaffold(
@@ -34,7 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         backgroundColor: Colors.indigo[50],
         appBar: myAppBar(
           pointsBar: true,
-          backgroundColor: Colors.indigo[500],
+          backgroundColor: Color(0xff202060),
           context: context,
           elevation: 0.0,
           iconColor: Colors.white,
@@ -56,7 +55,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       bottomRight: Radius.circular(30.0),
                     ),
                     child: Card(
-                      color: Colors.indigo[500],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0.0),
+                      ),
+                      color: Color(0xff202060),
                       margin: EdgeInsets.all(0.0),
                       child: Padding(
                         padding: const EdgeInsets.all(40.0),

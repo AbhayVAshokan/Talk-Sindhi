@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:connectivity/connectivity.dart';
 import 'package:path_provider/path_provider.dart';
@@ -60,7 +61,6 @@ syncWithServer(response) {
 
   for (var i = 0; i < apiResponse['data'].length; i++) {
     // Parsing vocabulary data
-    // print(apiResponse['data']);
 
     if (apiResponse['data'][i]['SubCategory']['Category']['name'] ==
         'vocabulary') {
@@ -165,7 +165,16 @@ loadLocalData() {
             conversation = localData['conversation'];
         }
         createSearchList();
-      }
+      } else
+        Fluttertoast.showToast(
+          msg: "Downloading resources",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black87,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
 
       var personalDataFile = File(dir.path + '/userData.json');
       if (personalDataFile.existsSync()) {
@@ -318,7 +327,6 @@ updateLocalData(vocabularyData, conversationData) {
 
 // Downloading files from server
 downloadFile(String url, String fileName) async {
-  print('downloading file');
   getApplicationDocumentsDirectory().then(
     (Directory dir) async {
       var file = File('${dir.path}/$fileName');

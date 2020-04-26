@@ -39,7 +39,7 @@ class WordCard extends StatelessWidget {
 
     return SizedBox(
       width: width * 0.9,
-      height: min(height * 0.3, 220),
+      height: min(height * 0.35, 200),
       child: LayoutBuilder(
         builder: (context, constraints) => Stack(
           alignment: Alignment.center,
@@ -50,7 +50,7 @@ class WordCard extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 0.9,
                 padding: EdgeInsets.symmetric(
                   horizontal: 20.0,
-                  vertical: word.length < 10 ? 20.0 : 60.0,
+                  vertical: word.length < 10 ? 20.0 : 50.0,
                 ),
                 child: FittedBox(
                   fit: BoxFit.scaleDown,

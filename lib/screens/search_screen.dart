@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:talksindhi/my_appbar.dart';
-import 'package:talksindhi/realtime_data.dart';
+import '../my_appbar.dart';
+import '../realtime_data.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -26,7 +26,6 @@ class _SearchScreenState extends State<SearchScreen> {
         },
       ),
       child: Card(
-        // color: Colors.blueGrey[200],
         elevation: 1.0,
         child: ListTile(
           leading: category == 'vocabulary'

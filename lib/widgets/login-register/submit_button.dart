@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:talksindhi/file_operations.dart';
-
 import 'package:connectivity/connectivity.dart';
+
+import '../../file_operations.dart';
 
 class SubmitButton extends StatelessWidget {
   final String text;

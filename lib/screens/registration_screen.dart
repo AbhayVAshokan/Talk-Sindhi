@@ -73,22 +73,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     var facebookLoginResult = await facebookLogin.logIn(['email']);
     switch (facebookLoginResult.status) {
       case FacebookLoginStatus.error:
-        print("Error");
         onLoginStatusChanged(false);
         break;
       case FacebookLoginStatus.cancelledByUser:
-        print("CancelledByUser");
         onLoginStatusChanged(false);
 
         break;
       case FacebookLoginStatus.loggedIn:
-        print("LoggedIn");
-
         var graphResponse = await http.get(
             'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${facebookLoginResult.accessToken.token}');
 
         var profile = json.decode(graphResponse.body);
-        print(profile.toString());
 
         onLoginStatusChanged(true);
         var response = await http.post(
@@ -115,7 +110,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
         if (jsonResponse['status'] == true) {
           authToken = jsonResponse['auth'];
-          print(authToken);
           print('DEBUG: User successfully registered.');
 
           writeToFile(
@@ -132,6 +126,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               'league': 'bronze',
               'auth': authToken,
               'points': 0,
+              'quizAudio': true,
             },
           );
 
@@ -147,7 +142,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             'league': 'bronze',
             'points': 0,
             'auth': authToken,
-
+            'quizAudio': true,
           };
 
           loginToHome(
@@ -198,7 +193,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     if (jsonResponse['status'] == true) {
       print('DEBUG: User successfully registered.');
       authToken = jsonResponse['auth'];
-      print(authToken);
 
       writeToFile(
         fileName: 'userData.json',
@@ -213,6 +207,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           'league': 'bronze',
           'ponits': 0,
           'auth': authToken,
+          'quizAudio': true,
         },
       );
 
@@ -227,8 +222,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         'league': 'bronze',
         'points': 0,
         'auth': authToken,
+        'quizAudio': true,
       };
-      
 
       loginToHome(email: _emailAddress, password: _password);
     } else if (jsonResponse['message'] == "Email already registered")
@@ -274,8 +269,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('executing build');
-
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final double height = mediaQuery.size.height -
         mediaQuery.padding.top -

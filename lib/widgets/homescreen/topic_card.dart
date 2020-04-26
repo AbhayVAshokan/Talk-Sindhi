@@ -49,7 +49,7 @@ class TopicCard extends StatelessWidget {
                     padding: EdgeInsets.symmetric(
                         horizontal: constraints.maxWidth * 0.05),
                     child: Text(
-                      title,
+                      '${title[0].toUpperCase()}${title.substring(1).replaceAll('_', ' ')}',
                       textAlign: TextAlign.center,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,

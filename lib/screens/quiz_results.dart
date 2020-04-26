@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:talksindhi/file_operations.dart';
 
 import '../my_appbar.dart';
 import '../realtime_data.dart';
+import '../file_operations.dart';
 
 class QuizResults extends StatelessWidget {
   calculatePoints() {
@@ -44,7 +44,7 @@ class QuizResults extends StatelessWidget {
     }
 
     calculatePoints();
-    print(quizData);
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0x4454123B),

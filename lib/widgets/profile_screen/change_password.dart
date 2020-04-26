@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:connectivity/connectivity.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:talksindhi/realtime_data.dart';
 
+import '../../realtime_data.dart';
 import '../login-register/input_textformfield.dart';
 import '../login-register/submit_button.dart';
 
@@ -26,7 +26,6 @@ requestPasswordChange({
   );
 
   var jsonResponse = json.decode(response.body);
-  print(jsonResponse);
 
   if (jsonResponse['status'] == true) {
     Fluttertoast.showToast(
@@ -166,13 +165,7 @@ changePassword({
                   width: 200,
                   color: Colors.pink,
                   onTap: () {
-                    print('ontap');
-                    if (!formkey.currentState.validate()) {
-                      print(oldPassword);
-                      print(newPassword);
-                      print(confirmPassword);
-                      return;
-                    }
+                    if (!formkey.currentState.validate()) return;
 
                     checkConnectivity()
                         .then((ConnectivityResult connectivityResult) {

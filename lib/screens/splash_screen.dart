@@ -60,6 +60,8 @@ class _SplashScreenState extends State<SplashScreen> {
               userData = localStorage;
               if (localStorage['isLoggedIn'] == true)
                 Navigator.pushReplacementNamed(context, '/home');
+              else
+              Navigator.pushReplacementNamed(context, '/login');
             } else
               Navigator.pushReplacementNamed(context, '/login');
           },

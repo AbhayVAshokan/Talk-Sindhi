@@ -58,10 +58,10 @@ class _QuizChooseLanguageState extends State<QuizChooseLanguage> {
           'option3': questionPool[randomOptions[2]]['sindhi'],
           'optionsOrder': optionsOrder,
           'colors': [
-            Colors.white,
-            Colors.white,
-            Colors.white,
-            Colors.white,
+            Colors.purple[100],
+            Colors.purple[100],
+            Colors.purple[100],
+            Colors.purple[100],
           ],
           'marked': -1,
         },
@@ -109,15 +109,29 @@ class _QuizChooseLanguageState extends State<QuizChooseLanguage> {
       List<String> randomOptions = [];
       List<String> sindhiWords;
 
-      for (var i = 0; i < 3; i++) {
-        String sindhiSentence = questionPool[randNumQ]['sindhi'];
-        if (sindhiSentence.contains(':')) {
-          sindhiSentence = sindhiSentence.replaceAll(':', '');
-          sindhiWords = sindhiSentence.split(' ');
-          sindhiWords.removeAt(0);
-        } else
-          sindhiWords = sindhiSentence.split(' ');
-        randomOptions.add(shuffle(sindhiWords).join(' '));
+      // formatting answer
+      String correctAnswer = questionPool[randNumQ]['sindhi'];
+      if (correctAnswer.contains(':')) {
+        correctAnswer = correctAnswer.replaceAll(':', '');
+        sindhiWords = correctAnswer.split(' ');
+        if (sindhiWords.length > 1) sindhiWords.removeAt(0);
+      } else
+        sindhiWords = correctAnswer.split(' ');
+
+      correctAnswer = sindhiWords.join(' ');
+
+      int counter =
+          0; // this is used for the worst case scenario where it goes into infinite loop (try 50 different random sequences of the translation. If it fails, assign it with another option)
+      while (randomOptions.length < 3) {
+        if (counter >= 50)
+          randomOptions
+              .add(questionPool[random.nextInt(questionPool.length)]['sindhi']);
+        counter += 1;
+
+        String newOption = shuffle(sindhiWords).join(' ');
+
+        if (!randomOptions.contains(newOption) && newOption != correctAnswer)
+          randomOptions.add(newOption);
       }
 
       optionsOrder = [];
@@ -131,16 +145,16 @@ class _QuizChooseLanguageState extends State<QuizChooseLanguage> {
           'question': quizLanguage == 'english'
               ? questionPool[randNumQ]['english']
               : questionPool[randNumQ]['hindi'],
-          'answer': questionPool[randNumQ]['sindhi'],
+          'answer': correctAnswer,
           'option1': randomOptions[0],
           'option2': randomOptions[1],
           'option3': randomOptions[2],
           'optionsOrder': optionsOrder,
           'colors': [
-            Colors.white,
-            Colors.white,
-            Colors.white,
-            Colors.white,
+            Colors.purple[100],
+            Colors.purple[100],
+            Colors.purple[100],
+            Colors.purple[100],
           ],
           'marked': -1,
         },

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:talksindhi/file_operations.dart';
 
 import '../../realtime_data.dart';
+import '../../file_operations.dart';
 
 class PointsBar extends StatelessWidget {
   @override

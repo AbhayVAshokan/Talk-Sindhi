@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:talksindhi/file_operations.dart';
 
 import '../my_appbar.dart';
 import '../realtime_data.dart';
-import '../widgets/quiz_screen/quiz_question.dart';
+import '../widgets/quiz_screen/quiz_mcq.dart';
 
 class QuizQuestionsScreen extends StatefulWidget {
   @override
@@ -24,7 +25,6 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
         () {
           if (_time < 1) {
             timer.cancel();
-            print('done done done done');
           } else {
             _time = _time - 1;
           }
@@ -49,10 +49,9 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
     super.dispose();
   }
 
+  var pageNumber = 0;
   @override
   Widget build(BuildContext context) {
-    var pageNumber = 0;
-
     return SafeArea(
       child: Scaffold(
         appBar: myAppBar(
@@ -73,27 +72,49 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Card(
-                    margin: const EdgeInsets.only(left: 20.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    color: Colors.purple,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0,
-                        vertical: 3.0,
-                      ),
-                      child: Text(
-                        'Question ${pageNumber + 1}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Quintessential',
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.bold,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Card(
+                        margin: const EdgeInsets.only(left: 20.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        color: Colors.purple,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0,
+                            vertical: 3.0,
+                          ),
+                          child: Text(
+                            'Question ${pageNumber + 1}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Quintessential',
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      const SizedBox(width: 20.0),
+                      GestureDetector(
+                        child: Icon(
+                          userData['quizAudio'] == true
+                              ? Icons.volume_up
+                              : Icons.volume_off,
+                          color: Colors.white,
+                          size: 25.0,
+                        ),
+                        onTap: () {
+                          userData['quizAudio'] = !userData['quizAudio'];
+                          writeToFile(
+                            content: userData,
+                            fileName: 'userData.json',
+                          );
+                        },
+                      ),
+                    ],
                   ),
                   SizedBox(
                     width: 80.0,
@@ -125,14 +146,18 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
                 itemBuilder: (context, index) {
                   pageNumber = index;
 
-                  return QuizQuestion(questionNumber: index);
+                  return QuizMCQ(
+                    time: _time,
+                    questionNumber: index,
+                    pageController: _pageController,
+                  );
                 },
                 controller: _pageController,
               ),
             ),
             Container(
               color: Color(0xFF54123B),
-              height: 100.0,
+              height: 75.0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -143,9 +168,9 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
                         horizontal: 30.0,
                         vertical: 13.0,
                       ),
-                      color: Colors.amber,
+                      color: Color(0xFF5f85db),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(20.0),
                       ),
                       onPressed: () {
                         timeTaken = totalTime - _time;
@@ -154,14 +179,14 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
                       disabledColor: Colors.grey,
                       child: SizedBox(
                         width: 100.0,
-                        height: 30.0,
+                        height: 25.0,
                         child: Text(
                           quizLanguage == 'english' ? 'FINISH' : 'समाप्त',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 25.0,
+                            fontSize: 20.0,
                           ),
                         ),
                       ),
@@ -181,7 +206,7 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
                                 );
                               },
                         child: CircleAvatar(
-                          radius: 30.0,
+                          radius: 28.0,
                           backgroundColor:
                               _time == 0 ? Colors.grey : Colors.pink,
                           child: Icon(
@@ -203,7 +228,7 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
                                   );
                               },
                         child: CircleAvatar(
-                          radius: 30.0,
+                          radius: 28.0,
                           backgroundColor:
                               _time == 0 ? Colors.grey : Colors.pink,
                           child: Icon(
@@ -212,7 +237,7 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 20.0),
+                      const SizedBox(width: 10.0),
                     ],
                   ),
                 ],

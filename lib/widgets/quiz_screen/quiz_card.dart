@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:talksindhi/realtime_data.dart';
+
+import '../../realtime_data.dart';
 
 class QuizCard extends StatelessWidget {
   final String name;

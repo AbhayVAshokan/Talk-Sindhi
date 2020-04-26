@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:talksindhi/realtime_data.dart';
+import '../../realtime_data.dart';
 
 class ProgressData extends StatelessWidget {
   final String category;
@@ -10,8 +10,6 @@ class ProgressData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(wordsLearned);
-    print('total words: ' + totalWords.toString());
     return LayoutBuilder(
       builder: (context, constraints) => Card(
         shape: RoundedRectangleBorder(

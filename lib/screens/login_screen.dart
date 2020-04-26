@@ -41,22 +41,17 @@ class _LoginScreenState extends State<LoginScreen> {
     var facebookLoginResult = await facebookLogin.logIn(['email']);
     switch (facebookLoginResult.status) {
       case FacebookLoginStatus.error:
-        print("Error");
         onLoginStatusChanged(false);
         break;
       case FacebookLoginStatus.cancelledByUser:
-        print("CancelledByUser");
         onLoginStatusChanged(false);
 
         break;
       case FacebookLoginStatus.loggedIn:
-        print("LoggedIn");
-
         var graphResponse = await http.get(
             'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${facebookLoginResult.accessToken.token}');
 
         var profile = json.decode(graphResponse.body);
-        print(profile.toString());
 
         onLoginStatusChanged(true);
         userLogin(
@@ -109,6 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
           'league': 'bronze',
           'points': 0,
           'auth': jsonFile['auth'],
+          'quizAudio': true,
         },
       );
 
@@ -123,6 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
         'league': 'bronze',
         'points': 0,
         'auth': jsonFile['auth'],
+        'quizAudio': true,
       };
 
       Navigator.pushReplacementNamed(context, '/home');
@@ -153,8 +150,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('executing build: ' + _emailAddress + _password);
-
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final double height = mediaQuery.size.height -
         mediaQuery.padding.top -
@@ -323,12 +318,16 @@ class _LoginScreenState extends State<LoginScreen> {
                           GestureDetector(
                             onTap: () => Navigator.pushReplacementNamed(
                                 context, '/register'),
-                            child: Text(
-                              'Don\'t have an account? Enroll now.',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle1
-                                  .copyWith(color: Colors.grey),
+                            child: Container(
+                              padding:
+                                  const EdgeInsets.only(top: 20.0, bottom: 5.0),
+                              child: Text(
+                                'Don\'t have an account? Enroll now.',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle1
+                                    .copyWith(color: Colors.grey),
+                              ),
                             ),
                           ),
                         ],

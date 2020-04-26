@@ -1,15 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:talksindhi/realtime_data.dart';
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 
-class QuizQuestion extends StatefulWidget {
+import '../../realtime_data.dart';
+
+class QuizMCQ extends StatefulWidget {
   final int questionNumber;
-  QuizQuestion({this.questionNumber});
+  final time;
+  final PageController pageController;
+
+  QuizMCQ({
+    this.questionNumber,
+    @required this.time,
+    @required this.pageController,
+  });
 
   @override
-  _QuizQuestionState createState() => _QuizQuestionState();
+  _QuizMCQState createState() => _QuizMCQState();
 }
 
-class _QuizQuestionState extends State<QuizQuestion> {
+class _QuizMCQState extends State<QuizMCQ> {
+  AudioPlayer advancedPlayer;
+  AudioCache audioCache;
+
+  playLocalAudio({String url}) {
+    audioCache.play(url);
+  }
+
+  @override
+  void initState() {
+    advancedPlayer = new AudioPlayer();
+    audioCache = new AudioCache(fixedPlayer: advancedPlayer);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     String question = quizData[widget.questionNumber]['question'];
@@ -38,19 +62,31 @@ class _QuizQuestionState extends State<QuizQuestion> {
       children: [
         Expanded(
           flex: 3,
-          child: Card(
-            child: Container(
-              padding: const EdgeInsets.all(25.0),
-              alignment: Alignment.center,
-              child: Text(
-                question,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 30.0,
-                  fontFamily: 'Quintessential',
-                  fontWeight: FontWeight.bold,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(40.0),
+              child: Card(
+                margin: const EdgeInsets.all(0.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.pink[400],
+                    border: Border.all(color: Color(0xFF54123B), width: 7),
+                    borderRadius: BorderRadius.circular(40.0),
+                  ),
+                  padding: const EdgeInsets.all(25.0),
+                  alignment: Alignment.center,
+                  child: Text(
+                    question,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: question.length > 10 ? 25.0 : 55.0,
+                      fontFamily: 'Quintessential',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -59,6 +95,7 @@ class _QuizQuestionState extends State<QuizQuestion> {
         Expanded(
           flex: 7,
           child: GridView(
+            padding: const EdgeInsets.all(10.0),
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 300,
               childAspectRatio: 1,
@@ -70,13 +107,26 @@ class _QuizQuestionState extends State<QuizQuestion> {
 
               return GestureDetector(
                 onTap: () {
-                  if (quizData[widget.questionNumber]['marked'] == -1) {
+                  if (widget.questionNumber < quizData.length &&
+                      widget.time != 0)
+                    widget.pageController.animateToPage(
+                        widget.questionNumber + 1,
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.easeIn);
+
+                  if (quizData[widget.questionNumber]['marked'] == -1 &&
+                      widget.time != 0) {
                     if (option == choices[0]) {
                       correctAnswers += 1;
                       notAttempted -= 1;
+
+                      if (userData['quizAudio'])
+                        playLocalAudio(url: 'audios/correct_answer.mp3');
                     } else {
                       wrongAnswers += 1;
                       notAttempted -= 1;
+                      if (userData['quizAudio'])
+                        playLocalAudio(url: 'audios/wrong_answer.mp3');
                     }
                     setState(
                       () {
@@ -94,6 +144,9 @@ class _QuizQuestionState extends State<QuizQuestion> {
                   }
                 },
                 child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
                   color: quizData[widget.questionNumber]['colors'][index],
                   child: Container(
                     alignment: Alignment.center,
@@ -102,7 +155,10 @@ class _QuizQuestionState extends State<QuizQuestion> {
                       option,
                       maxLines: 4,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.black, fontSize: 17.0),
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: option.length > 10 ? 17.0 : 30.0,
+                      ),
                     ),
                   ),
                 ),
