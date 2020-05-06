@@ -1,9 +1,11 @@
 // Apps in ListView
 
-import 'package:flutter/material.dart';
 import 'package:share/share.dart';
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import './app_card.dart';
+import '../../custom_icons.dart';
 
 class OtherApps extends StatelessWidget {
   final String language;
@@ -27,26 +29,80 @@ class OtherApps extends StatelessWidget {
         builder: (context, constraints) => Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              padding: const EdgeInsets.only(left: 10.0),
-              alignment: Alignment.topLeft,
-              decoration: BoxDecoration(
-                border: Border(
-                  left: BorderSide(
-                    color: Theme.of(context).primaryColor,
-                    width: 10.0,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  alignment: Alignment.topLeft,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      left: BorderSide(
+                        color: Theme.of(context).primaryColor,
+                        width: 10.0,
+                      ),
+                    ),
+                  ),
+                  child: Text(
+                    language == 'english'
+                        ? "Sindhi Sangat Apps"
+                        : 'सिंधी संगत एप्स',
+                    style: TextStyle(
+                      fontSize: constraints.maxHeight * 0.1,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),
-              child: Text(
-                language == 'english'
-                    ? "Sindhi Sangat Apps"
-                    : 'सिंधी संगत एप्स',
-                style: TextStyle(
-                  fontSize: constraints.maxHeight * 0.1,
-                  fontWeight: FontWeight.bold,
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        await launch(
+                            'https://www.sindhisangat.com/');
+                      },
+                      child: Icon(
+                        Icons.language,
+                        color: Colors.black,
+                        size: 27.0,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        await launch(
+                            'https://www.facebook.com/SindhiSangatWorldwide/');
+                      },
+                      child: Icon(
+                        CustomIcons.facebook_squared,
+                        color: Colors.blue,
+                        size: 27.0,
+                      ),
+                    ),
+                    const SizedBox(width: 5.0),
+                    GestureDetector(
+                      onTap: () async {
+                        await launch('https://twitter.com/sindhisangat');
+                      },
+                      child: Icon(
+                        CustomIcons.twitter_squared,
+                        color: Colors.lightBlue,
+                        size: 27.0,
+                      ),
+                    ),
+                    const SizedBox(width: 5.0),
+                    GestureDetector(
+                      onTap: () async {
+                        await launch(
+                            'https://www.youtube.com/channel/UCUYUVlCYTLnnQ3X5Ghj3Ojw');
+                      },
+                      child: Icon(
+                        CustomIcons.youtube_play,
+                        color: Colors.red,
+                        size: 27.0,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
+              ],
             ),
             Container(
               width: width,

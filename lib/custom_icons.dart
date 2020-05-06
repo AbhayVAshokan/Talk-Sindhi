@@ -10,16 +10,14 @@ class CustomIcons {
   static const _kFontFam = 'CustomIcons';
   static const _kFontPkg = null;
 
-  static const IconData wrench_outline =
-      const IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData wrench =
-      const IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData address_book =
-      const IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData address_book_alt =
-      const IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData home_outline =
-      const IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+      IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData home =
-      const IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+      IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData youtube_play =
+      IconData(0xf16a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData twitter_squared =
+      IconData(0xf304, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData facebook_squared =
+      IconData(0xf308, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

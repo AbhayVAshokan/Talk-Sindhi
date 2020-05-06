@@ -41,7 +41,11 @@ class _LearnContentState extends State<LearnContent>
           backgroundColor: Theme.of(context).backgroundColor,
           appBar: myAppBar(
               context: context,
-              rebuildScreen: () => rebuildScreen(),
+              rebuildScreen: () {
+                setState(() {
+                  rebuildScreen();
+                });
+              },
               backButton: true,
               tabBar: tabBar(
                 context: context,
@@ -59,6 +63,7 @@ class _LearnContentState extends State<LearnContent>
             children: [
               for (var i = 0; i < subCategory['data'].length; i++)
                 LearnWord(
+                  pageNumber: i,
                   category: category,
                   subCategoryIndex: subCategoryIndex,
                   wordData: subCategory['data'][i],

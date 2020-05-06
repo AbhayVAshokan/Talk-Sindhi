@@ -5,13 +5,15 @@ import 'package:audioplayers/audioplayers.dart';
 import '../../realtime_data.dart';
 
 class QuizMCQ extends StatefulWidget {
-  final int questionNumber;
   final time;
+  final int questionNumber;
+  final String quizLanguage;
   final PageController pageController;
 
   QuizMCQ({
     this.questionNumber,
     @required this.time,
+    @required this.quizLanguage,
     @required this.pageController,
   });
 
@@ -82,7 +84,9 @@ class _QuizMCQState extends State<QuizMCQ> {
                     maxLines: 2,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: question.length > 10 ? 25.0 : 55.0,
+                      fontSize: question.length > 10
+                          ? (quizLanguage == 'english' ? 25.0 : 27.0)
+                          : (quizLanguage == 'english' ? 55.0 : 57.0),
                       fontFamily: 'Quintessential',
                       fontWeight: FontWeight.bold,
                     ),
@@ -157,7 +161,7 @@ class _QuizMCQState extends State<QuizMCQ> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: option.length > 10 ? 17.0 : 30.0,
+                        fontSize: option.length > 20 ? 17.0 : 30.0,
                       ),
                     ),
                   ),

@@ -54,11 +54,11 @@ class _SearchScreenState extends State<SearchScreen> {
           subtitle: category == 'vocabulary'
               ? Text(
                   vocabulary[element['subCategoryIndex']]['data']
-                      [element['initialIndex']]['sindhi'],
+                      [element['initialIndex']]['sindhi'], style: const TextStyle(fontSize: 20),
                 )
               : Text(
                   conversation[element['subCategoryIndex']]['data']
-                      [element['initialIndex']]['sindhi'],
+                      [element['initialIndex']]['sindhi'], style: const TextStyle(fontSize: 14),
                 ),
         ),
       ),

@@ -11,12 +11,14 @@ class LearnWord extends StatelessWidget {
   final int totalWordCount;
   final String category;
   final int subCategoryIndex;
+  final int pageNumber;
 
   LearnWord({
     @required this.wordData,
     @required this.totalWordCount,
     @required this.category,
     @required this.subCategoryIndex,
+    @required this.pageNumber,
   });
 
   // Individual arrow keys to navigate to next word/milestone
@@ -115,7 +117,7 @@ class LearnWord extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Your milestone: ${DefaultTabController.of(context).index + 1}/$totalWordCount',
+                      'Your milestone: ${pageNumber + 1}/$totalWordCount',
                       style: const TextStyle(
                         fontSize: 18.0,
                         letterSpacing: 0.75,
@@ -127,9 +129,9 @@ class LearnWord extends StatelessWidget {
                           context: context,
                           icon: Icons.arrow_back_ios,
                           onTap: () {
-                            if (DefaultTabController.of(context).index > 0)
+                            if (pageNumber > 0)
                               DefaultTabController.of(context).animateTo(
-                                DefaultTabController.of(context).index - 1,
+                                pageNumber - 1,
                                 curve: Curves.easeIn,
                                 duration: Duration(
                                   milliseconds: 500,
@@ -141,10 +143,9 @@ class LearnWord extends StatelessWidget {
                           context: context,
                           icon: Icons.arrow_forward_ios,
                           onTap: () {
-                            if (DefaultTabController.of(context).index <
-                                totalWordCount - 1)
+                            if (pageNumber < totalWordCount - 1)
                               DefaultTabController.of(context).animateTo(
-                                DefaultTabController.of(context).index + 1,
+                                pageNumber + 1,
                                 curve: Curves.easeIn,
                                 duration: Duration(
                                   milliseconds: 500,

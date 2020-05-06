@@ -123,7 +123,7 @@ Widget tabView({String title}) {
         title,
         style: TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: globalLanguage == 'english' ? 15.0 : 18.0,
+          fontSize: globalLanguage == 'english' ? 15.0 : 17.0,
         ),
       ),
     ),

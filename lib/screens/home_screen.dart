@@ -65,7 +65,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               letterSpacing: 1.0,
-                              fontSize: constraints.maxHeight * 0.18,
+                              fontSize: globalLanguage == 'english'
+                                  ? constraints.maxHeight * 0.18
+                                  : constraints.maxHeight * 0.2,
                               color: Colors.black),
                           children: [
                             TextSpan(
@@ -73,7 +75,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ? "Made Easy"
                                   : 'आसान बना दिया',
                               style: TextStyle(
-                                fontSize: constraints.maxHeight * 0.15,
+                                fontSize: globalLanguage == 'english'
+                                    ? constraints.maxHeight * 0.15
+                                    : constraints.maxHeight * 0.17,
                                 color: Theme.of(context).primaryColor,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 1.0,

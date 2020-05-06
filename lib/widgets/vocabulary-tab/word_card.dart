@@ -1,7 +1,6 @@
 // Card containing the word and its translation.
 
 import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -30,117 +29,114 @@ class WordCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final double width = mediaQuery.size.width;
-    final double height = mediaQuery.size.height - mediaQuery.padding.top;
+    // final double height = mediaQuery.size.height - mediaQuery.padding.top;
 
     String directoryPath;
     getApplicationDocumentsDirectory().then(
       (Directory dir) => directoryPath = dir.path,
     );
 
-    return SizedBox(
-      width: width * 0.9,
-      height: min(height * 0.35, 200),
-      child: LayoutBuilder(
-        builder: (context, constraints) => Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Card(
-              margin: const EdgeInsets.symmetric(vertical: 35.0),
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20.0,
-                  vertical: word.length < 10 ? 20.0 : 50.0,
+    return LayoutBuilder(
+      builder: (context, constraints) => Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          Card(
+            margin: const EdgeInsets.symmetric(vertical: 35.0),
+            child: Container(
+              width: width * 0.9,
+              height: 150,
+              padding: EdgeInsets.symmetric(
+                horizontal: 20.0,
+                vertical: 20,
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                word,
+                maxLines: 2,
+                style: TextStyle(
+                  fontSize: language == 'sindhi'
+                      ? (word.length < 10 ? 60 : 25.0)
+                      : (word.length < 10 ? 35 : 22.0),
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.0,
                 ),
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    word,
-                    maxLines: 2,
-                    style: TextStyle(
-                      fontSize: language == 'sindhi' ? 100.0 : 30.0,
-                      fontWeight: FontWeight.bold,
+                textDirection: language == 'english' || language == 'hindi'
+                    ? TextDirection.ltr
+                    : TextDirection.rtl,
+                textAlign: TextAlign.start,
+              ),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(
+              left: 20.0,
+              right: 20.0,
+              top: word.length < 10 ? 50.0 : 80,
+              bottom: 0.0,
+            ),
+            child: const FittedBox(
+              child: const Text(
+                '---------------------------------------------------------------------------------------------------------------------------',
+                maxLines: 1,
+                overflow: TextOverflow.clip,
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 30.0,
+                  fontWeight: FontWeight.w200,
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 0,
+            left: language == 'english' || language == 'hindi'
+                ? 20
+                : constraints.maxWidth - 90,
+            child: GestureDetector(
+              onTap: () {
+                if (media == null) {
+                  Fluttertoast.showToast(
+                    msg: "Audio not available",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.black87,
+                    textColor: Colors.white,
+                    fontSize: 16.0,
+                  );
+                } else {
+                  playLocalAudio('$directoryPath/$word.mp3');
+                }
+              },
+              child: CircleAvatar(
+                radius: 35.0,
+                foregroundColor: Colors.white,
+                backgroundImage: AssetImage(
+                  (language == 'sindhi' && media != null)
+                      ? 'assets/images/speaker_on.png'
+                      : (language == 'sindhi'
+                          ? 'assets/images/sound_off.png'
+                          : 'assets/images/book.png'),
+                ),
+                backgroundColor: const Color(0x00FFFFFF),
+              ),
+            ),
+          ),
+          (language == 'sindhi' && media != null)
+              ? Positioned(
+                  top: 50,
+                  left: constraints.maxWidth - 190,
+                  child: const Text(
+                    'Tap to listen',
+                    style: const TextStyle(
+                      color: Colors.grey,
                       letterSpacing: 1.0,
+                      fontWeight: FontWeight.w600,
                     ),
-                    textDirection: language == 'english' || language == 'hindi'
-                        ? TextDirection.ltr
-                        : TextDirection.rtl,
-                    textAlign: TextAlign.start,
                   ),
-                ),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(
-                left: 20.0,
-                right: 20.0,
-                top: language == 'sindhi' ? 50.0 : 40,
-                bottom: 0.0,
-              ),
-              child: const FittedBox(
-                child: const Text(
-                  '---------------------------------------------------------------------------------------------------------------------------',
-                  maxLines: 1,
-                  overflow: TextOverflow.clip,
-                  style: const TextStyle(
-                    color: Colors.grey,
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.w200,
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 0,
-              left: language == 'english' || language == 'hindi'
-                  ? 20
-                  : constraints.maxWidth - 90,
-              child: GestureDetector(
-                onTap: () {
-                  if (media == null) {
-                    Fluttertoast.showToast(
-                      msg: "Audio not available",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Colors.black87,
-                      textColor: Colors.white,
-                      fontSize: 16.0,
-                    );
-                  } else {
-                    playLocalAudio('$directoryPath/$word.mp3');
-                  }
-                },
-                child: CircleAvatar(
-                  radius: 35.0,
-                  foregroundColor: Colors.white,
-                  backgroundImage: AssetImage(
-                    (language == 'sindhi' && media != null)
-                        ? 'assets/images/speaker_on.png'
-                        : (language == 'sindhi'
-                            ? 'assets/images/sound_off.png'
-                            : 'assets/images/book.png'),
-                  ),
-                  backgroundColor: const Color(0x00FFFFFF),
-                ),
-              ),
-            ),
-            (language == 'sindhi' && media != null)
-                ? Positioned(
-                    top: 50,
-                    left: constraints.maxWidth - 190,
-                    child: const Text(
-                      'Tap to listen',
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        letterSpacing: 1.0,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  )
-                : SizedBox.shrink(),
-          ],
-        ),
+                )
+              : SizedBox.shrink(),
+        ],
       ),
     );
   }

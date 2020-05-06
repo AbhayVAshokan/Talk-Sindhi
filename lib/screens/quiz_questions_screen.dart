@@ -149,6 +149,7 @@ class _QuizQuestionsScreenState extends State<QuizQuestionsScreen> {
                   return QuizMCQ(
                     time: _time,
                     questionNumber: index,
+                    quizLanguage: quizLanguage,
                     pageController: _pageController,
                   );
                 },
