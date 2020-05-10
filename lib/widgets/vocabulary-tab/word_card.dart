@@ -27,6 +27,7 @@ class WordCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(word.length);
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final double width = mediaQuery.size.width;
     // final double height = mediaQuery.size.height - mediaQuery.padding.top;
@@ -55,8 +56,8 @@ class WordCard extends StatelessWidget {
                 maxLines: 2,
                 style: TextStyle(
                   fontSize: language == 'sindhi'
-                      ? (word.length < 10 ? 60 : 25.0)
-                      : (word.length < 10 ? 35 : 22.0),
+                      ? (word.length < 15 ? 60 : 25.0)
+                      : (word.length < 15 ? 35 : 22.0),
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.0,
                 ),
@@ -94,7 +95,7 @@ class WordCard extends StatelessWidget {
                 : constraints.maxWidth - 90,
             child: GestureDetector(
               onTap: () {
-                if (media == null) {
+                if (media == null)
                   Fluttertoast.showToast(
                     msg: "Audio not available",
                     toastLength: Toast.LENGTH_SHORT,
@@ -104,9 +105,18 @@ class WordCard extends StatelessWidget {
                     textColor: Colors.white,
                     fontSize: 16.0,
                   );
-                } else {
+                else if (!File('$directoryPath/$word.mp3').existsSync())
+                  Fluttertoast.showToast(
+                    msg: "Please wait while it is being downloaded",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.black87,
+                    textColor: Colors.white,
+                    fontSize: 16.0,
+                  );
+                else
                   playLocalAudio('$directoryPath/$word.mp3');
-                }
               },
               child: CircleAvatar(
                 radius: 35.0,

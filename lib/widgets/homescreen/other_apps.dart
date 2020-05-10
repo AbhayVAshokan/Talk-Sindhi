@@ -57,8 +57,7 @@ class OtherApps extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () async {
-                        await launch(
-                            'https://www.sindhisangat.com/');
+                        await launch('https://www.sindhisangat.com/');
                       },
                       child: Icon(
                         Icons.language,
@@ -66,6 +65,7 @@ class OtherApps extends StatelessWidget {
                         size: 27.0,
                       ),
                     ),
+                    const SizedBox(width: 5.0),
                     GestureDetector(
                       onTap: () async {
                         await launch(
