@@ -113,15 +113,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ],
                                 ),
                               ),
-                              Expanded(
+                              SizedBox(
+                                width: mediaQuery.size.width * 0.75,
                                 child: FittedBox(
-                                  child: Text(
-                                    '${userData['firstName']}${userData['lastName'] == null ? '' : ' ' + userData['lastName']}',
-                                    style: TextStyle(
-                                      fontSize: 35.0,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 1.0,
-                                      color: Colors.white,
+                                  child: RichText(
+                                    textAlign: TextAlign.center,
+                                    text: TextSpan(
+                                      text: userData['firstName'],
+                                      children: [
+                                        TextSpan(
+                                          text: userData['lastName'] == null
+                                              ? ''
+                                              : ' ${userData['lastName']}',
+                                        ),
+                                      ],
+                                      style: TextStyle(
+                                          fontSize: 35.0,
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: 1.0,
+                                          color: Colors.white),
                                     ),
                                   ),
                                 ),
