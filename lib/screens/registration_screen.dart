@@ -69,8 +69,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   void initiateFacebookLogin() async {
-    var facebookLogin = FacebookLogin();
-    var facebookLoginResult = await facebookLogin.logIn(['email']);
+    final facebookLogin = FacebookLogin();
+    final facebookLoginResult =
+        await facebookLogin.logInWithReadPermissions(['email']);
     switch (facebookLoginResult.status) {
       case FacebookLoginStatus.error:
         onLoginStatusChanged(false);
